@@ -1,0 +1,645 @@
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#262B4D"><title>오늘의 양재 꽃시세</title><meta name="description" content="양재 aT 화훼공판장 절화 경매가를 품목·품종·등급별로 보는 시세 페이지"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- 색 (CSS 변수로 관리) ---------- */
+:root{
+ --navy:#262B4D; --navy-deep:#1E2241; --navy-line:rgba(255,255,255,.14);
+ --on-navy:#FAF9F6; --on-navy-2:#C4C9DC; --on-navy-3:#9AA0BA;
+ --pink:#F4A2BC; --pink-ink:#C2577D;
+ --ivory:#F8F5EF; --paper:#FFFFFF; --line:#E7E1D7; --line-2:#EFEAE2;
+ --ink:#1D2140; --ink-2:#5B6076; --ink-3:#8C90A2;
+ --up:#D23F38; --down:#2D66C6; --flat:#8C90A2;
+ --charcoal:#2B2B2E; --amber:#FFC979;
+ --r:14px; --r-lg:20px;
+ --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+ --font-en:'Space Grotesk',var(--font);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--navy);color:var(--ink);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.num,.r-price,.r-meta,.rp,td.n,.kpis b{font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- 상단 (네이비) ---------- */
+.top{background:var(--navy);color:var(--on-navy)}
+.bar{display:flex;align-items:center;gap:10px;padding-top:max(14px,env(safe-area-inset-top));padding-bottom:6px}
+.brand{display:flex;align-items:baseline;gap:8px;text-decoration:none;margin-right:auto}
+.brand-mark{color:var(--pink);font-size:22px;line-height:1}
+.brand-ko{font-weight:800;font-size:18px;letter-spacing:-.4px}
+.brand-en{font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--on-navy-3)}
+.status{font-size:12px;color:var(--on-navy-3);white-space:nowrap}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--navy-line);background:transparent;color:var(--on-navy);font-size:18px;display:grid;place-items:center}
+.icon-btn:hover{border-color:var(--on-navy-2)}
+.hero{padding:26px 0 22px}
+.eyebrow{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--on-navy-2)}
+.hero h1{margin:0;font-size:clamp(34px,9vw,60px);line-height:1.08;letter-spacing:-1.6px;font-weight:800}
+.hero h1 em{font-style:normal;color:var(--pink)}
+.hero-sub{margin:12px 0 0;font-size:14px;color:var(--on-navy-2);max-width:640px}
+.hero-sub .partial-note{color:var(--amber);font-weight:600}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.hs{display:inline-flex;align-items:baseline;gap:5px;border:1px solid var(--navy-line);border-radius:999px;padding:7px 14px;font-size:13px;color:var(--on-navy-2)}
+.hs b{font-size:16px;color:var(--on-navy);font-weight:700}
+.hero-stamp{display:block;margin-top:12px;font-size:12px;color:var(--on-navy-3)}
+
+/* 탭: 위에 붙는 알약 모양 */
+.tabs-wrap{position:sticky;top:0;z-index:20;background:var(--navy);border-bottom:1px solid var(--navy-line)}
+.tabs{display:flex;gap:6px;padding:10px 0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;border:1px solid var(--navy-line);background:transparent;color:var(--on-navy-2);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:600;min-height:40px;transition:background .18s,color .18s}
+.tabs button.sel{background:var(--on-navy);color:var(--navy);border-color:var(--on-navy)}
+.alerts{display:none;margin:12px 0 0;border-radius:12px;background:#3A3256;color:#FFE3EC;padding:11px 14px;font-size:13px}
+.alerts.show{display:block}
+
+/* ---------- 본문 종이 (아이보리) ---------- */
+.sheet{background:var(--ivory);border-radius:var(--r-lg) var(--r-lg) 0 0;min-height:60vh}
+.page{display:none;padding:26px 0 40px}
+.page.on{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+.blk{margin-bottom:34px}
+.blk-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.blk h2{margin:0;font-size:22px;letter-spacing:-.6px;font-weight:800}
+.blk-sub{margin:4px 0 12px;font-size:13px;color:var(--ink-2)}
+.link{border:0;background:none;padding:6px 0;font-size:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;white-space:nowrap}
+.count{font-size:13px;color:var(--ink-2);white-space:nowrap}
+
+/* 목록 (상자 대신 가는 선) */
+.list{background:var(--paper);border-radius:var(--r);border:1px solid var(--line)}
+.list:empty{display:none}
+.fav-list>div:empty{display:none}
+.fav-list>div+div>.row:first-child{border-top:1px solid var(--line-2)}
+.fav-list>div:first-child:empty+div>.row:first-child{border-top:0}
+.list+.list{margin-top:10px}
+.row{border-top:1px solid var(--line-2)}
+.row:first-child{border-top:0}
+.row-in{display:flex;align-items:stretch}
+.star{flex:0 0 48px;border:0;background:none;font-size:20px;color:#C9C4BA;display:grid;place-items:center}
+.star.saved{color:var(--pink-ink)}
+.row-main{flex:1;min-width:0;border:0;background:none;text-align:left;padding:13px 16px 13px 0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"n p" "m d";column-gap:12px;row-gap:2px;align-items:baseline}
+.row-main:hover .r-name{text-decoration:underline;text-underline-offset:3px}
+.r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
+.row.open .chev{transform:rotate(180deg)}
+.r-meta{grid-area:m;font-size:13px;color:var(--ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r-price{grid-area:p;font-weight:800;font-size:17px;text-align:right;white-space:nowrap}
+.r-diff{grid-area:d;text-align:right}
+.d{font-size:13px;font-weight:700;white-space:nowrap}
+.d.up{color:var(--up)}.d.down{color:var(--down)}.d.flat{color:var(--flat)}
+.r-last{font-size:13px;font-weight:600;color:var(--ink-2)}
+.empty{padding:18px 16px;color:var(--ink-2);font-size:14px}
+.empty-cta{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:20px 16px}
+.btn-pill{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--navy);color:var(--on-navy);padding:11px 18px;font-weight:700;font-size:14px;min-height:44px;text-decoration:none}
+.btn-pill.pink{background:var(--pink);color:var(--navy)}
+
+/* 상세 펼침 */
+.detail{padding:4px 16px 18px 48px;animation:open .22s ease}
+@keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:4px 0 14px}
+.kpis>div{background:var(--ivory);border-radius:12px;padding:10px 12px}
+.kpis span{display:block;font-size:12px;color:var(--ink-2)}
+.kpis b{display:block;font-size:16px;margin-top:2px}
+.kpis small{display:block;font-size:12px;color:var(--ink-2);margin-top:1px}
+.grade-tbl{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:12px}
+.grade-tbl th{font-size:12px;color:var(--ink-2);font-weight:600;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+.grade-tbl td{padding:8px;border-bottom:1px solid var(--line-2)}
+.grade-tbl .n{text-align:right}
+.chart-cap{font-size:12px;color:var(--ink-2);margin-bottom:2px}
+.chart{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:0}
+
+/* 오른 꽃 · 내린 꽃 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.duo>div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:6px 0}
+.mini-h{margin:0;padding:10px 16px 6px;font-size:14px;font-weight:800}
+.mini-h .d{font-size:14px}
+.rank-row{width:100%;display:grid;grid-template-columns:22px 1fr auto auto;gap:10px;align-items:baseline;border:0;border-top:1px solid var(--line-2);background:none;padding:11px 16px;text-align:left;font-size:15px}
+.rank-row:first-of-type{border-top:0}
+.rank-row:hover{background:#FBF9F5}
+.rk{font-family:var(--font-en);font-size:13px;color:var(--ink-3);font-weight:700}
+.rn{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp{font-weight:700;white-space:nowrap}
+.note{margin:8px 2px 0;font-size:12px;color:var(--ink-3)}
+
+/* ---------- 시장 소식 (짙은 띠) ---------- */
+.band{background:var(--charcoal);color:#F2F1EE;border-radius:var(--r-lg);padding:24px 20px;margin-top:6px}
+.band h2{color:#fff}
+.band .link{color:#fff}
+.band .blk-sub{color:#BDBDC4}
+.news-list{margin-top:8px}
+.news{display:block;text-decoration:none;padding:16px 0;border-top:1px solid rgba(255,255,255,.12)}
+.news:first-child{border-top:0}
+.news .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;color:var(--pink);font-weight:600;margin-bottom:5px}
+.news .meta .tag{color:#BDBDC4;font-weight:500}
+.news .meta .tag.foreign{color:var(--amber)}
+.news b{display:block;font-size:16px;line-height:1.45;font-weight:700;color:#fff}
+.news:hover b{text-decoration:underline;text-underline-offset:3px}
+.band .empty{color:#BDBDC4;padding:14px 0}
+.events{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.event{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.event span{font-family:var(--font-en);font-size:13px;font-weight:700;color:var(--pink-ink)}
+.event b{display:block;font-size:15px;margin-top:2px}
+.event p{margin:4px 0 0;font-size:13px;color:var(--ink-2)}
+.site-card{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--navy);color:var(--on-navy);border-radius:var(--r);padding:18px}
+.site-card b{font-size:16px}
+.site-card p{margin:4px 0 0;font-size:13px;color:var(--on-navy-2)}
+.site-card .soon{font-size:12px;font-weight:700;border:1px solid var(--navy-line);color:var(--on-navy-2);border-radius:999px;padding:7px 12px}
+.site-card a.go{background:var(--pink);color:var(--navy);text-decoration:none;font-weight:800;border-radius:999px;padding:10px 16px}
+
+/* ---------- 전체 품목 조회 ---------- */
+.controls{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:10px;margin:14px 0 10px}
+.field{display:grid;gap:5px;font-size:12px;font-weight:700;color:var(--ink-2)}
+.field select,.field input{width:100%;min-height:48px;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:0 14px;font-size:16px;color:var(--ink)}
+.field input:focus,.field select:focus,.sort select:focus{outline:2px solid var(--navy);outline-offset:1px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips:empty{display:none}
+.chips .lbl{flex:0 0 auto;align-self:center;font-size:12px;font-weight:700;color:var(--ink-2)}
+.chips button{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700;min-height:38px;white-space:nowrap}
+.chips button small{color:var(--ink-2);font-weight:600;margin-left:5px}
+.guide{font-size:13px;font-weight:600;color:var(--ink);margin:8px 0 2px}
+.guide.warn{color:#9A5A12}
+.sumline{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;color:var(--ink-2);margin:10px 0}
+.sumline b{color:var(--ink);font-size:16px}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.whole-fav{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--ink-2)}
+.whole-fav:empty{display:none}
+.whole-fav button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;min-height:36px}
+.whole-fav button.saved{border-color:var(--pink-ink);color:var(--pink-ink)}
+.whole-fav .hint{color:var(--ink-3)}
+.whole-fav .hint b{color:var(--ink-2)}
+.sort{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-2);margin-left:auto}
+.sort select{min-height:40px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:0 10px;font-size:14px}
+.tbl-wrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:clip}
+.auction-table{width:100%;border-collapse:collapse;font-size:14px}
+.auction-table th{position:sticky;top:var(--tabs-h,61px);background:#F3EFE8;font-size:12px;color:var(--ink-2);font-weight:700;text-align:left;padding:11px 12px;white-space:nowrap}
+.auction-table th[data-sort]{cursor:pointer;user-select:none}
+.auction-table th[data-sort]:hover{color:var(--ink)}
+.auction-table th .arr{font-size:10px;margin-left:3px;color:var(--ink)}
+.auction-table td{padding:12px;border-top:1px solid var(--line-2)}
+.auction-table th:nth-child(n+5),.auction-table td.n{text-align:right}
+.auction-table tr:hover td{background:#FBF9F5}
+.c-mn,.c-ms{display:none}
+.auction-star{border:0;background:none;font-size:20px;color:#C9C4BA;min-width:36px;min-height:36px}
+.auction-star.saved{color:var(--pink-ink)}
+.auction-table .empty{text-align:center}
+
+/* 불러오는 동안 뼈대 */
+.sk{display:block;height:12px;border-radius:5px;background:linear-gradient(90deg,#ECE7DE 25%,#F5F2EC 50%,#ECE7DE 75%);background-size:200% 100%;animation:sk 1.2s infinite linear}
+.top .sk,.hs .sk{background:linear-gradient(90deg,rgba(255,255,255,.12) 25%,rgba(255,255,255,.22) 50%,rgba(255,255,255,.12) 75%);background-size:200% 100%}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ---------- 하단 ---------- */
+.foot{background:var(--navy);color:var(--on-navy-3);font-size:12px;line-height:1.7;padding:26px 0 calc(30px + env(safe-area-inset-bottom))}
+.foot p{margin:0 0 6px}
+.foot .src{color:var(--on-navy-2)}
+
+/* ---------- 휴대폰 ---------- */
+@media (max-width:760px){
+ .wrap{padding:0 16px}
+ .brand-en{display:none}
+ .hero{padding:18px 0 18px}
+ .duo{grid-template-columns:1fr}
+ .kpis{grid-template-columns:1fr 1fr}
+ .detail{padding:2px 14px 16px 14px}
+ .events{grid-template-columns:1fr}
+ .controls{grid-template-columns:1fr}
+ .band{border-radius:var(--r);padding:20px 16px}
+ .auction-table thead{display:none}
+ .auction-table,.auction-table tbody{display:block}
+ .auction-table tr{display:grid;grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"s mn a" "s ms v";column-gap:10px;padding:11px 14px 11px 4px;border-top:1px solid var(--line-2)}
+ .auction-table tr:first-child{border-top:0}
+ .auction-table td{display:none;padding:0;border:0;background:none!important}
+ .auction-table td.c-star{display:grid;place-items:center;grid-area:s}
+ .auction-table td.c-mn{display:block;grid-area:mn;font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .auction-table td.c-ms{display:block;grid-area:ms;font-size:12px;color:var(--ink-2);min-width:0}
+ .auction-table td.c-avg{display:block;grid-area:a;font-weight:800;font-size:16px}
+ .auction-table td.c-vol{display:block;grid-area:v;font-size:12px;color:var(--ink-2)}
+ .auction-table td.empty-cell{display:block;grid-column:1/-1}
+ .sort{margin-left:0}
+}
+</style></head><body>
+<div id="previewMark" class="previewsign" style="display:none">디자인 확인용 · 시연 데이터</div>
+<header class="top">
+ <div class="wrap">
+  <div class="bar"><span class="brand"><span class="brand-mark">✿</span><span class="brand-ko">꽃시세</span><span class="brand-en">BLOOM MARKET</span></span><span id="status" class="status">불러오는 중</span><button class="icon-btn" onclick="loadLive()" aria-label="새로고침" title="새로고침">↻</button></div>
+  <div class="hero">
+   <p class="eyebrow">양재 aT 화훼공판장 · 절화 경매가</p>
+   <h1 id="dayTitle">최근 <em>본경매</em> 시세</h1>
+   <p id="daySub" class="hero-sub">시세를 불러오는 중입니다</p>
+   <div id="summary" class="hero-stats"></div>
+   <span id="checkStamp" class="hero-stamp"></span>
+  </div>
+ </div>
+</header>
+<div class="tabs-wrap"><div class="wrap"><nav class="tabs" aria-label="메뉴"><button class="sel" data-tab="today" onclick="tab('today')">오늘 시세</button><button data-tab="catalog" onclick="tab('catalog')">전체 품목</button><button data-tab="insight" onclick="tab('insight')">시장 소식</button></nav><div id="alert" class="alerts"></div></div></div>
+<main class="sheet"><div class="wrap">
+
+<section class="page on" id="p-today">
+ <div class="blk">
+  <div class="blk-h"><h2>내 관심 꽃</h2><button class="link" onclick="tab('catalog')">꽃 찾기</button></div>
+  <p class="blk-sub">☆를 눌러 담은 꽃이 여기 모여요. 이 기기에만 저장돼요.</p>
+  <div class="list fav-list"><div id="favorites"></div><div id="extraFavorites"></div></div>
+ </div>
+ <div class="blk">
+  <div class="duo">
+   <div><h3 class="mini-h"><span class="d up">▲</span> 많이 오른 꽃</h3><div id="rises"></div></div>
+   <div><h3 class="mini-h"><span class="d down">▼</span> 많이 내린 꽃</h3><div id="falls"></div></div>
+  </div>
+  <p class="note">최근 본경매 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
+ </div>
+ <div class="blk">
+  <div class="blk-h"><h2>주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
+  <p class="blk-sub">누르면 등급별 가격과 8주 흐름이 펼쳐져요.</p>
+  <div id="todayItems" class="list"></div>
+ </div>
+ <div class="band">
+  <div class="blk-h"><h2>시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
+  <div id="newsTop" class="news-list"><div class="empty">기사를 불러오는 중</div></div>
+ </div>
+</section>
+
+<section class="page" id="p-catalog">
+ <div class="blk">
+  <div class="blk-h"><h2>전체 품목 시세</h2><span id="fullCount" class="count"></span></div>
+  <p class="blk-sub" id="auctionInfo">경매 자료를 불러오는 중</p>
+  <div class="controls">
+   <label class="field">경매일<select id="auctionDate" onchange="runAuctionSearch()"></select></label>
+   <label class="field">검색<input id="auctionQuery" type="search" inputmode="search" placeholder="품목·품종 (예: 장미, 메리골드)" oninput="debounceAuctionSearch()" autocomplete="off"></label>
+  </div>
+  <div id="favChips" class="chips"></div>
+  <div id="auctionGuide" class="guide" role="status"></div>
+  <div id="auctionSummary" class="sumline" aria-live="polite"></div>
+  <div class="toolbar"><div id="wholeFav" class="whole-fav"></div><label class="sort">정렬<select id="auctionSort" onchange="sortFromSelect()"><option value="name:1">품목·품종순</option><option value="grade:1">등급 높은 순</option><option value="grade:-1">등급 낮은 순</option><option value="avg:-1">평균가 높은 순</option><option value="avg:1">평균가 낮은 순</option><option value="volume:-1">거래량 많은 순</option><option value="volume:1">거래량 적은 순</option><option value="" hidden>표 머리글 기준</option></select></label></div>
+  <div class="tbl-wrap"><table class="auction-table"><thead><tr id="auctionHead"><th aria-label="즐겨찾기"></th><th data-sort="name" onclick="sortBy('name')">품목</th><th data-sort="variety" onclick="sortBy('variety')">품종</th><th data-sort="grade" onclick="sortBy('grade')">등급</th><th data-sort="avg" onclick="sortBy('avg')">평균가</th><th data-sort="max" onclick="sortBy('max')">최고가</th><th data-sort="min" onclick="sortBy('min')">최저가</th><th data-sort="volume" onclick="sortBy('volume')">거래량</th></tr></thead><tbody id="auctionResults"></tbody></table></div>
+ </div>
+</section>
+
+<section class="page" id="p-insight">
+ <div class="band">
+  <div class="blk-h"><h2>시장 소식</h2><span id="newsStamp" class="count" style="color:#BDBDC4"></span></div>
+  <div id="newsAll" class="news-list"><div class="empty">뉴스를 불러오는 중</div></div>
+ </div>
+ <div class="blk" style="margin-top:30px">
+  <div class="blk-h"><h2>계절·행사 일정</h2></div>
+  <p class="blk-sub">다가오는 꽃 수요 시즌이에요.</p>
+  <div id="seasonSite"></div>
+  <div class="events" id="events"></div>
+ </div>
+</section>
+
+</div></main>
+<footer class="foot"><div class="wrap"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p></div></footer>
+<script src="../js/config.js?v=20261027"></script><script src="../js/api.js?v=20261027"></script><script>
+const PREVIEW_DATA=null;
+let LATEST_MAIN_DATE=null, MAIN_LOADING=false, DATA=null,NEWS=[],CATALOG=[],CATALOG_READY=false,CATFILTER='all',ACTIVE=null,FAV=new Set(),FAV_OPEN=null;
+// 미리 계산한 시세 (PriceIndex.gs). IDX.rows['장미␟*'] 처럼 '품목␟품종' 으로 찾습니다.
+let IDX=null, IDX_LOADING=false, IDX_ERROR='';
+const SEP='␟';
+// 대시보드 표시 이름 → aT 표기
+const MAIN_ALIAS={'절화 전체':'*'+SEP+'*','국화 백선(대국)':'국화'+SEP+'백선','안개꽃':'안개'+SEP+'*','리시안셔스':'리시안사스'+SEP+'*','알스트로메리아':'알스트메리아'+SEP+'*'};
+const mainKey=name=>MAIN_ALIAS[name]||(name+SEP+'*');
+// 관심 꽃 key: '메리골드␟스완'(품종), '메리골드␟*'(품목 전체). 이름만 저장된 옛 즐겨찾기도 품목 전체로 읽습니다.
+const favKey=k=>k.includes(SEP)?k:mainKey(k);
+const favIndexKeys=()=>[...new Set([...FAV].map(favKey))];
+// 졸업식·행사 준비 사이트 주소. 배포하면 아래 따옴표 안에 주소를 넣으세요. 비어 있으면 '준비 중'으로 보입니다.
+const SEASON_SITE_URL='';
+// 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
+const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
+const KDAY=['일','월','화','수','목','금','토'];
+const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일 ${KDAY[w]}요일`};
+const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
+const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=x=>x==null?'—':Math.round(x).toLocaleString('ko-KR'),pct=x=>x==null?'—':(x>0?'+':'')+(x*100).toFixed(1)+'%',sg=x=>x>0?'up':x<0?'down':'flat';
+function getFav(){try{FAV=new Set(JSON.parse(localStorage.getItem('yangjaeFav2')||'[]'))}catch(e){FAV=new Set()}}
+function saveFav(){try{localStorage.setItem('yangjaeFav2',JSON.stringify([...FAV]))}catch(e){}}
+function toggleFav(name){const adding=!FAV.has(name);adding?FAV.add(name):FAV.delete(name);saveFav();drawFavorites();drawItems();drawWeekly();drawFavChips();if(FULL_READY)drawAuctionResults();
+ // 새로 추가한 관심 꽃의 시세가 아직 없으면 그 꽃만 받아와 합칩니다.
+ if(adding&&IDX){const fk=favKey(name);if(!(IDX.rows[fk]&&IDX.grades?.[fk]))loadIndexKeys([fk])}
+}
+function tab(t){document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('sel',x.dataset.tab===t));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+t));if(t==='catalog')initAuctionSearch();if(t==='insight')drawEvents();window.scrollTo({top:0,behavior:'smooth'})}
+function rate(r){return (DATA?.todayAvailable||!!LATEST_MAIN_DATE)&&r.todayPrice!=null&&r.price>0?r.todayPrice/r.price-1:null}
+function dataRows(){return DATA?.rows?.slice(1)||[]}
+function hasToday(r){return (DATA.todayAvailable||!!LATEST_MAIN_DATE)&&r.todayPrice!=null&&r.todayVolume>0}
+function safeArg(x){return JSON.stringify(String(x)).replace(/"/g,'&quot;')}
+function rowMarkup(r,scope,mode='today'){
+ const num=mode==='today'?(hasToday(r)?r.todayPrice:null):r.price,base=mode==='today'?r.price:r.previous,diff=num!=null&&base>0?num/base-1:null;
+ const key=scope+'-'+DATA.rows.indexOf(r),open=ACTIVE===key,saved=FAV.has(r.name);
+ const loading=num==null&&mode==='today'&&!IDX&&!IDX_ERROR;
+ const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
+ const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
+ const detail=open?`<div class="detail"><div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume):'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}</small></div><div><span>전주 평균</span><b>${fmt(r.previous)}원</b><small>전주 대비 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
+ return `<div class="row${open?' open':''}"><div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+}
+function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
+// 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
+function chart(r,labels,extra){
+ const L=labels||DATA?.weeks||[],a=r.trend||[],points=a.map((v,i)=>({v,i})).filter(x=>Number.isFinite(x.v));
+ const ex=extra&&Number.isFinite(extra.value)?extra:null;
+ if(!points.length&&!ex)return '<div class="empty">주간 추이가 없습니다.</div>';
+ const slots=a.length+(ex?1:0),exI=a.length;
+ const vals=points.map(p=>p.v).concat(ex?[ex.value]:[]);
+ const narrow=window.innerWidth<700,w=narrow?420:760,h=narrow?230:190,left=narrow?14:46,right=narrow?40:46,top=28,bottom=34,FS=narrow?12:10,min=Math.max(0,Math.min(...vals)*.9),max=Math.max(...vals)*1.08||1;
+ const xx=i=>left+(w-left-right)*i/Math.max(1,slots-1),yy=v=>top+(max-v)/(max-min||1)*(h-top-bottom);
+ const GREEN='#262B4D',ORANGE='#C2577D';
+ let paths=[],current=[];a.forEach((v,i)=>{if(v==null){if(current.length)paths.push(current);current=[]}else current.push(`${xx(i)},${yy(v)}`)});if(current.length)paths.push(current);
+ const last=points[points.length-1];
+ const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ORANGE}" stroke-width="1.6" stroke-dasharray="4 4"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ORANGE}" stroke="#fff" stroke-width="2"><title>${esc(ex.date)} 본경매: ${fmt(ex.value)}원</title></circle><text x="${xx(exI)}" y="${yy(ex.value)-11}" font-size="${FS+1}" font-weight="700" text-anchor="end" fill="${ORANGE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" font-weight="700" text-anchor="middle" fill="${ORANGE}">${esc(shortDate(ex.date))}</text>`:'';
+ const legend=`<div class="legend"><span><i style="background:${GREEN}"></i>주간 평균 (월·수·금)</span>${ex?`<span><i style="background:${ORANGE}"></i>최근 본경매 ${esc(shortDate(ex.date))} 하루 가격</span>`:''}</div>`;
+ return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이">${[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#E7E1D7"/>`).join('')}${paths.map(p=>`<polyline points="${p.join(' ')}" stroke="${GREEN}" stroke-width="2.5" stroke-linecap="round" fill="none"/>`).join('')}${points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3" fill="${GREEN}"><title>${esc(L[p.i]||'')}: ${fmt(p.v)}원</title></circle>`).join('')}${a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#8C90A2">${esc(String(L[i]||'').replace(/주\(.*\)$|주$/,''))}</text>`).join('')}${exMark}</svg>${legend}`;
+}
+function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map(r=>rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
+function favoriteLabel(key){const p=key.split(SEP);return p.length>1?(p[1]==='*'?(p[0]==='*'?'절화 전체':p[0]+' 전체'):p[0]+' · '+p[1]):key}
+function favoriteDetails(name){
+ FAV_OPEN=FAV_OPEN===name?null:name;
+ drawFavorites();drawFavoriteWeekList();
+ // 등급별 표가 아직 없으면 그 꽃만 받아옵니다 (보통은 처음 불러올 때 함께 옵니다).
+ if(FAV_OPEN===name&&IDX&&!IDX.grades?.[favKey(name)])loadIndexKeys([favKey(name)]);
+}
+// 관심 꽃 한 줄. mode: 'today'(최근 본경매 vs 지난주) / 'week'(지난주 vs 전주)
+function favItemMarkup(k,mode){
+ const x=IDX?.rows?.[favKey(k)],opened=FAV_OPEN===k;
+ let price,meta,diff=null;
+ if(!IDX){price=IDX_ERROR?'—':'<span class="sk" style="width:70px"></span>';meta=IDX_ERROR?'불러오지 못했어요':'<span class="sk" style="width:120px"></span>'}
+ else if(!x){price='—';meta='최근 8주 본경매 거래 없음'}
+ else if(mode==='today'){
+  price=x.la!=null?fmt(x.la)+'원':(x.lastDate?`<span class="r-last">${esc(shortDate(x.lastDate))} ${fmt(x.lastAvg)}원</span>`:'—');
+  meta=x.la!=null?`지난주 ${fmt(x.wa)}${x.wa==null?'':'원'}`:'최근 본경매엔 거래 없음';
+  diff=x.la!=null&&x.wa>0?x.la/x.wa-1:null;
+ }else{price=x.wa!=null?fmt(x.wa)+'원':'—';meta=`전주 ${fmt(x.pa)}${x.pa==null?'':'원'}`;diff=x.change}
+ return `<div class="row${opened?' open':''}"><div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})"><span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
+}
+function favoriteDetailMarkup(k){
+ if(FAV_OPEN!==k)return '';
+ if(IDX_ERROR&&!IDX)return `<div class="detail"><div class="empty">${esc(IDX_ERROR)}</div></div>`;
+ const x=IDX?.rows?.[favKey(k)];
+ if(!x)return '<div class="detail"><div class="empty">최근 8주 동안 이 품목·품종의 본경매 거래가 없습니다.</div></div>';
+ const m=IDX.meta||{};
+ const yc=x.wa!=null&&x.ya>0?x.wa/x.ya-1:null;
+ const kpis=`<div class="kpis"><div><span>${esc(shortDate(m.latestDate))} 본경매</span><b>${x.la!=null?fmt(x.la)+'원':'—'}</b><small>${x.la!=null?'거래 '+fmt(x.lq):(x.lastDate?'마지막 '+esc(shortDate(x.lastDate))+' '+fmt(x.lastAvg)+'원':'거래 없음')}</small></div><div><span>지난주 평균</span><b>${fmt(x.wa)}${x.wa==null?'':'원'}</b><small>거래 ${fmt(x.wq)}</small></div><div><span>전주 평균</span><b>${fmt(x.pa)}${x.pa==null?'':'원'}</b><small>전주 대비 ${dlt(x.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(x.ya)}${x.ya==null?'':'원'}</b><small>지난주가 ${dlt(yc)}</small></div></div>`;
+ const g=IDX.grades?.[favKey(k)];
+ const rows=g?g.map(r=>`<tr><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n">${fmt(r.avg)}원</td><td class="n">${fmt(r.volume)}</td></tr>`).join(''):'';
+ const table=g===undefined?'<div class="chart-cap">등급별 가격 불러오는 중</div>':`<table class="grade-tbl"><thead><tr><th>품종</th><th>등급</th><th class="n">평균가</th><th class="n">거래량</th></tr></thead><tbody>${rows||'<tr><td colspan="4">최근 본경매 거래 없음</td></tr>'}</tbody></table>`;
+ return `<div class="detail">${kpis}${table}<div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart({name:favoriteLabel(k),trend:x.trend},m.weekLabels,x.la!=null?{date:m.latestDate,value:x.la}:null)}</div>`;
+}
+function drawFavorites(){if(!DATA)return;
+ const arr=dataRows().filter(r=>FAV.has(r.name));
+ const known=new Set(dataRows().map(r=>r.name));
+ const extra=[...FAV].filter(k=>!known.has(k));
+ $('favorites').innerHTML=arr.map(r=>rowMarkup(r,'fav')).join('');
+ $('extraFavorites').innerHTML=extra.map(k=>favItemMarkup(k,'today')).join('');
+ if(!arr.length&&!extra.length)$('favorites').innerHTML='<div class="empty-cta"><div>자주 사는 꽃을 담아 두면 열자마자 가격이 보여요.</div><button class="btn-pill" onclick="tab(\'catalog\')">☆ 관심 꽃 담으러 가기</button></div>';
+}
+function rankingRow(r,i){return `<button class="rank-row" onclick="scrollFlower(${safeArg(r.name)})"><span class="rk">${i+1}</span><span class="rn">${esc(r.name)}</span><span class="rp">${fmt(r.todayPrice)}원</span>${dlt(rate(r))}</button>`}
+function scrollFlower(name){const rows=dataRows();const index=rows.findIndex(x=>x.name===name);if(index<0)return;ACTIVE='today-'+(index+1);drawItems();document.querySelector('#todayItems')?.scrollIntoView({behavior:'smooth',block:'start'})}
+// 미리 계산한 시세가 오기 전: '없음' 대신 불러오는 모양을 보여줍니다.
+function drawTodayLoading(){
+ const bars=n=>Array.from({length:n},()=>'<div class="rank-row"><span></span><span class="sk" style="width:70%"></span><span class="sk" style="width:60px"></span><span class="sk" style="width:44px"></span></div>').join('');
+ $('dayTitle').innerHTML='최근 <em>본경매</em> 시세';$('daySub').textContent='품목별 시세를 불러오는 중입니다';
+ $('summary').innerHTML=['주요 품목','▲ 오름','▼ 내림'].map(t=>`<span class="hs">${t} <span class="sk" style="display:inline-block;width:22px;vertical-align:middle"></span></span>`).join('');
+ $('rises').innerHTML=bars(5);$('falls').innerHTML=bars(5);
+ $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
+ drawFavorites();drawWeekly();
+}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').innerHTML=LATEST_MAIN_DATE?`${esc(kDate(LATEST_MAIN_DATE))}<br><em>본경매</em> 시세`:`${esc(DATA.todayDate||'오늘')}<br>${DATA.auctionDay?'<em>본경매</em> 시세':'현장 경매 없는 날'}`;$('daySub').textContent=good?'거래량 가중평균가 · 지난주 평균과 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';if(IDX?.meta?.inProgressDate)$('daySub').innerHTML=esc($('daySub').textContent)+` · <span class="partial-note">${esc(shortDate(IDX.meta.inProgressDate))} 경매는 아직 집계 중(현재 ${Number(IDX.meta.inProgressCount||0).toLocaleString('ko-KR')}건)이라 직전 본경매를 보여드립니다</span>`;$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
+function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
+const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
+function drawFavoriteWeekList(){
+ const target=$('weeklyFavoriteItems');if(!target)return;
+ const names=[...FAV].filter(k=>!dataRows().some(r=>r.name===k));
+ target.innerHTML=names.length?names.map(k=>favItemMarkup(k,'week')).join(''):'<div class="empty">전체 품목 검색에서 꽃을 즐겨찾기하면 여기에 표시됩니다.</div>';
+}
+function tabNoScroll(t){document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('sel',x.dataset.tab===t));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+t))}
+function newsCountry(n){if(n.country)return '해외 · '+n.country;const t=(n.title||'')+' '+(n.link||'');if(/(laodong\.vn|vnexpress\.net|vietnam|베트남|베트남어|하노이|호찌민|메콩|미엔떠이|miền tây)/i.test(t))return '해외 · 베트남';if(/(일본|도쿄|Japan|japan\.jp)/i.test(t))return '해외 · 일본';if(/(중국|상하이|베이징|China)/i.test(t))return '해외 · 중국';if(/(미국|미합중국|미국산|USA|United States)/i.test(t))return '해외 · 미국';return ''}
+function newsCard(n){const country=newsCountry(n);return `<a class="news" href="${esc(n.link||'#')}" target="_blank" rel="noopener noreferrer"><div class="meta"><span>${esc(n.date||'')}</span>${country?`<span class="tag foreign">${country}</span>`:''}<span class="tag">${esc(n.level||n.topic||'시장 소식')}</span></div><b>${esc(n.title||'기사 열기')} ↗</b></a>`}
+function distinctNews(items){
+ const out=[];
+ const tokens=t=>String(t||'').replace(/<[^>]*>/g,'').replace(/\[[^\]]*\]/g,'').replace(/[“”"'‘’…·.,!?()[\]{}]/g,' ').split(/\s+/).filter(w=>w.length>=3&&!/^(단독|농진청|화훼|사업|진행|관련|확대|개최|국화)$/.test(w));
+ for(const n of items){
+  const a=new Set(tokens(n.title));
+  const repeated=out.some(m=>{
+   const b=new Set(tokens(m.title));
+   const same=[...a].filter(w=>b.has(w));
+   const overlap=same.join(' ').length;
+   const ratio=same.length/Math.max(1,Math.min(a.size,b.size));
+   return same.length>=3 && overlap>=15 && ratio>=0.55;
+  });
+  if(!repeated)out.push(n);
+ }
+ return out;
+}
+function drawNews(){const arr=distinctNews(NEWS.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))));$('newsTop').innerHTML=arr.length?arr.slice(0,2).map(newsCard).join(''):'<div class="empty">표시할 기사가 없습니다.</div>';$('newsAll').innerHTML=arr.length?arr.slice(0,15).map(newsCard).join(''):'<div class="empty">표시할 기사가 없습니다.</div>';$('newsStamp').textContent=arr.length+'건 확인'}
+function loadNews(){const g=typeof google!=='undefined'&&google.script&&google.script.run;if(!g)return;google.script.run.withSuccessHandler(r=>{NEWS=r.items||[];drawNews()}).withFailureHandler(e=>{$('newsTop').innerHTML='<div class="empty">뉴스를 불러오지 못했습니다.</div>'}).getFlowerNews()}
+const EVENTS=[{m:2,d:14,n:'밸런타인데이',items:'장미',note:'선물용 꽃 수요를 살펴볼 시기'},{m:3,d:1,n:'졸업·입학 시즌',len:21,items:'장미 · 거베라 · 안개꽃',note:'학교별 행사 일정은 다를 수 있어요'},{m:3,d:14,n:'화이트데이',items:'장미 · 안개꽃',note:'선물 수요 참고'},{m:5,d:1,n:'봄 웨딩 시즌',len:61,items:'장미 · 수국 · 리시안셔스',note:'예식 수요 참고'},{m:5,d:8,n:'어버이날',items:'카네이션',note:'카네이션 수요가 집중되는 시기'},{m:5,d:15,n:'스승의 날',items:'카네이션',note:'선물 관련 규정도 확인 필요'},{m:9,d:1,n:'가을 웨딩 시즌',len:61,items:'장미 · 수국',note:'예식 수요 참고'},{m:9,d:1,n:'가을 국화 시즌',len:75,items:'국화',note:'가을 행사·추모 수요 참고'},{m:11,d:11,n:'빼빼로데이',items:'장미',note:'선물 수요 참고'},{m:12,d:1,n:'연말 행사 시즌',len:30,items:'장미 · 백합',note:'연말 행사 수요 참고'}];
+function drawSeasonSite(){
+ const box=$('seasonSite');if(!box)return;
+ box.innerHTML=`<div class="site-card"><div><b>졸업·입학 시즌 꽃 준비</b><p>학교별 졸업식 일정과 시즌 준비 정보를 한곳에서 확인하는 사이트입니다.</p></div>${SEASON_SITE_URL?`<a class="go" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">사이트 열기 ↗</a>`:'<span class="soon">준비 중</span>'}</div>`;
+}
+function drawEvents(){drawSeasonSite();let endDate=DATA?.periodEnd;const ref=endDate&&/^\d{4}-\d{2}-\d{2}$/.test(endDate)?new Date(endDate+'T12:00:00'):new Date(),end=new Date(ref);end.setDate(end.getDate()+45);const items=[];for(let y=ref.getFullYear()-1;y<=ref.getFullYear()+1;y++)for(const e of EVENTS){let start=new Date(y,e.m-1,e.d,12),last=new Date(start);last.setDate(last.getDate()+(e.len||1)-1);if(last>=ref&&start<=end)items.push({...e,start,last})}items.sort((a,b)=>a.start-b.start);$('events').innerHTML=items.slice(0,6).map(e=>`<div class="event"><span>${e.start.getMonth()+1}/${e.start.getDate()}</span><b>${esc(e.n)}</b><p>${esc(e.note)}</p></div>`).join('')||'<div class="empty">해당 기간에 등록된 행사 없음</div>'}
+function drawFooter(){if(!DATA)return;$('footerTimes').textContent=`시세 갱신 ${IDX?.meta?.builtAt||DATA.lastTodayCheck||'확인 중'} · 화면 조회 ${DATA.fetchedAt||''}`}
+function render(){if(!DATA?.rows?.length)return;$('status').textContent='';drawFooter();$('alert').classList.remove('show');const check=String(DATA.lastTodayCheck||'').replace(/[.\/]/g,'-').replace(/\s/g,'').slice(0,10),today=String(DATA.fetchedAt||'').slice(0,10);drawToday();drawEvents();loadNews()}
+
+// 화·목·토 및 본경매 집계 전: 가장 최근 자료가 존재하는 월·수·금 현장 경매로 교체.
+function loadLatestMain(){
+ if(DATA?.auctionDay&&DATA?.todayAvailable)return;
+ if(!window.google?.script?.run||MAIN_LOADING)return;
+ MAIN_LOADING=true;
+ google.script.run.withSuccessHandler(ds=>{
+  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const allowed=(ds||[]).map(x=>x.date).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&d<=today&&[1,3,5].includes(new Date(d+'T00:00:00Z').getUTCDay()));
+  if(!allowed.length){MAIN_LOADING=false;return;}
+  const day=allowed[0];
+  google.script.run.withSuccessHandler(res=>{
+   MAIN_LOADING=false;if(!DATA)return;
+   const groups=new Map();
+   for(const v of res.items||[]){const n=v.name;let a=groups.get(n)||{amount:0,qty:0};a.amount+=Number(v.amount)||Number(v.avg)*Number(v.volume)||0;a.qty+=Number(v.volume)||0;groups.set(n,a)}
+   for(const r of DATA.rows.slice(1)){
+    const n=r.name==='안개꽃'?'안개':r.name==='리시안셔스'?'리시안사스':r.name==='알스트로메리아'?'알스트메리아':r.name;
+    const a=groups.get(n);
+    if(r.name==='국화 백선(대국)'){
+      const matched=(res.items||[]).filter(x=>x.name==='국화'&&x.variety==='백선');
+      const qty=matched.reduce((z,x)=>z+(Number(x.volume)||0),0);
+      const amt=matched.reduce((z,x)=>z+(Number(x.amount)||0),0);
+      r.todayPrice=qty?Math.round(amt/qty):null;r.todayVolume=qty;
+    }else{r.todayPrice=a?.qty?Math.round(a.amount/a.qty):null;r.todayVolume=a?.qty||0;}
+   }
+   LATEST_MAIN_DATE=day;
+   drawToday();
+  }).withFailureHandler(()=>{MAIN_LOADING=false}).searchAuctionPrices(day,'');
+ }).withFailureHandler(()=>{MAIN_LOADING=false}).getAuctionSearchDates();
+}
+
+// 미리 계산한 시세(시세집계 탭)를 받아 주요 품목과 관심 꽃에 채웁니다.
+const MAIN_NAMES=['절화 전체','국화','국화 백선(대국)','장미','카네이션','안개꽃','거베라','리시안셔스','백합','수국','알스트로메리아','칼라','스타티스','유칼립투스'];
+function indexRequestKeys(){return [...new Set([...MAIN_NAMES,...(DATA?.rows||[]).map(r=>r.name)].map(mainKey).concat(favIndexKeys()))]}
+function loadIndex(){
+ if(!window.google?.script?.run||IDX_LOADING)return;
+ IDX_LOADING=true;
+ google.script.run.withSuccessHandler(res=>{
+  IDX_LOADING=false;IDX_ERROR='';IDX=res;
+  applyIndex();if(DATA)drawToday();drawFooter();drawFavChips();
+  prefetchCatalog();
+  if($('p-catalog').classList.contains('on'))initAuctionSearch();
+ }).withFailureHandler(e=>{
+  IDX_LOADING=false;IDX_ERROR=String(e.message||e);
+  $('alert').classList.add('show');$('alert').textContent='미리 계산한 시세를 불러오지 못해 느린 방식으로 조회합니다. '+IDX_ERROR;
+  if(DATA){drawToday();loadLatestMain()}
+ }).getPriceIndex(indexRequestKeys(),favIndexKeys());
+}
+// 관심 꽃을 새로 추가했을 때 그 꽃만 받아 합칩니다.
+function loadIndexKeys(keys){
+ if(!window.google?.script?.run)return;
+ google.script.run.withSuccessHandler(res=>{
+  if(!IDX)IDX=res;else{Object.assign(IDX.rows,res.rows);IDX.grades=Object.assign(IDX.grades||{},res.grades)}
+  drawFavorites();drawFavoriteWeekList();drawFavChips();
+ }).withFailureHandler(()=>{}).getPriceIndex(keys,keys);
+}
+function applyIndex(){
+ if(!DATA||!IDX)return;
+ LATEST_MAIN_DATE=IDX.meta?.latestDate||null;
+ for(const r of DATA.rows){const x=IDX.rows[mainKey(r.name)];r.todayPrice=x?.la??null;r.todayVolume=x?.lq||0}
+}
+function fail(m){DATA=null;$('status').textContent='● 연결 실패';$('alert').classList.add('show');$('alert').textContent='시세 데이터를 불러오지 못했습니다. '+String(m||'');$('todayItems').innerHTML='<div class="empty">이전 시세를 대신 표시하지 않습니다.</div>'}
+function loadLive(){const g=typeof google!=='undefined'&&google.script&&google.script.run;if(!g){if(PREVIEW_DATA){DATA=PREVIEW_DATA;$('previewMark').style.display='block';render()}else fail('웹 앱에서 다시 열어주세요.');return}$('status').textContent='불러오는 중';loadIndex();google.script.run.withSuccessHandler(r=>{if(!r?.rows?.length){fail('빈 데이터');return}DATA=r;LATEST_MAIN_DATE=null;applyIndex();render();if(IDX_ERROR)loadLatestMain()}).withFailureHandler(e=>fail(e.message||e)).getDashboardData()}
+
+// ---------- 전체 품목 조회 ----------
+// 하루치(약 1,000~1,500줄)를 한 번 받아 두고, 검색은 화면 안에서 바로 거릅니다.
+let FULL_READY=false, FULL_ROWS=[], FULL_TIMER=0, FULL_DATE='', FULL_META={};
+// 정렬 상태: col = name/variety/grade/avg/max/min/volume, dir = 1(오름) / -1(내림)
+let SORT={col:'name',dir:1};
+// 등급 순서: 특 → 상 → 보, 같은 글자 안에서는 숫자 작은 순 (특1, 특2, 특3, 상1 …)
+function gradeRank(g){const m=String(g||'').match(/^(특|상|보)?\s*(\d*)/);const head={'특':0,'상':1,'보':2}[m&&m[1]]??3;return head*100+(Number(m&&m[2])||0)}
+function sortBy(col){
+ if(SORT.col===col)SORT.dir*=-1;
+ else SORT={col,dir:(col==='name'||col==='variety'||col==='grade')?1:-1};
+ const v=SORT.col+':'+SORT.dir,sel=$('auctionSort');
+ sel.value=[...sel.options].some(o=>o.value===v)?v:'';
+ drawAuctionResults();
+}
+function sortFromSelect(){const v=$('auctionSort').value;if(!v)return;const [c,d]=v.split(':');SORT={col:c,dir:Number(d)};drawAuctionResults()}
+function drawSortHead(){
+ document.querySelectorAll('#auctionHead th[data-sort]').forEach(th=>{
+  const on=th.dataset.sort===SORT.col;th.querySelector('.arr')?.remove();
+  if(on)th.insertAdjacentHTML('beforeend',`<span class="arr">${SORT.dir>0?'▲':'▼'}</span>`);
+  th.title='눌러서 정렬 (한 번 더 누르면 반대로)';
+ });
+}
+const CAT_CACHE={}, CAT_WAIT={};
+const WEEKDAYS=['일','월','화','수','목','금','토'];
+const wdOf=d=>new Date(d+'T00:00:00Z').getUTCDay();
+const isMainDay=d=>[1,3,5].includes(wdOf(d));
+function catRow(a){return {name:String(a[0]),variety:String(a[1]),grade:String(a[2]),avg:a[3],max:a[4],min:a[5],volume:a[6],amount:a[7]}}
+// 하루치 자료 받기. 같은 날짜를 동시에 여러 번 요청하지 않도록 기다리는 쪽을 모아 둡니다.
+function fetchCatalog(date,cb){
+ if(CAT_CACHE[date]){cb&&cb(CAT_CACHE[date]);return}
+ if(CAT_WAIT[date]){cb&&CAT_WAIT[date].push(cb);return}
+ CAT_WAIT[date]=cb?[cb]:[];
+ google.script.run.withSuccessHandler(res=>{
+  const data={date:res.date,partial:res.partial,main:res.main,rows:(res.items||[]).map(catRow)};
+  CAT_CACHE[date]=data;if(res.date&&res.date!==date)CAT_CACHE[res.date]=data;
+  const w=CAT_WAIT[date]||[];delete CAT_WAIT[date];w.forEach(f=>f(data));
+ }).withFailureHandler(err=>{
+  const w=CAT_WAIT[date]||[];delete CAT_WAIT[date];w.forEach(f=>f({error:String(err.message||err)}));
+ }).getCatalogDay(date);
+}
+// 첫 화면이 뜨면 최근 본경매 하루치를 뒤에서 미리 받아 둡니다.
+function prefetchCatalog(){if(IDX?.meta?.latestDate&&window.google?.script?.run)fetchCatalog(IDX.meta.latestDate,null)}
+function catalogSkeleton(){
+ $('auctionResults').innerHTML=Array.from({length:8},()=>`<tr><td class="c-star"></td><td class="c-mn"><span class="sk" style="width:60%"></span></td><td class="c-ms"><span class="sk" style="width:80%;margin-top:6px"></span></td>${[70,90,30].map(w=>`<td><span class="sk" style="width:${w}%"></span></td>`).join('')}<td class="c-avg"><span class="sk" style="width:60px"></span></td><td><span class="sk"></span></td><td><span class="sk"></span></td><td class="c-vol"><span class="sk" style="width:40px;margin-top:6px"></span></td></tr>`).join('');
+ $('auctionSummary').innerHTML='';
+}
+function initAuctionSearch(){
+ drawFavChips();
+ if(FULL_READY)return;
+ if(typeof google==='undefined'||!google.script?.run){$('auctionInfo').textContent='실제 Apps Script 웹 앱에서 검색할 수 있습니다.';return;}
+ if(!IDX){
+  catalogSkeleton();
+  $('auctionInfo').textContent=IDX_ERROR?'경매일 목록을 불러오지 못했습니다: '+IDX_ERROR:'경매일 목록을 준비하는 중입니다. 검색어를 먼저 입력해 두셔도 됩니다.';
+  if(!IDX_LOADING&&!IDX_ERROR)loadIndex();
+  return;
+ }
+ // 날짜 목록은 서버가 이미 오늘까지로 걸러서 줍니다. (사용자 컴퓨터 시계가 틀려도 영향 없음)
+ const list=IDX.meta.dates||[];
+ FULL_META={};list.forEach(x=>FULL_META[x.d]=x);
+ const opt=x=>`<option value="${esc(x.d)}">${x.m?'● '+x.d+' ('+WEEKDAYS[wdOf(x.d)]+') · 본경매'+(x.p?' · 집계 중':''):'  '+x.d+' ('+WEEKDAYS[wdOf(x.d)]+') · 온라인·서면입찰'}</option>`;
+ const main=list.filter(x=>x.m),other=list.filter(x=>!x.m);
+ $('auctionDate').innerHTML='<optgroup label="● 본경매 · 월·수·금">'+main.map(opt).join('')+'</optgroup>'+(other.length?'<optgroup label="온라인·서면입찰 · 화·목·토">'+other.map(opt).join('')+'</optgroup>':'');
+ if(!list.length){$('auctionInfo').textContent='검색 가능한 경매 자료가 없습니다.';return;}
+ $('auctionDate').value=IDX.meta.latestDate||main[0]?.d||list[0].d;
+ if(!$('auctionDate').value)$('auctionDate').selectedIndex=0;
+ FULL_READY=true;
+ runAuctionSearch();
+}
+function debounceAuctionSearch(){clearTimeout(FULL_TIMER);FULL_TIMER=setTimeout(()=>{if(FULL_DATE)drawAuctionResults()},150)}
+// 날짜를 고르면 그날 자료를 받습니다(이미 받은 날짜는 바로 표시).
+function runAuctionSearch(){
+ if(!FULL_READY)return;
+ const date=$('auctionDate').value,main=isMainDay(date),meta=FULL_META[date]||{};
+ $('auctionGuide').textContent=main?(meta.p?'이 날 본경매는 아직 집계 중이라 숫자가 바뀔 수 있어요.':''):'본경매가 아닌 날이에요. 온라인·서면입찰 소량 거래라 시세 판단에는 참고만 해 주세요.';
+ $('auctionGuide').classList.toggle('warn',!(main&&!meta.p));
+ if(!CAT_CACHE[date]){catalogSkeleton();$('auctionInfo').textContent=date+' 자료를 불러오는 중입니다. 검색어를 먼저 입력해 두시면 도착하자마자 걸러서 보여드립니다.';$('fullCount').textContent='불러오는 중'}
+ fetchCatalog(date,data=>{
+  if($('auctionDate').value!==date)return; // 그 사이 다른 날짜를 골랐으면 무시
+  if(data.error){$('auctionInfo').textContent='조회 오류: '+data.error;$('auctionResults').innerHTML='<tr><td colspan="8" class="empty">자료를 불러오지 못했습니다.</td></tr>';return}
+  FULL_DATE=date;FULL_ROWS=data.rows;
+  drawAuctionResults();
+ });
+}
+function drawAuctionResults(){
+ const t=$('auctionResults');if(!t||!FULL_DATE)return;
+ const q=$('auctionQuery').value.trim().toLocaleLowerCase('ko');
+
+ const rows=q?FULL_ROWS.filter(r=>(r.name+' '+r.variety).toLocaleLowerCase('ko').includes(q)):FULL_ROWS.slice();
+ const txt=(a,b,k)=>String(a[k]).localeCompare(String(b[k]),'ko');
+ const base=(a,b)=>txt(a,b,'name')||txt(a,b,'variety')||gradeRank(a.grade)-gradeRank(b.grade);
+ const num=v=>v==null||v===''?null:Number(v);
+ const {col,dir}=SORT;
+ rows.sort((a,b)=>{
+  let c=0;
+  if(col==='name')c=txt(a,b,'name');
+  else if(col==='variety')c=txt(a,b,'variety');
+  else if(col==='grade')c=gradeRank(a.grade)-gradeRank(b.grade);
+  else{const x=num(a[col]),y=num(b[col]);if(x==null&&y==null)c=0;else if(x==null)return 1;else if(y==null)return -1;else c=x-y}
+  return c*dir||base(a,b);
+ });
+ drawSortHead();
+ const volume=rows.reduce((z,r)=>z+(Number(r.volume)||0),0);
+ const amount=rows.reduce((z,r)=>z+(Number(r.amount)||Number(r.avg)*Number(r.volume)||0),0);
+ const avg=volume?Math.round(amount/volume):null;
+ const meta=FULL_META[FULL_DATE]||{};
+ $('auctionInfo').textContent=FULL_DATE+(isMainDay(FULL_DATE)?' · 본경매':' · 온라인·서면입찰(참고용)')+(meta.p?' · 집계 중':'')+' · 이 날 전체 '+FULL_ROWS.length.toLocaleString('ko-KR')+'건 중 '+rows.length.toLocaleString('ko-KR')+'건 표시';
+ $('fullCount').textContent=rows.length.toLocaleString('ko-KR')+'건';
+ const names=[...new Set(rows.map(r=>r.name))];
+ // 검색어가 있으면 '품목 전체로 즐겨찾기' 버튼, 없으면 같은 자리에 안내 문구 (정렬 기준 줄이 비어 보이지 않게)
+ $('wholeFav').innerHTML=q&&names.length&&names.length<=8
+  ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${on?'★':'☆'} ${esc(n)} 전체</button>`}).join('')}`
+  :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요 · 표 머리글을 눌러도 정렬돼요</span>`;
+ $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
+ t.innerHTML=rows.length?rows.map(r=>{
+  const key=r.name+SEP+r.variety, starred=FAV.has(key);
+  return `<tr><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starred?'★':'☆'}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
+ }).join(''):`<tr><td colspan="10" class="empty empty-cell">검색 결과가 없어요. aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</td></tr>`;
+}
+// 전체 품목 조회 위쪽의 '내 관심 꽃' 바로가기. 누르면 그 꽃으로 바로 거릅니다.
+function drawFavChips(){
+ const box=$('favChips');if(!box)return;
+ const keys=[...FAV];
+ if(!keys.length){box.innerHTML='';return}
+ box.innerHTML='<span class="lbl">★ 내 관심 꽃</span>'+keys.map(k=>{
+  const x=IDX?.rows?.[favKey(k)];
+  const price=x?.la!=null?fmt(x.la)+'원':'';
+  return `<button type="button" onclick="pickFavChip(${safeArg(k)})">${esc(favoriteLabel(k))}${price?`<small>${price}</small>`:''}</button>`;
+ }).join('');
+}
+function pickFavChip(k){
+ const [name,variety]=favKey(k).split(SEP);
+ $('auctionQuery').value=name==='*'?'':(variety&&variety!=='*'?name+' '+variety:name);
+ if(FULL_DATE)drawAuctionResults();
+}
+
+(function(){const t=document.querySelector('.tabs-wrap');const set=()=>document.documentElement.style.setProperty('--tabs-h',t.offsetHeight+'px');set();addEventListener('resize',set)})();
+getFav();loadLive();
+</script></body></html>
