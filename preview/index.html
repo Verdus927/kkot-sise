@@ -11,7 +11,7 @@
  --cork:#C79C6B; --cork-2:#B98D5D; --frame:#9C7148;
  --up:#D23F38; --down:#2D66C6; --flat:#8D8F9E;
  --amber:#9A5A12;
- --r:14px;
+ --r:22px;
  --shadow:0 1px 0 rgba(90,60,30,.06),0 10px 24px -16px rgba(90,60,30,.35);
  --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
  --font-en:'Space Grotesk',var(--font);
@@ -34,38 +34,46 @@ a{color:inherit}
 .brand-ko{font-weight:800;font-size:18px;letter-spacing:-.4px}
 .brand-en{font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--ink-3)}
 .status{font-size:12px;color:var(--ink-3);white-space:nowrap}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:18px;display:grid;place-items:center}
+.icon-btn{width:42px;height:42px;border-radius:50%;box-shadow:var(--shadow);border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:18px;display:grid;place-items:center}
 
-/* ---------- 코르크보드 ---------- */
-.board{position:relative;border-radius:18px;padding:22px;min-height:280px;overflow:hidden;
- background-color:var(--cork);
+/* ---------- 코르크보드 (동글동글) ---------- */
+.board{position:relative;border-radius:32px;padding:30px;min-height:330px;overflow:hidden;
+ background-color:#CFA273;
  background-image:
-  radial-gradient(rgba(70,40,10,.18) 1px,transparent 1.6px),
-  radial-gradient(rgba(255,240,215,.16) 1px,transparent 1.6px),
-  radial-gradient(rgba(70,40,10,.10) 2px,transparent 2.6px);
- background-size:7px 7px,11px 11px,23px 23px;background-position:0 0,4px 6px,9px 3px;
- box-shadow:inset 0 0 0 8px var(--frame),inset 0 0 0 9px rgba(0,0,0,.12),inset 0 8px 24px rgba(60,30,5,.25)}
-.note{position:relative;z-index:2;background:var(--paper);border-radius:4px;padding:22px 22px 18px;max-width:520px;box-shadow:0 2px 0 rgba(0,0,0,.04),0 14px 26px -14px rgba(40,20,0,.55);transform:rotate(-.6deg)}
-.pin{position:absolute;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFD3E0 0 18%,var(--pin) 40%,#B24F6E 100%);box-shadow:1px 3px 3px rgba(0,0,0,.35);z-index:3}
-.note>.pin{top:-6px;left:50%;margin-left:-8px}
-.eyebrow{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--ink-2)}
-.note h1{margin:0;font-size:clamp(30px,8.4vw,52px);line-height:1.1;letter-spacing:-1.4px;font-weight:800}
-.note h1 em{font-style:normal;color:var(--pink-ink)}
-.hero-sub{margin:10px 0 0;font-size:14px;color:var(--ink-2)}
-.hero-sub .partial-note{color:var(--amber);font-weight:600}
-.hero-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.hs{display:inline-flex;align-items:baseline;gap:5px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--ink-2)}
+  radial-gradient(rgba(110,64,24,.16) 1.1px,transparent 1.7px),
+  radial-gradient(rgba(255,244,226,.22) 1.1px,transparent 1.7px),
+  linear-gradient(140deg,#D6AC7E 0%,#C99A68 45%,#D9B48C 100%);
+ background-size:9px 9px,13px 13px,auto;background-position:0 0,5px 7px,0 0;
+ box-shadow:inset 0 0 0 1px rgba(112,74,38,.18),inset 0 14px 30px rgba(94,55,24,.14),0 20px 40px -30px rgba(65,40,17,.6)}
+.tape{position:absolute;height:26px;border-radius:9px;box-shadow:0 3px 8px rgba(65,35,10,.14);z-index:3}
+.tape.pink{background:linear-gradient(180deg,rgba(251,192,208,.95),rgba(236,160,185,.85))}
+.tape.butter{background:linear-gradient(180deg,rgba(255,240,206,.96),rgba(234,210,168,.88))}
+.tape.mint{background:linear-gradient(180deg,rgba(234,246,238,.96),rgba(188,214,197,.88))}
+.note{position:relative;z-index:2;background:var(--paper);border-radius:28px;padding:34px 30px 26px;max-width:560px;box-shadow:0 2px 0 rgba(255,255,255,.7) inset,0 22px 34px -22px rgba(58,30,6,.5);transform:rotate(-1deg)}
+.note>.tape{top:-12px;left:30px;width:96px;transform:rotate(-6deg)}
+.note h1{margin:0;font-size:clamp(34px,8.6vw,58px);line-height:1.1;letter-spacing:-1.8px;font-weight:900}
+.note h1 em{font-style:normal;color:var(--pink-ink);background:linear-gradient(transparent 62%,rgba(244,162,188,.32) 62%);border-radius:6px;padding:0 4px;margin:0 -4px}
+.date-chip{display:inline-flex;align-items:center;gap:8px;margin:16px 0 0;padding:8px 15px;border-radius:999px;background:#FCEBF0;color:var(--pink-ink);font-size:14px;font-weight:800}
+.date-chip:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pink-ink)}
+.hero-sub{margin:12px 0 0;font-size:14px;color:var(--ink-2)}
+.hero-sub .partial-note{color:var(--amber);font-weight:700}
+.hero-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.hs{display:inline-flex;align-items:baseline;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:13px;color:var(--ink-2)}
 .hs b{font-size:15px;color:var(--ink);font-weight:800}
-.hero-stamp{display:block;margin-top:10px;font-size:12px;color:var(--ink-3)}
+.hero-stamp{display:block;margin-top:12px;font-size:12px;color:var(--ink-3)}
 /* 꽃 사진 자리 (콜라주가 들어갈 곳) */
-.snap{margin:0;position:absolute;z-index:1;background:#fff;padding:8px 8px 26px;border-radius:2px;box-shadow:0 12px 22px -12px rgba(40,20,0,.6)}
-.snap .ph{width:100%;height:100%;background:linear-gradient(135deg,#F7E3E8,#EFE6D6);display:grid;place-items:center;color:#B98C9A;font-size:12px;font-weight:700}
-.snap figcaption{position:absolute;left:0;right:0;bottom:5px;text-align:center;font-size:12px;color:var(--ink-2);font-weight:600}
-.snap .pin{top:-6px;left:50%;margin-left:-8px}
-.snap.s1{width:150px;height:176px;right:46px;top:26px;transform:rotate(5deg)}
-.snap.s2{width:128px;height:150px;right:200px;bottom:-6px;transform:rotate(-7deg)}
-.snap.s3{width:116px;height:136px;right:22px;bottom:-4px;transform:rotate(9deg)}
-.alerts{display:none;margin:12px 0 0;border-radius:12px;background:#FCE8EC;color:#7A2E44;padding:11px 14px;font-size:13px}
+.snap{margin:0;position:absolute;z-index:1;background:#FFFEFB;padding:10px 10px 32px;border-radius:20px;box-shadow:0 18px 30px -18px rgba(41,21,6,.6)}
+.snap>.tape{top:-11px;left:50%;width:70px;margin-left:-35px;height:22px;border-radius:8px}
+.snap .ph{width:100%;height:100%;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#F9E4EA,#F1E8D9);display:grid;place-items:center;color:#B98C9A;font-size:12px;font-weight:700}
+.snap .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.snap figcaption{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:13px;color:var(--ink-2);font-weight:700}
+.snap.s1{width:170px;height:198px;right:56px;top:26px;transform:rotate(6deg)}
+.snap.s1>.tape{transform:rotate(-5deg)}
+.snap.s2{width:150px;height:178px;right:250px;bottom:18px;transform:rotate(-7deg)}
+.snap.s2>.tape{transform:rotate(5deg)}
+.snap.s3{width:140px;height:166px;right:70px;bottom:14px;transform:rotate(3deg)}
+.snap.s3>.tape{transform:rotate(-8deg)}
+.alerts{display:none;margin:12px 0 0;border-radius:18px;background:#FCE8EC;color:#7A2E44;padding:11px 14px;font-size:13px}
 .alerts.show{display:block}
 
 /* ---------- 탭 (컴퓨터: 위 / 휴대폰: 아래 바) ---------- */
@@ -115,9 +123,8 @@ a{color:inherit}
 /* 상세 펼침 */
 .detail{padding:4px 16px 18px 48px;animation:open .22s ease}
 @keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:4px 0 14px;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
-.kpis>div{padding:10px 12px 10px 0}
-.kpis>div+div{border-left:1px dashed var(--line);padding-left:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:4px 0 14px}
+.kpis>div{padding:11px 14px;background:var(--paper-2);border:1px solid var(--line-2);border-radius:16px}
 .kpis span{display:block;font-size:12px;color:var(--ink-2)}
 .kpis b{display:block;font-size:16px;margin-top:2px}
 .kpis small{display:block;font-size:12px;color:var(--ink-2);margin-top:1px}
@@ -166,7 +173,7 @@ a{color:inherit}
 /* ---------- 전체 품목 조회 ---------- */
 .controls{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:10px;margin:14px 0 10px}
 .field{display:grid;gap:5px;font-size:12px;font-weight:700;color:var(--ink-2)}
-.field select,.field input{width:100%;min-height:48px;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:0 14px;font-size:16px;color:var(--ink)}
+.field select,.field input{width:100%;min-height:48px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding-left:18px!important;padding:0 14px;font-size:16px;color:var(--ink)}
 .field input:focus,.field select:focus,.sort select:focus{outline:2px solid var(--ink);outline-offset:1px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -187,7 +194,7 @@ a{color:inherit}
 .whole-fav .hint{color:var(--ink-3)}
 .whole-fav .hint b{color:var(--ink-2)}
 .sort{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-2);margin-left:auto}
-.sort select{min-height:40px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:0 10px;font-size:14px}
+.sort select{min-height:40px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding-left:14px!important;padding:0 10px;font-size:14px}
 .tbl-wrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:clip;box-shadow:var(--shadow)}
 .auction-table{width:100%;border-collapse:collapse;font-size:14px}
 .auction-table th{position:sticky;top:var(--tabs-h,61px);background:var(--paper-2);font-size:12px;color:var(--ink-2);font-weight:700;text-align:left;padding:11px 12px;white-space:nowrap;border-bottom:1px solid var(--line)}
@@ -220,23 +227,24 @@ a{color:inherit}
  .wrap{padding:0 14px}
  .brand-en{display:none}
  .board{padding:16px 14px 18px;min-height:0}
- .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px}
- .note{grid-column:1/-1;padding:18px 16px 14px;max-width:none}
- .note h1{font-size:clamp(28px,8.6vw,40px)}
- .snap,.snap.s1,.snap.s2,.snap.s3{position:relative;inset:auto;width:auto;height:118px;padding:6px 6px 22px;margin-top:4px}
+ .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 12px;padding:22px 14px 20px;border-radius:28px}
+ .note{grid-column:1/-1;padding:28px 20px 20px;max-width:none;border-radius:24px}
+ .note h1{font-size:clamp(32px,9.6vw,42px)}
+ .date-chip{font-size:13px;padding:7px 13px}
+ .snap,.snap.s1,.snap.s2,.snap.s3{position:relative;inset:auto;width:auto;height:124px;padding:7px 7px 26px;margin-top:6px;border-radius:16px}
+ .snap .ph{border-radius:11px}
+ .snap>.tape{width:52px;margin-left:-26px;height:18px;top:-9px}
  .snap.s1{transform:rotate(-4deg)}.snap.s2{transform:rotate(3deg) translateY(6px)}.snap.s3{transform:rotate(-2deg)}
- .snap figcaption{font-size:11px;bottom:4px}
+ .snap figcaption{font-size:11px;bottom:6px}
  body[data-tab=catalog] .board,body[data-tab=insight] .board{display:none}
  .tabs-wrap{display:none}
- .bottom-bar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(10px + var(--lift) + env(safe-area-inset-bottom));z-index:30;background:rgba(255,253,248,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 26px -12px rgba(60,35,10,.45);padding:4px 6px;gap:0}
- .bottom-bar button{flex:1;border:0;background:none;color:var(--ink-3);border-radius:12px;padding:6px 0 8px;min-height:56px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700}
+ .bottom-bar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(10px + var(--lift) + env(safe-area-inset-bottom));z-index:30;background:rgba(255,253,248,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:26px;box-shadow:0 10px 26px -12px rgba(60,35,10,.45);padding:4px 6px;gap:0}
+ .bottom-bar button{flex:1;border:0;background:none;color:var(--ink-3);border-radius:20px;padding:6px 0 8px;min-height:56px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700}
  .bottom-bar button .ic{display:block}
- .bottom-bar button.sel{color:var(--ink);background:none;border:0}
+ .bottom-bar button.sel{color:var(--ink);background:#FCEBF0;border:0}
  .bottom-bar button.sel .ic{color:var(--pink-ink)}
  .duo{grid-template-columns:1fr}
  .kpis{grid-template-columns:1fr 1fr}
- .kpis>div:nth-child(3){border-left:0;padding-left:0}
- .kpis>div:nth-child(n+3){border-top:1px dashed var(--line)}
  .detail{padding:2px 14px 16px 14px}
  .events{grid-template-columns:1fr}
  .controls{grid-template-columns:1fr}
@@ -259,17 +267,17 @@ a{color:inherit}
 <header class="top"><div class="wrap">
  <div class="bar"><span class="brand"><span class="brand-mark">✿</span><span class="brand-ko">꽃시세</span><span class="brand-en">BLOOM MARKET</span></span><span id="status" class="status">불러오는 중</span><button class="icon-btn" onclick="loadLive()" aria-label="새로고침" title="새로고침">↻</button></div>
  <div class="board">
-  <div class="note"><span class="pin"></span>
-   <p class="eyebrow">양재 aT 화훼공판장 · 절화 경매가</p>
-   <h1 id="dayTitle">최근 <em>본경매</em> 시세</h1>
+  <div class="note"><span class="tape pink"></span>
+   <h1>오늘의 꽃값,<br><em>한눈에!</em></h1>
+   <p id="dayTitle" class="date-chip">양재 현장 경매 기준</p>
    <p id="daySub" class="hero-sub">시세를 불러오는 중입니다</p>
    <div id="summary" class="hero-stats"></div>
    <span id="checkStamp" class="hero-stamp"></span>
   </div>
   <!-- 꽃 사진 자리: .ph 안에 배경을 지운 꽃 사진(img)을 넣으면 됩니다 -->
-  <figure class="snap s1 collage-slot" aria-hidden="true"><span class="pin"></span><div class="ph">사진</div><figcaption>장미</figcaption></figure>
-  <figure class="snap s2 collage-slot" aria-hidden="true"><span class="pin"></span><div class="ph">사진</div><figcaption>메리골드</figcaption></figure>
-  <figure class="snap s3 collage-slot" aria-hidden="true"><span class="pin"></span><div class="ph">사진</div><figcaption>유칼립투스</figcaption></figure>
+  <figure class="snap s1 collage-slot" aria-hidden="true"><span class="tape pink"></span><div class="ph">사진</div><figcaption>장미</figcaption></figure>
+  <figure class="snap s2 collage-slot" aria-hidden="true"><span class="tape butter"></span><div class="ph">사진</div><figcaption>메리골드</figcaption></figure>
+  <figure class="snap s3 collage-slot" aria-hidden="true"><span class="tape mint"></span><div class="ph">사진</div><figcaption>유칼립투스</figcaption></figure>
  </div>
 </div></header>
 <div class="tabs-wrap"><div class="wrap"><nav class="tabs" aria-label="메뉴"><button class="sel" data-tab="today" onclick="tab('today')">오늘 시세</button><button data-tab="catalog" onclick="tab('catalog')">전체 품목</button><button data-tab="insight" onclick="tab('insight')">시장 소식</button></nav></div></div>
@@ -351,7 +359,7 @@ const SEASON_SITE_URL='';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
 const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
 const KDAY=['일','월','화','수','목','금','토'];
-const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일 ${KDAY[w]}요일`};
+const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
 const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
 const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=x=>x==null?'—':Math.round(x).toLocaleString('ko-KR'),pct=x=>x==null?'—':(x>0?'+':'')+(x*100).toFixed(1)+'%',sg=x=>x>0?'up':x<0?'down':'flat';
 function getFav(){try{FAV=new Set(JSON.parse(localStorage.getItem('yangjaeFav2')||'[]'))}catch(e){FAV=new Set()}}
@@ -438,13 +446,13 @@ function scrollFlower(name){const rows=dataRows();const index=rows.findIndex(x=>
 // 미리 계산한 시세가 오기 전: '없음' 대신 불러오는 모양을 보여줍니다.
 function drawTodayLoading(){
  const bars=n=>Array.from({length:n},()=>'<div class="rank-row"><span></span><span class="sk" style="width:70%"></span><span class="sk" style="width:60px"></span><span class="sk" style="width:44px"></span></div>').join('');
- $('dayTitle').innerHTML='최근 <em>본경매</em> 시세';$('daySub').textContent='품목별 시세를 불러오는 중입니다';
+ $('dayTitle').textContent='양재 현장 경매 기준';$('daySub').textContent='품목별 시세를 불러오는 중입니다';
  $('summary').innerHTML=['주요 품목','▲ 오름','▼ 내림'].map(t=>`<span class="hs">${t} <span class="sk" style="display:inline-block;width:22px;vertical-align:middle"></span></span>`).join('');
  $('rises').innerHTML=bars(5);$('falls').innerHTML=bars(5);
  $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
  drawFavorites();drawWeekly();
 }
-function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').innerHTML=LATEST_MAIN_DATE?`${esc(kDate(LATEST_MAIN_DATE))}<br><em>본경매</em> 시세`:`${esc(DATA.todayDate||'오늘')}<br>${DATA.auctionDay?'<em>본경매</em> 시세':'현장 경매 없는 날'}`;$('daySub').textContent=good?'거래량 가중평균가 · 지난주 평균과 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';if(IDX?.meta?.inProgressDate)$('daySub').innerHTML=esc($('daySub').textContent)+` · <span class="partial-note">${esc(shortDate(IDX.meta.inProgressDate))} 경매는 아직 집계 중(현재 ${Number(IDX.meta.inProgressCount||0).toLocaleString('ko-KR')}건)이라 직전 본경매를 보여드립니다</span>`;$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'거래량 가중평균가 · 지난주 평균과 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';if(IDX?.meta?.inProgressDate)$('daySub').innerHTML=esc($('daySub').textContent)+` · <span class="partial-note">${esc(shortDate(IDX.meta.inProgressDate))} 경매는 아직 집계 중(현재 ${Number(IDX.meta.inProgressCount||0).toLocaleString('ko-KR')}건)이라 직전 본경매를 보여드립니다</span>`;$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
 function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
 const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
 function drawFavoriteWeekList(){
