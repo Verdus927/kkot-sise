@@ -75,7 +75,7 @@ a{color:inherit}
 .hs{display:inline-flex;align-items:baseline;gap:6px;background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;color:var(--ink-2)}
 .hs b{font-size:15px;color:var(--ink);font-weight:800}
 .hero-stamp{display:block;margin-top:12px;font-family:var(--font-hand);font-size:19px;color:var(--ink-3)}
-.alerts{display:none;margin:12px 0 0;border-radius:18px;background:#FCE8EC;color:#7A2E44;padding:11px 14px;font-size:13px}
+.alerts{display:none;margin:12px 0 0;border-radius:18px;background:var(--rose-bg);color:var(--plum);padding:11px 14px;font-size:13px}
 .alerts.show{display:block}
 
 /* ---------- 탭 (컴퓨터: 위 / 휴대폰: 아래 바) ---------- */
@@ -395,12 +395,12 @@ function chart(r,labels,extra){
  const vals=points.map(p=>p.v).concat(ex?[ex.value]:[]);
  const narrow=window.innerWidth<700,w=narrow?420:760,h=narrow?230:190,left=narrow?14:46,right=narrow?40:46,top=28,bottom=34,FS=narrow?12:10,min=Math.max(0,Math.min(...vals)*.9),max=Math.max(...vals)*1.08||1;
  const xx=i=>left+(w-left-right)*i/Math.max(1,slots-1),yy=v=>top+(max-v)/(max-min||1)*(h-top-bottom);
- const GREEN='#262B4D',ORANGE='#C2577D';
+ const GREEN='#2F3F34',ORANGE='#B8697A';
  let paths=[],current=[];a.forEach((v,i)=>{if(v==null){if(current.length)paths.push(current);current=[]}else current.push(`${xx(i)},${yy(v)}`)});if(current.length)paths.push(current);
  const last=points[points.length-1];
  const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ORANGE}" stroke-width="1.6" stroke-dasharray="4 4"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ORANGE}" stroke="#fff" stroke-width="2"><title>${esc(ex.date)} 본경매: ${fmt(ex.value)}원</title></circle><text x="${xx(exI)}" y="${yy(ex.value)-11}" font-size="${FS+1}" font-weight="700" text-anchor="end" fill="${ORANGE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" font-weight="700" text-anchor="middle" fill="${ORANGE}">${esc(shortDate(ex.date))}</text>`:'';
  const legend=`<div class="legend"><span><i style="background:${GREEN}"></i>주간 평균 (월·수·금)</span>${ex?`<span><i style="background:${ORANGE}"></i>최근 본경매 ${esc(shortDate(ex.date))} 하루 가격</span>`:''}</div>`;
- return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이">${[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#E7E1D7"/>`).join('')}${paths.map(p=>`<polyline points="${p.join(' ')}" stroke="${GREEN}" stroke-width="2.5" stroke-linecap="round" fill="none"/>`).join('')}${points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3" fill="${GREEN}"><title>${esc(L[p.i]||'')}: ${fmt(p.v)}원</title></circle>`).join('')}${a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#8C90A2">${esc(String(L[i]||'').replace(/주\(.*\)$|주$/,''))}</text>`).join('')}${exMark}</svg>${legend}`;
+ return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이">${[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#E2D5BF" stroke-dasharray="2 4"/>`).join('')}${paths.map(p=>`<polyline points="${p.join(' ')}" stroke="${GREEN}" stroke-width="2.5" stroke-linecap="round" fill="none"/>`).join('')}${points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3" fill="${GREEN}"><title>${esc(L[p.i]||'')}: ${fmt(p.v)}원</title></circle>`).join('')}${a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#9A8F81">${esc(String(L[i]||'').replace(/주\(.*\)$|주$/,''))}</text>`).join('')}${exMark}</svg>${legend}`;
 }
 function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map(r=>rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
 function favoriteLabel(key){const p=key.split(SEP);return p.length>1?(p[1]==='*'?(p[0]==='*'?'절화 전체':p[0]+' 전체'):p[0]+' · '+p[1]):key}
