@@ -25,7 +25,7 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
-body{margin:0;word-break:keep-all;overflow-wrap:anywhere;background-color:var(--ivory);background-image:radial-gradient(rgba(120,90,50,.07) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px,9px 9px;background-position:0 0,3px 4px;color:var(--ink);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased;padding-bottom:var(--bottom-h)}
+body{margin:0;overflow-x:hidden;word-break:keep-all;overflow-wrap:anywhere;background-color:var(--ivory);background-image:radial-gradient(rgba(120,90,50,.07) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px,9px 9px;background-position:0 0,3px 4px;color:var(--ink);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased;padding-bottom:var(--bottom-h)}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit}
@@ -112,9 +112,16 @@ a{color:inherit}
 .row-main:hover .r-name{text-decoration:underline;text-underline-offset:3px}
 /* 꽃 스티커: 펼치면 상세 칸 오른쪽에 붙고, 큰 화면에서는 마우스를 올리면 카드 밖으로 살짝 붙어 나옵니다 */
 .row{position:relative}
-.peel{pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 7px 9px rgba(70,40,10,.3))}
-.peel.in{float:right;width:138px;height:auto;margin:0 -34px 8px 12px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
-.peel.hover{display:none;position:absolute;z-index:25;--pw:min(220px,calc((100vw - 1090px) / 2));width:var(--pw);height:auto;left:calc(var(--pw) * -1 + 16px);top:50%;transform:translateY(-50%) rotate(var(--rot2))}
+.peel{pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 8px 10px rgba(70,40,10,.3))}
+.peel img{display:block;width:100%;height:auto;-webkit-user-drag:none}
+/* 스티커를 붙인 마스킹테이프 */
+.peel:before{content:"";position:absolute;z-index:2;top:-6px;left:50%;width:46%;height:20px;margin-left:-23%;transform:rotate(var(--trot));opacity:.9;
+ clip-path:polygon(0 10%,4% 0,8% 12%,12% 0,100% 0,96% 25%,100% 50%,96% 75%,100% 100%,0 100%,4% 75%,0 50%,4% 25%)}
+.peel.t-rose:before{background:linear-gradient(180deg,rgba(226,170,175,.95),rgba(205,145,152,.9))}
+.peel.t-kraft:before{background:linear-gradient(180deg,rgba(214,186,140,.95),rgba(196,165,118,.9))}
+.peel.t-sage:before{background:repeating-linear-gradient(45deg,rgba(170,192,165,.95) 0 6px,rgba(150,176,146,.95) 6px 12px)}
+.peel.in{position:relative;display:block;float:right;width:168px;margin:-4px -44px 10px 6px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
+.peel.hover{display:none;position:absolute;z-index:25;--pw:min(240px,calc((100vw - 1080px) / 2));width:var(--pw);height:auto;left:calc(var(--pw) * -1 + 16px);top:50%;transform:translateY(-50%) rotate(var(--rot2))}
 @keyframes stick{from{opacity:0;transform:rotate(calc(var(--rot) - 14deg)) scale(.6)}to{opacity:1;transform:rotate(var(--rot)) scale(1)}}
 @keyframes stick2{from{opacity:0;transform:translateY(-50%) rotate(calc(var(--rot2) - 16deg)) scale(.55)}to{opacity:1;transform:translateY(-50%) rotate(var(--rot2)) scale(1)}}
 /* 큰 화면: 마우스를 올리거나 펼친 줄은 카드 왼쪽 바깥에 크게, 비스듬히 붙습니다 */
@@ -271,7 +278,8 @@ a{color:inherit}
  .duo{grid-template-columns:1fr}
  .kpis{grid-template-columns:1fr 1fr}
  .detail{padding:2px 14px 16px 14px}
- .peel.in{width:108px;margin:0 -24px 6px 8px}
+ .peel.in{width:150px;margin:-2px -24px 8px 2px}
+ .peel:before{height:16px}
  .events{grid-template-columns:1fr}
  .controls{grid-template-columns:1fr}
  .auction-table thead{display:none}
@@ -398,7 +406,7 @@ function stickerOf(name){
  const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
  return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
 }
-function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;const rot=((Math.abs(h)%17)-8)||5,rot2=-8-(Math.abs(h>>3)%17);return `<img class="peel ${kind}" style="--rot:${rot}deg;--rot2:${rot2}deg" src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" decoding="async">`}
+function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;h=Math.abs(h);const sg=(h>>2)%2?1:-1,rot=sg*(6+h%9),rot2=sg*(10+(h>>4)%13),tapes=['rose','kraft','sage'],tp=tapes[(h>>6)%3];return `<span class="peel ${kind} t-${tp}" style="--rot:${rot}deg;--rot2:${rot2}deg;--trot:${-sg*(4+(h>>8)%6)}deg"><img src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" decoding="async"></span>`}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
