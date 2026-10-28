@@ -327,7 +327,7 @@ a{color:inherit}
    <label class="field">검색<input id="auctionQuery" type="search" inputmode="search" placeholder="품목·품종 (예: 장미, 메리골드)" oninput="debounceAuctionSearch()" autocomplete="off"></label>
   </div>
   <div id="favChips" class="chips"></div>
-  <div id="auctionGuide" class="guide" role="status"></div>
+  <p id="aliasNote" class="guide"></p><div id="auctionGuide" class="guide" role="status"></div>
   <div id="auctionSummary" class="sumline" aria-live="polite"></div>
   <div class="toolbar"><div id="wholeFav" class="whole-fav"></div><label class="sort">정렬<select id="auctionSort" onchange="sortFromSelect()"><option value="name:1">품목·품종순</option><option value="grade:1">등급 높은 순</option><option value="grade:-1">등급 낮은 순</option><option value="avg:-1">평균가 높은 순</option><option value="avg:1">평균가 낮은 순</option><option value="volume:-1">거래량 많은 순</option><option value="volume:1">거래량 적은 순</option><option value="" hidden>표 머리글 기준</option></select></label></div>
   <div class="tbl-wrap"><table class="auction-table"><thead><tr id="auctionHead"><th aria-label="즐겨찾기"></th><th data-sort="name" onclick="sortBy('name')">품목</th><th data-sort="variety" onclick="sortBy('variety')">품종</th><th data-sort="grade" onclick="sortBy('grade')">등급</th><th data-sort="avg" onclick="sortBy('avg')">평균가</th><th data-sort="max" onclick="sortBy('max')">최고가</th><th data-sort="min" onclick="sortBy('min')">최저가</th><th data-sort="volume" onclick="sortBy('volume')">거래량</th></tr></thead><tbody id="auctionResults"></tbody></table></div>
@@ -369,7 +369,7 @@ const SEASON_SITE_URL='';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
 const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
 const STK=(location.pathname.includes('/preview/')?'../':'')+'img/';
-const STICKERS=[['국화','chrysanthemum'],['장미','rose'],['카네이션','carnation'],['안개','gypsophila'],['거베라','gerbera'],['수국','hydrangea'],['알스트','alstroemeria'],['유칼립','eucalyptus'],['메리골드','marigold'],['라넌','ranunculus'],['스토크','stock'],['스톡','stock'],['튤립','tulip'],['코스모스','cosmos'],['프리지','freesia'],['히페리','hypericum'],['레더','leatherleaf'],['캄파','campanula'],['캐모마일','chamomile'],['마트리','chamomile']];
+const STICKERS=[['국화','chrysanthemum'],['장미','rose'],['카네이션','carnation'],['안개','gypsophila'],['거베라','gerbera'],['수국','hydrangea'],['알스트','alstroemeria'],['유칼립','eucalyptus'],['메리골드','marigold'],['라넌','ranunculus'],['스토크','stock'],['스톡','stock'],['튤립','tulip'],['튜립','tulip'],['하이페리','hypericum'],['코스모스','cosmos'],['프리지','freesia'],['히페리','hypericum'],['레더','leatherleaf'],['캄파','campanula'],['캐모마일','chamomile'],['마트리','chamomile']];
 function stickerOf(name){const n=String(name||'');const hit=STICKERS.find(([k])=>n.indexOf(k)===0||n.includes(k));return hit?hit[1]:''}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}stickers/${f}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
@@ -650,11 +650,38 @@ function runAuctionSearch(){
   drawAuctionResults();
  });
 }
+// 검색 별칭: 원자료 품목명 ← 현장에서 부르는 다른 이름들 (원자료 이름은 바꾸지 않고 검색에만 씁니다)
+const ALIAS={
+ '거베라':['게르베라'],'글로리오사':['글로리오사릴리'],'덴파레':['덴드로비움','덴드로븀'],'델피니움':['델피늄','델피니엄'],
+ '라넌큘러스':['라난큘러스','라넌쿨루스'],'루스커스':['유스커스','유스카스','루스카스'],
+ '리시안사스':['리시안셔스','리시안서스','리시안투스','유스토마'],'부프리움':['부플레움','부플레룸'],'브바르디아':['부바르디아'],
+ '산더소니아':['샌더소니아'],'스카비오사':['솔체꽃','스카비오사꽃'],'스톡크':['스토크','스톡','스톡꽃'],'아게라덤':['아게라텀'],
+ '아스그레피아스':['아스클레피아스'],'안개':['안개꽃'],'안시리움':['안스리움','안투리움'],'알스트메리아':['알스트로메리아'],
+ '에렌지움':['에린지움'],'칼라':['카라','칼라릴리'],'쿠루쿠마':['커큐마','쿠르쿠마'],'튜립':['튤립'],'폴리안테스':['튜베로즈'],
+ '후록스':['플록스','프록스','후룩스','후르크스'],'하이페리콤':['히페리쿰','히페리콤','하이페리쿰'],
+ '다알리아':['달리아'],'히야신스':['히아신스'],'사루비아':['살비아','샐비어'],'아스파라거스':['아스파라가스'],
+ '극락조화':['극락조','스트렐리치아'],'금어초':['스냅드래곤'],'맨드라미':['셀로시아'],'천일홍':['곰프레나'],'호접란':['팔레놉시스'],
+ '아미초':['레이스플라워'],'클레마티스':['크레마티스'],'멜라루카':['멜라레우카'],'아가판서스':['아가판투스'],'오니소갈룸':['오니소갈럼'],
+ '수국':['하이드랜지아'],'마가렛':['마거릿','마가렛트'],'캐모마일':['카모마일','마트리카리아'],'스타티스':['리모니움']
+};
+const nk=x=>String(x||'').toLocaleLowerCase('ko').replace(/\s+/g,'');
+// 입력한 첫 단어가 별칭(또는 별칭의 앞부분, 2글자 이상)이면 원자료 품목명을 돌려줍니다
+function aliasTargets(word){const w=nk(word);if(w.length<2)return [];return Object.keys(ALIAS).filter(raw=>!nk(raw).includes(w)&&ALIAS[raw].some(a=>nk(a)===w||nk(a).startsWith(w)))}
+let ALIAS_HIT=null;
+function searchMatch(r,q){
+ const hay=(r.name+' '+r.variety).toLocaleLowerCase('ko');
+ if(hay.includes(q)||nk(hay).includes(nk(q)))return true;
+ const [first,...rest]=q.split(/\s+/);const t=aliasTargets(first);
+ if(!t.includes(r.name))return false;
+ const v=rest.join('');return !v||nk(r.variety).includes(v);
+}
 function drawAuctionResults(){
  const t=$('auctionResults');if(!t||!FULL_DATE)return;
  const q=$('auctionQuery').value.trim().toLocaleLowerCase('ko');
 
- const rows=q?FULL_ROWS.filter(r=>(r.name+' '+r.variety).toLocaleLowerCase('ko').includes(q)):FULL_ROWS.slice();
+ const rows=q?FULL_ROWS.filter(r=>searchMatch(r,q)):FULL_ROWS.slice();
+ const at=q?aliasTargets(q.split(/\s+/)[0]).filter(raw=>rows.some(r=>r.name===raw)):[];
+ $('aliasNote').textContent=at.length?`'${q.split(/\s+/)[0]}'(으)로 ${at.map(x=>`'${x}'`).join(', ')} 품목도 함께 찾았어요.`:'';
  const txt=(a,b,k)=>String(a[k]).localeCompare(String(b[k]),'ko');
  const base=(a,b)=>txt(a,b,'name')||txt(a,b,'variety')||gradeRank(a.grade)-gradeRank(b.grade);
  const num=v=>v==null||v===''?null:Number(v);
