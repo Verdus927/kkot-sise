@@ -24,7 +24,7 @@
  --bottom-h:0px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{margin:0;word-break:keep-all;overflow-wrap:anywhere;background-color:var(--ivory);background-image:radial-gradient(rgba(120,90,50,.07) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);background-size:6px 6px,9px 9px;background-position:0 0,3px 4px;color:var(--ink);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased;padding-bottom:var(--bottom-h)}
 button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -108,12 +108,16 @@ a{color:inherit}
 .row-in{display:flex;align-items:stretch}
 .star{flex:0 0 48px;border:0;background:none;font-size:20px;color:#CFC6B6;display:grid;place-items:center}
 .star.saved{color:var(--pink-ink)}
-.row-main{flex:1;min-width:0;border:0;background:none;text-align:left;padding:12px 16px 12px 0;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"t n p" "t m d";column-gap:12px;row-gap:2px;align-items:baseline}
+.row-main{flex:1;min-width:0;border:0;background:none;text-align:left;padding:12px 16px 12px 0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"n p" "m d";column-gap:12px;row-gap:2px;align-items:baseline}
 .row-main:hover .r-name{text-decoration:underline;text-underline-offset:3px}
-.thumb{grid-area:t;width:46px;height:46px;margin-right:12px;align-self:center;display:grid;place-items:center}
-.thumb img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(80,50,20,.18));transform:rotate(-4deg)}
-.row:nth-child(even) .thumb img{transform:rotate(4deg)}
-.thumb.none{width:0;margin-right:0}
+/* 꽃 스티커: 펼치면 상세 칸 오른쪽에 붙고, 큰 화면에서는 마우스를 올리면 카드 밖으로 살짝 붙어 나옵니다 */
+.row{position:relative}
+.peel{pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 7px 9px rgba(70,40,10,.3))}
+.peel.in{float:right;width:138px;height:auto;margin:0 -34px 8px 12px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
+.peel.hover{display:none;position:absolute;z-index:4;right:-86px;top:50%;width:92px;height:auto;margin-top:-46px;transform:rotate(var(--rot))}
+@keyframes stick{from{opacity:0;transform:rotate(calc(var(--rot) - 14deg)) scale(.6)}to{opacity:1;transform:rotate(var(--rot)) scale(1)}}
+@media (hover:hover) and (min-width:1300px){.row:not(.open):hover>.peel.hover{display:block;animation:stick .3s cubic-bezier(.2,1.5,.4,1) both}}
+.chart-cap{clear:both}
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
 .row.open .chev{transform:rotate(180deg)}
@@ -254,6 +258,7 @@ a{color:inherit}
  .duo{grid-template-columns:1fr}
  .kpis{grid-template-columns:1fr 1fr}
  .detail{padding:2px 14px 16px 14px}
+ .peel.in{width:108px;margin:0 -24px 6px 8px}
  .events{grid-template-columns:1fr}
  .controls{grid-template-columns:1fr}
  .auction-table thead{display:none}
@@ -377,6 +382,7 @@ function stickerOf(name){
  const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
  return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
 }
+function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;const rot=((Math.abs(h)%17)-8)||5;return `<img class="peel ${kind}" style="--rot:${rot}deg" src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" decoding="async"${kind==='hover'?' loading="lazy"':''}>`}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
@@ -399,8 +405,8 @@ function rowMarkup(r,scope,mode='today'){
  const loading=num==null&&mode==='today'&&!IDX&&!IDX_ERROR;
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
- const detail=open?`<div class="detail"><div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume):'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}</small></div><div><span>전주 평균</span><b>${fmt(r.previous)}원</b><small>전주 대비 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
- return `<div class="row${open?' open':''}"><div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})">${thumb(r.name)}<span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+ const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume):'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}</small></div><div><span>전주 평균</span><b>${fmt(r.previous)}원</b><small>전주 대비 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
+ return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
@@ -438,7 +444,7 @@ function favItemMarkup(k,mode){
   meta=x.la!=null?`지난주 ${fmt(x.wa)}${x.wa==null?'':'원'}`:'최근 본경매엔 거래 없음';
   diff=x.la!=null&&x.wa>0?x.la/x.wa-1:null;
  }else{price=x.wa!=null?fmt(x.wa)+'원':'—';meta=`전주 ${fmt(x.pa)}${x.pa==null?'':'원'}`;diff=x.change}
- return `<div class="row${opened?' open':''}"><div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})">${thumb(favoriteLabel(k))}<span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
+ return `<div class="row${opened?' open':''}">${peel(favoriteLabel(k),'hover')}<div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})"><span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
 }
 function favoriteDetailMarkup(k){
  if(FAV_OPEN!==k)return '';
@@ -451,7 +457,7 @@ function favoriteDetailMarkup(k){
  const g=IDX.grades?.[favKey(k)];
  const rows=g?g.map(r=>`<tr><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n">${fmt(r.avg)}원</td><td class="n">${fmt(r.volume)}</td></tr>`).join(''):'';
  const table=g===undefined?'<div class="chart-cap">등급별 가격 불러오는 중</div>':`<table class="grade-tbl"><thead><tr><th>품종</th><th>등급</th><th class="n">평균가</th><th class="n">거래량</th></tr></thead><tbody>${rows||'<tr><td colspan="4">최근 본경매 거래 없음</td></tr>'}</tbody></table>`;
- return `<div class="detail">${kpis}${table}<div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart({name:favoriteLabel(k),trend:x.trend},m.weekLabels,x.la!=null?{date:m.latestDate,value:x.la}:null)}</div>`;
+ return `<div class="detail">${peel(favoriteLabel(k),'in')}${kpis}${table}<div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart({name:favoriteLabel(k),trend:x.trend},m.weekLabels,x.la!=null?{date:m.latestDate,value:x.la}:null)}</div>`;
 }
 function drawFavorites(){if(!DATA)return;
  const arr=dataRows().filter(r=>FAV.has(r.name));
