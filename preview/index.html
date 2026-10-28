@@ -232,6 +232,13 @@ a{color:inherit}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* ---------- 하단 ---------- */
+.news-wrap{position:relative}
+.news-deco{display:none}
+@media (min-width:761px){
+ .news-wrap .news-list{position:relative;z-index:1}
+ .news-deco{display:block;position:absolute;z-index:2;pointer-events:none;width:210px;height:auto;right:9%;top:50%;transform:translateY(-50%) rotate(-14deg);filter:drop-shadow(0 12px 14px rgba(80,50,20,.25))}
+ .end-deco{display:none!important}
+}
 .end-deco{display:flex;justify-content:center;margin:-24px 0 -26px;position:relative;z-index:1;pointer-events:none}
 .end-deco img{width:190px;height:auto;filter:drop-shadow(0 10px 14px rgba(80,50,20,.22));transform:rotate(-3deg)}
 .foot{color:var(--ink-3);font-size:12px;line-height:1.7;padding:22px 0 30px;border-top:1px solid var(--line)}
@@ -325,7 +332,7 @@ a{color:inherit}
  <div class="blk">
   <div class="blk-h"><h2>시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
   <p class="blk-sub">화훼 시장 관련 최신 기사예요.</p>
-  <div id="newsTop" class="news-list paper"><div class="empty">기사를 불러오는 중</div></div>
+  <div class="news-wrap"><img class="news-deco" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsTop" class="news-list paper"><div class="empty">기사를 불러오는 중</div></div></div>
  </div>
 </section>
 
@@ -349,7 +356,7 @@ a{color:inherit}
  <div class="blk">
   <div class="blk-h"><h2>시장 소식</h2><span id="newsStamp" class="count"></span></div>
   <p class="blk-sub">화훼 시장 관련 기사를 모았어요. 같은 내용의 기사는 하나만 보여드려요.</p>
-  <div id="newsAll" class="news-list paper"><div class="empty">뉴스를 불러오는 중</div></div>
+  <div class="news-wrap"><img class="news-deco" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsAll" class="news-list paper"><div class="empty">뉴스를 불러오는 중</div></div></div>
  </div>
  <div class="blk">
   <div class="blk-h"><h2>계절·행사 일정</h2></div>
