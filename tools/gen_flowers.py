@@ -5,6 +5,12 @@
 # 4) tools/state.json 에 기록, 미리보기 페이지의 그림 목록과 버전 갱신, 검수용 모아 보기 이미지 생성
 import base64, datetime, json, os, re, subprocess, sys, time, urllib.request, urllib.error, uuid
 
+import builtins
+_LOG=[]
+_p=builtins.print
+def print(*a,**k):
+    _LOG.append(' '.join(str(x) for x in a)); _p(*a,**k)
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = os.path.join(ROOT, 'tools')
 KEY = os.environ.get('OPENAI_API_KEY', '')
@@ -88,13 +94,13 @@ def remove_flat_bg(path):
 
 def main():
     if not KEY:
-        print('OPENAI_API_KEY 없음'); sys.exit(1)
+        print('OPENAI_API_KEY 없음'); return finish([], {}, os.path.join(T, 'state.json'))
     queue = json.load(open(os.path.join(T, 'queue.json'), encoding='utf-8'))
     sp = os.path.join(T, 'state.json')
     state = json.load(open(sp, encoding='utf-8')) if os.path.exists(sp) else {}
     todo = [q for q in queue if q['hint'] and (q['name'] in ONLY if ONLY else q['name'] not in state)][:N]
     if not todo:
-        print('할 일 없음'); return
+        print('할 일 없음', ONLY); return finish([], state, sp)
     raw = os.path.join(T, 'raw'); os.makedirs(raw, exist_ok=True)
     made = []
     model_ok = None
@@ -135,6 +141,7 @@ def main():
 
 
 def finish(made, state, sp):
+    open(os.path.join(T, 'last_run.log'), 'w', encoding='utf-8').write(datetime.datetime.now().isoformat() + '\n' + '\n'.join(_LOG) + '\n')
     json.dump(state, open(sp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     if not made:
         return
