@@ -223,7 +223,11 @@ def finish(made, state, sp):
         php = os.path.join(T, 'photos', n + '.jpg')
         if os.path.exists(php):
             ph = Image.open(php).convert('RGB'); ph.thumbnail((270, 390)); row.paste(ph, (5 + (270 - ph.width) // 2, (400 - ph.height) // 2))
-        ImageDraw.Draw(row).text((10, 8), n, fill=(60, 50, 40))
+        try:
+            from PIL import ImageFont; fnt = ImageFont.truetype('/usr/share/fonts/truetype/nanum/NanumGothicBold.ttf', 22)
+        except Exception:
+            fnt = None
+        ImageDraw.Draw(row).text((12, 10), n, fill=(60, 50, 40), font=fnt)
         for j, c in enumerate([(255, 255, 255), (40, 38, 36), (185, 133, 73)]):
             bg = Image.new('RGBA', (280, 400), c + (255,)); bg.alpha_composite(im, ((280 - im.width) // 2, (400 - im.height) // 2))
             row.paste(bg.convert('RGB'), (280 + j * 280, 0))
