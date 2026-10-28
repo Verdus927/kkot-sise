@@ -131,6 +131,17 @@ a{color:inherit}
  .peel.in{display:none}
 }
 .chart-cap{clear:both}
+.tbl-zone{position:relative}
+.search-peel{position:relative;z-index:3;pointer-events:none}
+.search-peel .peel{display:block;position:absolute;right:-10px;top:-154px;width:104px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
+.row-peel{display:none}
+@media (hover:hover) and (min-width:1360px){
+ .search-peel .peel{right:auto;--pw:min(240px,calc((100vw - 1080px) / 2));width:var(--pw);left:calc(var(--pw) * -1 + 16px);top:8px;transform:rotate(var(--rot2));animation:stick3 .38s cubic-bezier(.2,1.5,.4,1) both}
+ .row-peel{display:block;position:absolute;z-index:25;pointer-events:none;--pw:min(220px,calc((100vw - 1080px) / 2));width:var(--pw);right:calc(var(--pw) * -1 + 16px);opacity:0;transform:translateY(-50%) rotate(var(--rot2)) scale(.6);transition:top .18s ease;filter:drop-shadow(0 8px 10px rgba(70,40,10,.3))}
+ .row-peel.on{animation:stick2 .38s cubic-bezier(.2,1.5,.4,1) both}
+}
+@keyframes stick3{from{opacity:0;transform:rotate(calc(var(--rot2) - 16deg)) scale(.55)}to{opacity:1;transform:rotate(var(--rot2)) scale(1)}}
+
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
 .row.open .chev{transform:rotate(180deg)}
@@ -356,7 +367,7 @@ a{color:inherit}
   <p id="aliasNote" class="guide"></p><div id="auctionGuide" class="guide" role="status"></div>
   <div id="auctionSummary" class="sumline" aria-live="polite"></div>
   <div class="toolbar"><div id="wholeFav" class="whole-fav"></div><label class="sort">정렬<select id="auctionSort" onchange="sortFromSelect()"><option value="name:1">품목·품종순</option><option value="grade:1">등급 높은 순</option><option value="grade:-1">등급 낮은 순</option><option value="avg:-1">평균가 높은 순</option><option value="avg:1">평균가 낮은 순</option><option value="volume:-1">거래량 많은 순</option><option value="volume:1">거래량 적은 순</option><option value="" hidden>표 머리글 기준</option></select></label></div>
-  <div class="tbl-wrap"><table class="auction-table"><thead><tr id="auctionHead"><th aria-label="즐겨찾기"></th><th data-sort="name" onclick="sortBy('name')">품목</th><th data-sort="variety" onclick="sortBy('variety')">품종</th><th data-sort="grade" onclick="sortBy('grade')">등급</th><th data-sort="avg" onclick="sortBy('avg')">평균가</th><th data-sort="max" onclick="sortBy('max')">최고가</th><th data-sort="min" onclick="sortBy('min')">최저가</th><th data-sort="volume" onclick="sortBy('volume')">거래량</th></tr></thead><tbody id="auctionResults"></tbody></table></div>
+  <div class="tbl-zone"><div id="searchPeel" class="search-peel" aria-hidden="true"></div><img id="rowPeel" class="row-peel" alt="" aria-hidden="true"><div class="tbl-wrap"><table class="auction-table"><thead><tr id="auctionHead"><th aria-label="즐겨찾기"></th><th data-sort="name" onclick="sortBy('name')">품목</th><th data-sort="variety" onclick="sortBy('variety')">품종</th><th data-sort="grade" onclick="sortBy('grade')">등급</th><th data-sort="avg" onclick="sortBy('avg')">평균가</th><th data-sort="max" onclick="sortBy('max')">최고가</th><th data-sort="min" onclick="sortBy('min')">최저가</th><th data-sort="volume" onclick="sortBy('volume')">거래량</th></tr></thead><tbody id="auctionResults"></tbody></table></div></div>
  </div>
 </section>
 
@@ -407,7 +418,8 @@ function stickerOf(name){
  const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
  return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
 }
-function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;h=Math.abs(h);const sg=(h>>2)%2?1:-1,rot=sg*(6+h%9),rot2=sg*(10+(h>>4)%13),tapes=['rose','kraft','sage'],tp=tapes[(h>>6)%3];return `<span class="peel ${kind} t-${tp}" style="--rot:${rot}deg;--rot2:${rot2}deg;--trot:${-sg*(4+(h>>8)%6)}deg"><img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" decoding="async"></span>`}
+function peel(name,kind){return peelOf(stickerOf(name),name,kind)}
+function peelOf(f,name,kind){if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;h=Math.abs(h);const sg=(h>>2)%2?1:-1,rot=sg*(6+h%9),rot2=sg*(10+(h>>4)%13),tapes=['rose','kraft','sage'],tp=tapes[(h>>6)%3];return `<span class="peel ${kind} t-${tp}" style="--rot:${rot}deg;--rot2:${rot2}deg;--trot:${-sg*(4+(h>>8)%6)}deg"><img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" decoding="async"></span>`}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
@@ -744,9 +756,10 @@ function drawAuctionResults(){
   ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${on?'★':'☆'} ${esc(n)} 전체</button>`}).join('')}`
   :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요 · 표 머리글을 눌러도 정렬돼요</span>`;
  $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
- t.innerHTML=rows.length?rows.map(r=>{
+ CAT_ROWS=rows;drawSearchPeel(q,rows);
+ t.innerHTML=rows.length?rows.map((r,ri)=>{
   const key=r.name+SEP+r.variety, starred=FAV.has(key);
-  return `<tr><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starred?'★':'☆'}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
+  return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starred?'★':'☆'}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
  }).join(''):`<tr><td colspan="10" class="empty empty-cell">검색 결과가 없어요. aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</td></tr>`;
 }
 // 전체 품목 조회 위쪽의 '내 관심 꽃' 바로가기. 누르면 그 꽃으로 바로 거릅니다.
@@ -768,4 +781,30 @@ function pickFavChip(k){
 
 (function(){const t=document.querySelector('.tabs-wrap');const set=()=>document.documentElement.style.setProperty('--tabs-h',t.offsetHeight+'px');set();addEventListener('resize',set)})();
 getFav();loadLive();
+
+// 전체 품목: 검색하면 가장 많이 나온 꽃의 스티커 하나, 큰 화면에서는 마우스를 올린 줄의 꽃을 오른쪽에 하나만
+let CAT_ROWS=[],SEARCH_STK='',ROW_STK='';
+function rowSticker(r){return stickerOf(r.name+' '+(r.variety||''))}
+function drawSearchPeel(q,rows){
+ const box=$('searchPeel');if(!box)return;SEARCH_STK='';
+ if(!q||!rows.length){box.innerHTML='';return}
+ const cnt=new Map();for(const r of rows){const f=rowSticker(r);if(f)cnt.set(f,(cnt.get(f)||0)+1)}
+ let best='',n=0;for(const [f,c] of cnt)if(c>n){best=f;n=c}
+ SEARCH_STK=best;box.innerHTML=best?peelOf(best,best,'search'):'';
+}
+(function(){
+ const tb=document.getElementById('auctionResults'),img=document.getElementById('rowPeel');if(!tb||!img)return;
+ const big=matchMedia('(hover:hover) and (min-width:1360px)');
+ tb.addEventListener('mouseover',e=>{
+  if(!big.matches)return;const tr=e.target.closest('tr[data-i]');if(!tr)return;
+  const r=CAT_ROWS[+tr.dataset.i];const f=r?rowSticker(r):'';
+  if(!f||f===SEARCH_STK){img.classList.remove('on');ROW_STK='';return}
+  img.style.top=(tr.offsetTop+tr.offsetHeight/2)+'px';
+  if(f!==ROW_STK){ROW_STK=f;let h=0;for(const ch of f)h=(h*31+ch.charCodeAt(0))|0;h=Math.abs(h);
+   img.style.setProperty('--rot2',(((h>>2)%2?1:-1)*(10+(h>>4)%13))+'deg');
+   img.src=`${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}`;img.classList.remove('on');void img.offsetWidth}
+  img.classList.add('on');
+ });
+ tb.addEventListener('mouseleave',()=>{img.classList.remove('on');ROW_STK=''});
+})();
 </script></body></html>
