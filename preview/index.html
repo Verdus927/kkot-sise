@@ -288,7 +288,10 @@ a{color:inherit}
  .bottom-bar button.sel .ic{color:var(--rose)}
  .duo{grid-template-columns:1fr}
  .detail{padding:2px 14px 16px 14px}
- .peel.in{width:128px;margin:-2px -26px 8px 0}
+ .detail{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:4px}
+ .detail>*{grid-column:1/-1}
+ .detail>.kpis{grid-column:1;grid-row:1;margin-bottom:14px}
+ .detail>.peel.in{grid-column:2;grid-row:1;align-self:center;float:none;width:120px;margin:0 -30px 14px 0}
  /* 휴대폰: 숫자 4칸을 한 줄씩 쌓아서 큰 금액·큰 글씨 설정에서도 줄바꿈 없이 */
  .kpis{grid-template-columns:1fr;gap:6px;overflow:hidden}
  .kpis>div{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:8px;padding:9px 12px;border-radius:14px;min-width:0}
@@ -448,7 +451,7 @@ function rowMarkup(r,scope,mode='today'){
  const loading=num==null&&mode==='today'&&!IDX&&!IDX_ERROR;
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
- const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume):'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}</small></div><div><span>전주 평균</span><b>${fmt(r.previous)}원</b><small>전주 대비 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
+ const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume)+'속':'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}속</small></div><div><span>2주 전 평균</span><b>${fmt(r.previous)}원</b><small>지난주가 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
  return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
@@ -496,7 +499,7 @@ function favoriteDetailMarkup(k){
  if(!x)return '<div class="detail"><div class="empty">최근 8주 동안 이 품목·품종의 본경매 거래가 없습니다.</div></div>';
  const m=IDX.meta||{};
  const yc=x.wa!=null&&x.ya>0?x.wa/x.ya-1:null;
- const kpis=`<div class="kpis"><div><span>${esc(shortDate(m.latestDate))} 본경매</span><b>${x.la!=null?fmt(x.la)+'원':'—'}</b><small>${x.la!=null?'거래 '+fmt(x.lq):(x.lastDate?'마지막 '+esc(shortDate(x.lastDate))+' '+fmt(x.lastAvg)+'원':'거래 없음')}</small></div><div><span>지난주 평균</span><b>${fmt(x.wa)}${x.wa==null?'':'원'}</b><small>거래 ${fmt(x.wq)}</small></div><div><span>전주 평균</span><b>${fmt(x.pa)}${x.pa==null?'':'원'}</b><small>전주 대비 ${dlt(x.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(x.ya)}${x.ya==null?'':'원'}</b><small>지난주가 ${dlt(yc)}</small></div></div>`;
+ const kpis=`<div class="kpis"><div><span>${esc(shortDate(m.latestDate))} 본경매</span><b>${x.la!=null?fmt(x.la)+'원':'—'}</b><small>${x.la!=null?'거래 '+fmt(x.lq)+'속':(x.lastDate?'마지막 '+esc(shortDate(x.lastDate))+' '+fmt(x.lastAvg)+'원':'거래 없음')}</small></div><div><span>지난주 평균</span><b>${fmt(x.wa)}${x.wa==null?'':'원'}</b><small>거래 ${fmt(x.wq)}속</small></div><div><span>2주 전 평균</span><b>${fmt(x.pa)}${x.pa==null?'':'원'}</b><small>지난주가 ${dlt(x.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(x.ya)}${x.ya==null?'':'원'}</b><small>지난주가 ${dlt(yc)}</small></div></div>`;
  const g=IDX.grades?.[favKey(k)];
  const rows=g?g.map(r=>`<tr><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n">${fmt(r.avg)}원</td><td class="n">${fmt(r.volume)}</td></tr>`).join(''):'';
  const table=g===undefined?'<div class="chart-cap">등급별 가격 불러오는 중</div>':`<table class="grade-tbl"><thead><tr><th>품종</th><th>등급</th><th class="n">평균가</th><th class="n">거래량</th></tr></thead><tbody>${rows||'<tr><td colspan="4">최근 본경매 거래 없음</td></tr>'}</tbody></table>`;
