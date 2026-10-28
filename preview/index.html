@@ -131,6 +131,18 @@ a{color:inherit}
  .peel.in{display:none}
 }
 .chart-cap{clear:both}
+.hstar{display:inline-block;vertical-align:-5px;overflow:visible}
+.hstar path{fill:rgba(184,105,122,0);stroke:#B9AC98;stroke-width:1.5;stroke-linejoin:round;transition:fill .2s,stroke .2s}
+.hstar.on path{fill:rgba(184,105,122,.85);stroke:#8E4A5A}
+.whole-fav .hstar{width:16px;height:16px;vertical-align:-3px}
+/* 그래프: 색연필 느낌 + 터치하면 값 */
+.chart{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.chart text{font-family:var(--font-hand)}
+.chart .hit{fill:transparent;cursor:pointer}
+.legend .tap-hint{color:var(--ink-3);margin-left:auto}
+.chart .tip{pointer-events:none;animation:tipin .18s ease both}
+@keyframes tipin{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
 .tbl-zone{position:relative}
 .search-peel{position:relative;z-index:3;pointer-events:none}
 .search-peel .peel{display:block;position:absolute;right:-10px;top:-154px;width:104px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
@@ -317,6 +329,10 @@ a{color:inherit}
 }
 </style><script>if(/SamsungBrowser/i.test(navigator.userAgent))document.documentElement.classList.add('sbrowser')</script></head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+ <filter id="pencil" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/></filter>
+ <filter id="crayon" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 2.05" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="t"/><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="t" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
+</defs></svg>
 <div id="previewMark" class="previewsign" style="display:none">디자인 확인용 · 시연 데이터</div>
 <header class="top"><div class="wrap">
  <div class="bar"><span class="brand"><span class="brand-mark">✿</span><span class="brand-ko">꽃시세</span><span class="brand-en">Bloom Market</span></span><span id="status" class="status">불러오는 중</span><button class="icon-btn" onclick="loadLive()" aria-label="새로고침" title="새로고침">↻</button></div>
@@ -430,6 +446,9 @@ function stickerOf(name){
 function peel(name,kind){return peelOf(stickerOf(name),name,kind)}
 function peelOf(f,name,kind){if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;h=Math.abs(h);const sg=(h>>2)%2?1:-1,rot=sg*(6+h%9),rot2=sg*(10+(h>>4)%13),tapes=['rose','kraft','sage'],tp=tapes[(h>>6)%3];return `<span class="peel ${kind} t-${tp}" style="--rot:${rot}deg;--rot2:${rot2}deg;--trot:${-sg*(4+(h>>8)%6)}deg"><img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" decoding="async"></span>`}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" loading="lazy" decoding="async">`:''}</span>`}
+
+// 손으로 그린 별 (담으면 장미색으로 칠해짐)
+function starSvg(on){return `<svg class="hstar${on?' on':''}" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12.2 2.6c.9 2.3 1.8 4.6 2.9 6.6 2.4.1 4.7.2 6.9.6-1.8 1.6-3.6 3-5.4 4.6.6 2.4 1.2 4.6 1.6 6.9-2.1-1.3-4.1-2.6-6.1-3.8-2 1.3-4 2.6-6.1 3.7.6-2.3 1.2-4.6 1.8-6.8C6 12.8 4.1 11.4 2.2 9.9c2.4-.3 4.7-.4 7-.6.9-2.2 1.9-4.4 3-6.7z" filter="url(#pencil)"/></svg>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
 const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
@@ -452,7 +471,7 @@ function rowMarkup(r,scope,mode='today'){
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
  const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume)+'속':'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}속</small></div><div><span>2주 전 평균</span><b>${fmt(r.previous)}원</b><small>지난주가 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
- return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+ return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
@@ -462,15 +481,46 @@ function chart(r,labels,extra){
  if(!points.length&&!ex)return '<div class="empty">주간 추이가 없습니다.</div>';
  const slots=a.length+(ex?1:0),exI=a.length;
  const vals=points.map(p=>p.v).concat(ex?[ex.value]:[]);
- const narrow=window.innerWidth<700,w=narrow?420:760,h=narrow?230:190,left=narrow?14:46,right=narrow?40:46,top=28,bottom=34,FS=narrow?12:10,min=Math.max(0,Math.min(...vals)*.9),max=Math.max(...vals)*1.08||1;
+ const narrow=window.innerWidth<700,w=narrow?420:760,h=narrow?240:200,left=narrow?18:46,right=narrow?40:46,top=40,bottom=34,FS=narrow?17:15,min=Math.max(0,Math.min(...vals)*.9),max=Math.max(...vals)*1.08||1;
  const xx=i=>left+(w-left-right)*i/Math.max(1,slots-1),yy=v=>top+(max-v)/(max-min||1)*(h-top-bottom);
- const GREEN='#2F3F34',ORANGE='#B8697A';
- let paths=[],current=[];a.forEach((v,i)=>{if(v==null){if(current.length)paths.push(current);current=[]}else current.push(`${xx(i)},${yy(v)}`)});if(current.length)paths.push(current);
+ const INK='#2F3F34',ROSE='#B8697A';
+ let paths=[],current=[];a.forEach((v,i)=>{if(v==null){if(current.length)paths.push(current);current=[]}else current.push([xx(i),yy(v)])});if(current.length)paths.push(current);
+ const pl=(p,dx,dy)=>p.map(([x,y])=>`${(x+dx).toFixed(1)},${(y+dy).toFixed(1)}`).join(' ');
+ const line=p=>`<polyline points="${pl(p,0,0)}" stroke="${INK}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#crayon)"/><polyline points="${pl(p,.8,-.6)}" stroke="${INK}" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round" fill="none" filter="url(#pencil)"/>`;
  const last=points[points.length-1];
- const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ORANGE}" stroke-width="1.6" stroke-dasharray="4 4"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ORANGE}" stroke="#fff" stroke-width="2"><title>${esc(ex.date)} 본경매: ${fmt(ex.value)}원</title></circle><text x="${xx(exI)}" y="${yy(ex.value)-11}" font-size="${FS+1}" font-weight="700" text-anchor="end" fill="${ORANGE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" font-weight="700" text-anchor="middle" fill="${ORANGE}">${esc(shortDate(ex.date))}</text>`:'';
- const legend=`<div class="legend"><span><i style="background:${GREEN}"></i>주간 평균 (월·수·금)</span>${ex?`<span><i style="background:${ORANGE}"></i>최근 본경매 ${esc(shortDate(ex.date))} 하루 가격</span>`:''}</div>`;
- return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이">${[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#E2D5BF" stroke-dasharray="2 4"/>`).join('')}${paths.map(p=>`<polyline points="${p.join(' ')}" stroke="${GREEN}" stroke-width="2.5" stroke-linecap="round" fill="none"/>`).join('')}${points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3" fill="${GREEN}"><title>${esc(L[p.i]||'')}: ${fmt(p.v)}원</title></circle>`).join('')}${a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#9A8F81">${esc(String(L[i]||'').replace(/주\(.*\)$|주$/,''))}</text>`).join('')}${exMark}</svg>${legend}`;
+ const lab=i=>String(L[i]||'').replace(/주\(.*\)$|주$/,'');
+ const hits=[];
+ points.forEach(p=>hits.push({i:p.i,x:xx(p.i),y:yy(p.v),t:`${lab(p.i)} 주 평균`,v:p.v,c:INK}));
+ if(ex)hits.push({i:exI,x:xx(exI),y:yy(ex.value),t:`${shortDate(ex.date)} 본경매`,v:ex.value,c:ROSE});
+ const colW=(w-left-right)/Math.max(1,slots-1);
+ const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ROSE}" stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round" filter="url(#pencil)"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ROSE}" fill-opacity=".85" stroke="${ROSE}" stroke-width="1.5" filter="url(#crayon)"/><text class="exv" x="${xx(exI)}" y="${yy(ex.value)-12}" font-size="${FS+2}" text-anchor="end" fill="${ROSE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="${ROSE}">${esc(shortDate(ex.date))}</text>`:'';
+ const legend=`<div class="legend"><span><i style="background:${INK}"></i>주간 평균 (월·수·금)</span>${ex?`<span><i style="background:${ROSE}"></i>최근 본경매 ${esc(shortDate(ex.date))} 하루 가격</span>`:''}<span class="tap-hint">점을 누르면 가격이 보여요</span></div>`;
+ return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이" data-w="${w}">`
+  +[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#D9CBB2" stroke-width="1" stroke-dasharray="3 5" filter="url(#pencil)"/>`).join('')
+  +paths.map(line).join('')
+  +points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3.6" fill="#FCF8F0" stroke="${INK}" stroke-width="1.8" filter="url(#pencil)"/>`).join('')
+  +a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#9A8F81">${esc(lab(i))}</text>`).join('')
+  +exMark
+  +hits.map(t=>`<rect class="hit" x="${(t.x-colW/2).toFixed(1)}" y="0" width="${colW.toFixed(1)}" height="${h}" data-x="${t.x.toFixed(1)}" data-y="${t.y.toFixed(1)}" data-t="${esc(t.t)}" data-v="${fmt(t.v)}원" data-c="${t.c}" data-fs="${FS}"/>`).join('')
+  +`</svg>${legend}`;
 }
+// 그래프 점(세로 줄 어디든)을 누르면 그 주 가격을 말풍선으로 보여 줍니다
+function chartTip(rect){
+ const svg=rect.ownerSVGElement;svg.querySelectorAll('.tip').forEach(n=>n.remove());
+ const ex=svg.querySelector('.exv');if(ex)ex.style.opacity='0';
+ const x=+rect.dataset.x,y=+rect.dataset.y,fs=+rect.dataset.fs,W=+svg.dataset.w,c=rect.dataset.c;
+ const t1=rect.dataset.t,t2=rect.dataset.v,bw=Math.max(t1.length*fs*.62,t2.length*fs*.66)+22,bh=fs*2.5+6;
+ let bx=Math.min(Math.max(x-bw/2,4),W-bw-4),by=y-bh-14;if(by<2)by=y+14;
+ const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','tip');
+ g.innerHTML=`<line x1="${x}" x2="${x}" y1="${Math.min(y,by+bh)}" y2="${Math.max(y,by)}" stroke="${c}" stroke-width="1" stroke-dasharray="2 3"/><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="10" fill="#FFFDF8" stroke="${c}" stroke-width="1.4" filter="url(#pencil)"/><text x="${bx+bw/2}" y="${by+fs+3}" font-size="${fs-1}" text-anchor="middle" fill="#6B6257">${esc(t1)}</text><text x="${bx+bw/2}" y="${by+fs*2.2+3}" font-size="${fs+3}" text-anchor="middle" fill="${c}" font-weight="700">${esc(t2)}</text><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="2"/>`;
+ svg.appendChild(g);
+}
+document.addEventListener('click',e=>{
+ const r=e.target.closest&&e.target.closest('.chart .hit');
+ if(r){e.stopPropagation();chartTip(r);return}
+ document.querySelectorAll('.chart .tip').forEach(n=>n.remove());document.querySelectorAll('.chart .exv').forEach(n=>n.style.opacity='');
+},true);
+document.addEventListener('mouseover',e=>{const r=e.target.closest&&e.target.closest('.chart .hit');if(r&&matchMedia('(hover:hover)').matches)chartTip(r)});
 function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map(r=>rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
 function favoriteLabel(key){const p=key.split(SEP);return p.length>1?(p[1]==='*'?(p[0]==='*'?'절화 전체':p[0]+' 전체'):p[0]+' · '+p[1]):key}
 function favoriteDetails(name){
@@ -490,7 +540,7 @@ function favItemMarkup(k,mode){
   meta=x.la!=null?`지난주 ${fmt(x.wa)}${x.wa==null?'':'원'}`:'최근 본경매엔 거래 없음';
   diff=x.la!=null&&x.wa>0?x.la/x.wa-1:null;
  }else{price=x.wa!=null?fmt(x.wa)+'원':'—';meta=`전주 ${fmt(x.pa)}${x.pa==null?'':'원'}`;diff=x.change}
- return `<div class="row${opened?' open':''}">${peel(favoriteLabel(k),'hover')}<div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})"><span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
+ return `<div class="row${opened?' open':''}">${peel(favoriteLabel(k),'hover')}<div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">${starSvg(true)}</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})"><span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
 }
 function favoriteDetailMarkup(k){
  if(FAV_OPEN!==k)return '';
@@ -762,13 +812,13 @@ function drawAuctionResults(){
  const names=[...new Set(rows.map(r=>r.name))];
  // 검색어가 있으면 '품목 전체로 즐겨찾기' 버튼, 없으면 같은 자리에 안내 문구 (정렬 기준 줄이 비어 보이지 않게)
  $('wholeFav').innerHTML=q&&names.length&&names.length<=8
-  ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${on?'★':'☆'} ${esc(n)} 전체</button>`}).join('')}`
+  ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${starSvg(on)} ${esc(n)} 전체</button>`}).join('')}`
   :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요 · 표 머리글을 눌러도 정렬돼요</span>`;
  $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
  CAT_ROWS=rows;drawSearchPeel(q,rows);
  t.innerHTML=rows.length?rows.map((r,ri)=>{
   const key=r.name+SEP+r.variety, starred=FAV.has(key);
-  return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starred?'★':'☆'}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
+  return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starSvg(starred)}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
  }).join(''):`<tr><td colspan="10" class="empty empty-cell">검색 결과가 없어요. aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</td></tr>`;
 }
 // 전체 품목 조회 위쪽의 '내 관심 꽃' 바로가기. 누르면 그 꽃으로 바로 거릅니다.
