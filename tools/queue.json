@@ -5,11 +5,13 @@
 },
 {
 "name": "튜립",
-"hint": "Tulip (Tulipa): cup-shaped 6-tepal flowers on single smooth stems, broad grey-green strap leaves"
+"hint": "Tulip (Tulipa): cup-shaped 6-tepal flowers on single smooth stems, broad grey-green strap leaves",
+"sci": "Tulipa"
 },
 {
 "name": "쿠루쿠마",
-"hint": "Curcuma alismatifolia (Siam tulip): upright cone of pink papery bracts with green-tipped lower bracts on a tall bare stem, long paddle-shaped leaves"
+"hint": "Curcuma alismatifolia (Siam tulip): upright cone of pink papery bracts with green-tipped lower bracts on a tall bare stem, long paddle-shaped leaves",
+"sci": "Curcuma alismatifolia"
 },
 {
 "name": "석죽",
@@ -29,7 +31,8 @@
 },
 {
 "name": "천일홍",
-"hint": "Globe amaranth (Gomphrena globosa): small round clover-like papery globe flower heads in magenta/purple/white on thin stems, narrow oval leaves"
+"hint": "Globe amaranth (Gomphrena globosa): small round clover-like papery globe flower heads in magenta/purple/white on thin stems, narrow oval leaves",
+"sci": "Gomphrena globosa"
 },
 {
 "name": "베로니카",
@@ -97,7 +100,8 @@
 },
 {
 "name": "캐모마일",
-"hint": "Chamomile / Matricaria: many small daisies with white petals and domed yellow center, feathery finely divided leaves"
+"hint": "Chamomile / Matricaria: many small daisies with white petals and domed yellow center, feathery finely divided leaves",
+"sci": "Matricaria chamomilla"
 },
 {
 "name": "파니쿰",
@@ -141,7 +145,8 @@
 },
 {
 "name": "버들나무",
-"hint": "Pussy willow (Salix): straight brown-red twigs with soft silvery-grey fuzzy catkins"
+"hint": "Pussy willow (Salix): straight brown-red twigs with soft silvery-grey fuzzy catkins",
+"sci": "Salix caprea"
 },
 {
 "name": "호엽란",
@@ -153,11 +158,13 @@
 },
 {
 "name": "연밥",
-"hint": "Dried lotus seed pod: flat-topped cone-shaped brown pod with round seed holes on a long stem"
+"hint": "Dried lotus seed pod: flat-topped cone-shaped brown pod with round seed holes on a long stem",
+"sci": "Nelumbo nucifera"
 },
 {
 "name": "조팝",
-"hint": "Spiraea (bridal wreath): long arching twigs densely covered with tiny white 5-petal flowers in small clusters, small leaves"
+"hint": "Spiraea (bridal wreath): long arching twigs densely covered with tiny white 5-petal flowers in small clusters, small leaves",
+"sci": "Spiraea cantoniensis"
 },
 {
 "name": "핑크뮬리",
@@ -169,7 +176,8 @@
 },
 {
 "name": "글로리오사",
-"hint": "Gloriosa lily: flowers with wavy reflexed petals red with yellow edges swept backward, long curving stamens, tendril-tipped leaves"
+"hint": "Gloriosa lily: flowers with wavy reflexed petals red with yellow edges swept backward, long curving stamens, tendril-tipped leaves",
+"sci": "Gloriosa superba"
 },
 {
 "name": "기린초",
@@ -193,7 +201,8 @@
 },
 {
 "name": "산더소니아",
-"hint": "Sandersonia aurantiaca (Christmas bells): hanging orange lantern-shaped bell flowers along a slender stem, narrow leaves"
+"hint": "Sandersonia aurantiaca (Christmas bells): hanging orange lantern-shaped bell flowers along a slender stem, narrow leaves",
+"sci": "Sandersonia aurantiaca"
 },
 {
 "name": "설유화",
@@ -205,7 +214,8 @@
 },
 {
 "name": "솔리다스터",
-"hint": "x Solidaster: sprays of tiny pale yellow star-like daisies on branching stems, narrow leaves"
+"hint": "x Solidaster: sprays of tiny pale yellow star-like daisies on branching stems, narrow leaves",
+"sci": "× Solidaster"
 },
 {
 "name": "신지매",
@@ -237,7 +247,8 @@
 },
 {
 "name": "시레네",
-"hint": "Silene (campion, florist type 'Green Bells'): inflated papery bladder-like calyces in pale green with small white petals on branching stems"
+"hint": "Silene (campion, florist type 'Green Bells'): inflated papery bladder-like calyces in pale green with small white petals on branching stems",
+"sci": "Silene vulgaris"
 },
 {
 "name": "여우얼굴",
@@ -329,7 +340,8 @@
 },
 {
 "name": "하이페리콤",
-"hint": "Hypericum berries (florist St John's wort): clusters of glossy oval berries (red, peach, green) with small pointed sepals, oval opposite leaves"
+"hint": "Hypericum berries (florist St John's wort): clusters of glossy oval berries (red, peach, green) with small pointed sepals, oval opposite leaves",
+"sci": "Hypericum androsaemum"
 },
 {
 "name": "남천",
@@ -349,7 +361,8 @@
 },
 {
 "name": "아이리스",
-"hint": "Dutch iris: violet-blue flowers with three falls marked with a yellow blotch and upright standards, sword-like leaves"
+"hint": "Dutch iris: violet-blue flowers with three falls marked with a yellow blotch and upright standards, sword-like leaves",
+"sci": "Iris × hollandica"
 },
 {
 "name": "억새풀",
@@ -361,7 +374,8 @@
 },
 {
 "name": "캄파눌라",
-"hint": "Campanula medium (Canterbury bells): upright stem with large bell-shaped lavender-blue or white flowers"
+"hint": "Campanula medium (Canterbury bells): upright stem with large bell-shaped lavender-blue or white flowers",
+"sci": "Campanula medium"
 },
 {
 "name": "마타리",
@@ -409,11 +423,13 @@
 },
 {
 "name": "히야신스",
-"hint": "Hyacinth: dense cylindrical spike of waxy star-shaped bell florets in blue/pink/white, thick fleshy stem, strap leaves"
+"hint": "Hyacinth: dense cylindrical spike of waxy star-shaped bell florets in blue/pink/white, thick fleshy stem, strap leaves",
+"sci": "Hyacinthus orientalis"
 },
 {
 "name": "심비디움",
-"hint": "Cymbidium orchid: arching spray of waxy orchid flowers with a spotted lip, long narrow strap leaves"
+"hint": "Cymbidium orchid: arching spray of waxy orchid flowers with a spotted lip, long narrow strap leaves",
+"sci": "Cymbidium"
 },
 {
 "name": "이끼시아",
@@ -433,7 +449,8 @@
 },
 {
 "name": "부들",
-"hint": "Cattail (Typha): tall stiff stems topped with a brown velvety cylindrical sausage-shaped seed head, long flat leaves"
+"hint": "Cattail (Typha): tall stiff stems topped with a brown velvety cylindrical sausage-shaped seed head, long flat leaves",
+"sci": "Typha latifolia"
 },
 {
 "name": "부프리움",
@@ -441,7 +458,8 @@
 },
 {
 "name": "수수",
-"hint": "Sorghum: drooping clusters of round reddish-brown grains on a tall grass stalk"
+"hint": "Sorghum: drooping clusters of round reddish-brown grains on a tall grass stalk",
+"sci": "Sorghum bicolor"
 },
 {
 "name": "유포로비아",
@@ -449,11 +467,13 @@
 },
 {
 "name": "토마토",
-"hint": "Cherry tomato vine stem with clusters of small round red and green tomatoes and serrated leaves"
+"hint": "Cherry tomato vine stem with clusters of small round red and green tomatoes and serrated leaves",
+"sci": "Solanum lycopersicum"
 },
 {
 "name": "까치밥",
-"hint": "Currant (Ribes) branch with hanging translucent red berry strands and lobed leaves"
+"hint": "Currant (Ribes) branch with hanging translucent red berry strands and lobed leaves",
+"sci": "Ribes rubrum"
 },
 {
 "name": "꽃양배추",
@@ -465,7 +485,8 @@
 },
 {
 "name": "데이지",
-"hint": "Daisy (Bellis / Leucanthemum): white ray petals around a yellow center"
+"hint": "Daisy (Bellis / Leucanthemum): white ray petals around a yellow center",
+"sci": "Leucanthemum vulgare"
 },
 {
 "name": "라이스플라워",
@@ -485,7 +506,8 @@
 },
 {
 "name": "싸리",
-"hint": "Bush clover (Lespedeza): arching thin branches with small trifoliate leaves and tiny pea-like pink-purple flowers"
+"hint": "Bush clover (Lespedeza): arching thin branches with small trifoliate leaves and tiny pea-like pink-purple flowers",
+"sci": "Lespedeza bicolor"
 },
 {
 "name": "아가판서스",
@@ -513,7 +535,8 @@
 },
 {
 "name": "팜파스",
-"hint": "Pampas grass (Cortaderia): large fluffy beige-cream feathery plumes on tall stems"
+"hint": "Pampas grass (Cortaderia): large fluffy beige-cream feathery plumes on tall stems",
+"sci": "Cortaderia selloana"
 },
 {
 "name": "소재",

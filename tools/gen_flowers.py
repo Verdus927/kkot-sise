@@ -3,7 +3,7 @@
 # 2) 승인된 그림 몇 장을 견본으로 보여 주며 같은 그림체로 그려 달라고 OpenAI에 주문
 # 3) tools/process_flower.py 로 체크무늬·번짐 정리 → img/flowers/<이름>.webp
 # 4) tools/state.json 에 기록, 미리보기 페이지의 그림 목록과 버전 갱신, 검수용 모아 보기 이미지 생성
-import base64, datetime, json, os, re, subprocess, sys, time, urllib.request, urllib.error, uuid
+import base64, datetime, json, os, re, subprocess, sys, time, urllib.parse, urllib.request, urllib.error, uuid
 
 import builtins
 _LOG=[]
@@ -23,7 +23,7 @@ REFS = ['금꿩의다리', '국화', '리시안사스', '스타티스']
 PROMPT = """다음 식물을 제작한다: {name}
 식물 특징(실제 외형 기준): {hint}
 
-첨부한 참고 이미지들과 똑같은 그림체, 구도, 색감, 종이·테이프·밀랍 인장 표현으로 같은 시리즈처럼 만든다. 참고 이미지 속 꽃을 그리지 말고, 위 식물만 그린다.
+{photo_note}첨부한 그림 견본들과 똑같은 그림체, 구도, 색감, 종이·테이프·밀랍 인장 표현으로 같은 시리즈처럼 만든다. 그림 견본 속 꽃을 그리지 말고, 위 식물만 그린다.
 
 위 식물을 실제 식물 특징에 맞게 표현한 빈티지 압화 콜라주 이미지를 만든다. 꽃 모양, 잎 모양, 줄기 형태를 실제와 가깝게 반영한다.
 
@@ -59,12 +59,64 @@ def multipart(fields, files):
     return body, f'multipart/form-data; boundary={b}'
 
 
-def call(model, prompt, transparent):
+UA = {'User-Agent': 'kkot-sise-flower-bot/1.0 (https://verdus927.github.io/kkot-sise/)'}
+
+
+def sci_name(hint):
+    m = re.search(r'\(([A-Z][a-z]+(?: x)? [a-z][a-z\-]+)', hint)
+    if m:
+        return m.group(1)
+    m = re.search(r'\b([A-Z][a-z]+(?: x)? [a-z][a-z\-]+)\b', hint)
+    if m and m.group(1).split()[-1] not in ('type', 'florist', 'filler', 'leaf', 'branch'):
+        return m.group(1)
+    m = re.search(r'\b([A-Z][a-z]{3,})\b', hint)
+    return m.group(1) if m else ''
+
+
+def get_json(url):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=40) as r:
+        return json.loads(r.read())
+
+
+def fetch_photos(hint, k=2, sci=''):
+    # 실제 식물 사진: 위키백과 대표 사진 + 위키미디어 공용 검색 (자유 이용 사진)
+    q = sci or sci_name(hint)
+    if not q:
+        return [], ''
+    urls = []
+    try:
+        j = get_json('https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&piprop=thumbnail&pithumbsize=768&redirects=1&format=json&titles=' + urllib.parse.quote(q))
+        for pg in j.get('query', {}).get('pages', {}).values():
+            t = pg.get('thumbnail', {}).get('source')
+            if t and not t.lower().endswith('.svg.png'):
+                urls.append(t)
+    except Exception as e:
+        print('  사진(위키백과) 실패', q, e)
+    try:
+        j = get_json('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=8&prop=imageinfo&iiprop=url|mime&iiurlwidth=768&format=json&gsrsearch=' + urllib.parse.quote(q + ' flower'))
+        pages = sorted(j.get('query', {}).get('pages', {}).values(), key=lambda p: p.get('index', 99))
+        for pg in pages:
+            ii = (pg.get('imageinfo') or [{}])[0]
+            if ii.get('mime') == 'image/jpeg' and ii.get('thumburl') and ii['thumburl'] not in urls:
+                urls.append(ii['thumburl'])
+    except Exception as e:
+        print('  사진(공용) 실패', q, e)
+    out = []
+    for u in urls[:k]:
+        try:
+            with urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=40) as r:
+                out.append(r.read())
+        except Exception as e:
+            print('  사진 받기 실패', u, e)
+    return out, q
+
+
+def call(model, prompt, transparent, photos=()):
     fields = [('model', model), ('prompt', prompt), ('size', '1024x1536'), ('quality', QUALITY), ('n', '1')]
     if transparent:
         fields += [('background', 'transparent'), ('output_format', 'png')]
-    files = []
-    for r in REFS:
+    files = [('image[]', f'photo{i}.jpg', b, 'image/jpeg') for i, b in enumerate(photos)]
+    for r in REFS[:max(1, 5 - len(photos))]:
         p = os.path.join(ROOT, 'img', 'flowers', r + '.webp')
         if os.path.exists(p):
             files.append(('image[]', f'ref{len(files)}.webp', open(p, 'rb').read(), 'image/webp'))
@@ -106,13 +158,18 @@ def main():
     model_ok = None
     for q in todo:
         name = q['name']
-        prompt = PROMPT.format(name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
+        photos, sq = fetch_photos(q['hint'], sci=q.get('sci', '')) if not q['hint'].startswith('BUNDLE') else ([], '')
+        print(f'{name}: 실제 사진 {len(photos)}장 ({sq})')
+        if photos:
+            os.makedirs(os.path.join(T, 'photos'), exist_ok=True); open(os.path.join(T, 'photos', name + '.jpg'), 'wb').write(photos[0])
+        note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})의 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따른다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
+        prompt = PROMPT.format(photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
         img, used, transparent = None, None, True
         for m in ([model_ok] if model_ok else MODELS):
             for tr in (True, False):
                 try:
                     p = prompt if tr else prompt.replace('배경은 완전히 투명하게 한다.', '배경은 아무것도 없는 단색 흰색으로만 채운다.')
-                    img, usage = call(m, p, tr)
+                    img, usage = call(m, p, tr, photos)
                     used, transparent = m, tr
                     break
                 except urllib.error.HTTPError as e:
@@ -162,12 +219,16 @@ def finish(made, state, sp):
     tiles = []
     for n in made:
         im = Image.open(os.path.join(ROOT, 'img', 'flowers', n + '.webp')).convert('RGBA'); im.thumbnail((260, 380))
-        row = Image.new('RGB', (840, 400), (250, 246, 238))
+        row = Image.new('RGB', (1120, 400), (250, 246, 238))
+        php = os.path.join(T, 'photos', n + '.jpg')
+        if os.path.exists(php):
+            ph = Image.open(php).convert('RGB'); ph.thumbnail((270, 390)); row.paste(ph, (5 + (270 - ph.width) // 2, (400 - ph.height) // 2))
+        ImageDraw.Draw(row).text((10, 8), n, fill=(60, 50, 40))
         for j, c in enumerate([(255, 255, 255), (40, 38, 36), (185, 133, 73)]):
             bg = Image.new('RGBA', (280, 400), c + (255,)); bg.alpha_composite(im, ((280 - im.width) // 2, (400 - im.height) // 2))
-            row.paste(bg.convert('RGB'), (j * 280, 0))
+            row.paste(bg.convert('RGB'), (280 + j * 280, 0))
         tiles.append(row)
-    sheet = Image.new('RGB', (840, 400 * len(tiles)))
+    sheet = Image.new('RGB', (1120, 400 * len(tiles)))
     for i, t in enumerate(tiles):
         sheet.paste(t, (0, 400 * i))
     os.makedirs(os.path.join(ROOT, 'review'), exist_ok=True)
