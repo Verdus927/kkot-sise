@@ -287,9 +287,15 @@ a{color:inherit}
  .bottom-bar button.sel{color:var(--forest);background:var(--rose-bg);border:0}
  .bottom-bar button.sel .ic{color:var(--rose)}
  .duo{grid-template-columns:1fr}
- .kpis{grid-template-columns:1fr 1fr}
  .detail{padding:2px 14px 16px 14px}
- .peel.in{width:150px;margin:-2px -24px 8px 2px}
+ .peel.in{width:128px;margin:-2px -26px 8px 0}
+ /* 휴대폰: 숫자 4칸을 한 줄씩 쌓아서 큰 금액·큰 글씨 설정에서도 줄바꿈 없이 */
+ .kpis{grid-template-columns:1fr;gap:6px;overflow:hidden}
+ .kpis>div{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:8px;padding:9px 12px;border-radius:14px;min-width:0}
+ .kpis>div>span{font-size:12px;white-space:normal;line-height:1.35}
+ .kpis b{margin:0;text-align:right;white-space:nowrap;font-size:16px}
+ .kpis small{grid-column:1/-1;text-align:right;margin-top:0;white-space:nowrap}
+ .kpis small *{display:inline!important;margin-left:4px}
  .peel:before{height:16px}
  .events{grid-template-columns:1fr}
  .controls{grid-template-columns:1fr}
