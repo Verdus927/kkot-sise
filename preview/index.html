@@ -369,9 +369,15 @@ const SEASON_SITE_URL='';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
 const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
 const STK=(location.pathname.includes('/preview/')?'../':'')+'img/';
-const STICKERS=[['국화','chrysanthemum'],['장미','rose'],['카네이션','carnation'],['안개','gypsophila'],['거베라','gerbera'],['수국','hydrangea'],['알스트','alstroemeria'],['유칼립','eucalyptus'],['메리골드','marigold'],['라넌','ranunculus'],['스토크','stock'],['스톡','stock'],['튤립','tulip'],['튜립','tulip'],['하이페리','hypericum'],['코스모스','cosmos'],['프리지','freesia'],['히페리','hypericum'],['레더','leatherleaf'],['캄파','campanula'],['캐모마일','chamomile'],['마트리','chamomile']];
-function stickerOf(name){const n=String(name||'');const hit=STICKERS.find(([k])=>n.indexOf(k)===0||n.includes(k));return hit?hit[1]:''}
-function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}stickers/${f}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
+// 꽃 그림: img/flowers/<원자료 품목명>.webp (파일 이름 = 원자료 품목명)
+const FLOWER_IMG=new Set(["장미", "국화", "카네이션", "안개", "거베라", "리시안사스", "백합", "수국", "알스트메리아", "칼라", "스타티스", "유칼립투스", "메리골드", "스톡크", "홍가시", "튜립", "라넌큘러스", "프리지아", "델피니움", "코스모스", "작약", "해바라기", "다알리아", "스위트피", "금어초", "아이리스", "글라디올러스", "왁스플라워", "솔리다고", "하이페리콤", "루스커스", "몬스테라"]);
+function stickerOf(name){
+ const tok=String(name||'').split(/[\s·(]/)[0];if(!tok)return '';
+ if(FLOWER_IMG.has(tok))return tok;
+ const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
+ return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
+}
+function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
 const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
