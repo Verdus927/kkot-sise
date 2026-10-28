@@ -108,8 +108,12 @@ a{color:inherit}
 .row-in{display:flex;align-items:stretch}
 .star{flex:0 0 48px;border:0;background:none;font-size:20px;color:#CFC6B6;display:grid;place-items:center}
 .star.saved{color:var(--pink-ink)}
-.row-main{flex:1;min-width:0;border:0;background:none;text-align:left;padding:13px 16px 13px 0;display:grid;grid-template-columns:1fr auto;grid-template-areas:"n p" "m d";column-gap:12px;row-gap:2px;align-items:baseline}
+.row-main{flex:1;min-width:0;border:0;background:none;text-align:left;padding:12px 16px 12px 0;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"t n p" "t m d";column-gap:12px;row-gap:2px;align-items:baseline}
 .row-main:hover .r-name{text-decoration:underline;text-underline-offset:3px}
+.thumb{grid-area:t;width:46px;height:46px;margin-right:12px;align-self:center;display:grid;place-items:center}
+.thumb img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(80,50,20,.18));transform:rotate(-4deg)}
+.row:nth-child(even) .thumb img{transform:rotate(4deg)}
+.thumb.none{width:0;margin-right:0}
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
 .row.open .chev{transform:rotate(180deg)}
@@ -218,6 +222,8 @@ a{color:inherit}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* ---------- 하단 ---------- */
+.end-deco{display:flex;justify-content:center;margin:-24px 0 -26px;position:relative;z-index:1;pointer-events:none}
+.end-deco img{width:190px;height:auto;filter:drop-shadow(0 10px 14px rgba(80,50,20,.22));transform:rotate(-3deg)}
 .foot{color:var(--ink-3);font-size:12px;line-height:1.7;padding:22px 0 30px;border-top:1px solid var(--line)}
 .foot p{margin:0 0 6px}
 .foot .src{color:var(--ink-2)}
@@ -344,6 +350,7 @@ a{color:inherit}
 
 </div></main>
 <nav class="tabs bottom-bar" aria-label="아래 메뉴"><button class="sel" data-tab="today" onclick="tab('today')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5.6" r="3"/><circle cx="17.4" cy="10" r="3"/><circle cx="15.3" cy="16.3" r="3"/><circle cx="8.7" cy="16.3" r="3"/><circle cx="6.6" cy="10" r="3"/><circle cx="12" cy="11.6" r="1.6" fill="currentColor"/></svg>오늘 시세</button><button data-tab="catalog" onclick="tab('catalog')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>전체 품목</button><button data-tab="insight" onclick="tab('insight')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M8 9h8M8 12.5h8M8 16h5"/></svg>시장 소식</button></nav>
+<div class="end-deco" aria-hidden="true"><img src="../img/bouquet.webp" alt="" width="492" height="620" loading="lazy" decoding="async"></div>
 <footer class="foot"><div class="wrap"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p></div></footer>
 <script src="../js/config.js?v=20261027"></script><script src="../js/api.js?v=20261027"></script><script>
 const PREVIEW_DATA=null;
@@ -361,6 +368,10 @@ const favIndexKeys=()=>[...new Set([...FAV].map(favKey))];
 const SEASON_SITE_URL='';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
 const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
+const STK=(location.pathname.includes('/preview/')?'../':'')+'img/';
+const STICKERS=[['국화','chrysanthemum'],['장미','rose'],['카네이션','carnation'],['안개','gypsophila'],['거베라','gerbera'],['수국','hydrangea'],['알스트','alstroemeria'],['유칼립','eucalyptus'],['메리골드','marigold'],['라넌','ranunculus'],['스토크','stock'],['스톡','stock'],['튤립','tulip'],['코스모스','cosmos'],['프리지','freesia'],['히페리','hypericum'],['레더','leatherleaf'],['캄파','campanula'],['캐모마일','chamomile'],['마트리','chamomile']];
+function stickerOf(name){const n=String(name||'');const hit=STICKERS.find(([k])=>n.indexOf(k)===0||n.includes(k));return hit?hit[1]:''}
+function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}stickers/${f}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
 const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
@@ -383,7 +394,7 @@ function rowMarkup(r,scope,mode='today'){
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
  const detail=open?`<div class="detail"><div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume):'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>거래 ${fmt(r.volume)}</small></div><div><span>전주 평균</span><b>${fmt(r.previous)}원</b><small>전주 대비 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>지난주가 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
- return `<div class="row${open?' open':''}"><div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+ return `<div class="row${open?' open':''}"><div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${saved?'★':'☆'}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})">${thumb(r.name)}<span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
@@ -421,7 +432,7 @@ function favItemMarkup(k,mode){
   meta=x.la!=null?`지난주 ${fmt(x.wa)}${x.wa==null?'':'원'}`:'최근 본경매엔 거래 없음';
   diff=x.la!=null&&x.wa>0?x.la/x.wa-1:null;
  }else{price=x.wa!=null?fmt(x.wa)+'원':'—';meta=`전주 ${fmt(x.pa)}${x.pa==null?'':'원'}`;diff=x.change}
- return `<div class="row${opened?' open':''}"><div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})"><span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
+ return `<div class="row${opened?' open':''}"><div class="row-in"><button class="star saved" aria-label="${esc(favoriteLabel(k))} 관심 꽃 해제" aria-pressed="true" onclick="toggleFav(${safeArg(k)})">★</button><button class="row-main" type="button" aria-expanded="${opened}" onclick="favoriteDetails(${safeArg(k)})">${thumb(favoriteLabel(k))}<span class="r-name">${esc(favoriteLabel(k))}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${x&&IDX?dlt(diff):''}</span></button></div>${favoriteDetailMarkup(k)}</div>`;
 }
 function favoriteDetailMarkup(k){
  if(FAV_OPEN!==k)return '';
