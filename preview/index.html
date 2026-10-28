@@ -114,9 +114,15 @@ a{color:inherit}
 .row{position:relative}
 .peel{pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 7px 9px rgba(70,40,10,.3))}
 .peel.in{float:right;width:138px;height:auto;margin:0 -34px 8px 12px;transform:rotate(var(--rot));animation:stick .38s cubic-bezier(.2,1.5,.4,1) both}
-.peel.hover{display:none;position:absolute;z-index:4;right:-86px;top:50%;width:92px;height:auto;margin-top:-46px;transform:rotate(var(--rot))}
+.peel.hover{display:none;position:absolute;z-index:4;--pw:min(220px,calc((100vw - 1090px) / 2));width:var(--pw);height:auto;left:calc(var(--pw) * -1 + 16px);top:50%;transform:translateY(-50%) rotate(var(--rot2))}
 @keyframes stick{from{opacity:0;transform:rotate(calc(var(--rot) - 14deg)) scale(.6)}to{opacity:1;transform:rotate(var(--rot)) scale(1)}}
-@media (hover:hover) and (min-width:1300px){.row:not(.open):hover>.peel.hover{display:block;animation:stick .3s cubic-bezier(.2,1.5,.4,1) both}}
+@keyframes stick2{from{opacity:0;transform:translateY(-50%) rotate(calc(var(--rot2) - 16deg)) scale(.55)}to{opacity:1;transform:translateY(-50%) rotate(var(--rot2)) scale(1)}}
+/* 큰 화면: 마우스를 올리거나 펼친 줄은 카드 왼쪽 바깥에 크게, 비스듬히 붙습니다 */
+@media (hover:hover) and (min-width:1360px){
+ .row:hover>.peel.hover,.row.open>.peel.hover{display:block;animation:stick2 .38s cubic-bezier(.2,1.5,.4,1) both}
+ .row.open>.peel.hover{top:150px}
+ .peel.in{display:none}
+}
 .chart-cap{clear:both}
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
@@ -382,7 +388,7 @@ function stickerOf(name){
  const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
  return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
 }
-function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;const rot=((Math.abs(h)%17)-8)||5;return `<img class="peel ${kind}" style="--rot:${rot}deg" src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" decoding="async"${kind==='hover'?' loading="lazy"':''}>`}
+function peel(name,kind){const f=stickerOf(name);if(!f)return '';let h=0;for(const ch of String(name))h=(h*31+ch.charCodeAt(0))|0;const rot=((Math.abs(h)%17)-8)||5,rot2=-8-(Math.abs(h>>3)%17);return `<img class="peel ${kind}" style="--rot:${rot}deg;--rot2:${rot2}deg" src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" decoding="async">`}
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp" alt="" loading="lazy" decoding="async">`:''}</span>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
