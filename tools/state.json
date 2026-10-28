@@ -8,5 +8,23 @@
   "date": "2026-10-28",
   "model": "ChatGPT(수동)",
   "status": "수동 제작"
+ },
+ "쿠루쿠마": {
+  "date": "2026-10-28",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "석죽": {
+  "date": "2026-10-28",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "백일홍": {
+  "date": "2026-10-28",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }

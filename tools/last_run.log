@@ -1,10 +1,7 @@
-2026-10-28T09:05:14.346930
-  코스모스 / gpt-image-2.5-sunburst / 투명=True: 401 {
-  "error": {
-    "message": "Incorrect API key provided: key_0I3N********KjkD. You can find your API key at https://platform.openai.com/account/api-keys.",
-    "type": "invalid_request_error",
-    "param": null,
-    "code": "invalid_api_key"
-  }
-}
-키 오류 또는 잔액 부족: 여기서 멈춤
+2026-10-28T09:24:16.979380
+쿠루쿠마: 실제 사진 2장 (Curcuma alismatifolia)
+쿠루쿠마: 완료 (gpt-image-2.5-sunburst, 투명=True)
+석죽: 실제 사진 2장 (Dianthus chinensis)
+석죽: 완료 (gpt-image-2.5-sunburst, 투명=True)
+백일홍: 실제 사진 2장 (Zinnia elegans)
+백일홍: 완료 (gpt-image-2.5-sunburst, 투명=True)
