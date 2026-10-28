@@ -2,10 +2,10 @@ name: 꽃 그림 자동 제작
 
 on:
   schedule:
-    - cron: '0 16 * * *'   # 매일 한국 시간 새벽 1시
+    - cron: '0 16 * * *'   # 매일 한국 시간 새벽 1시 (하루 50장)
   workflow_dispatch:
     inputs:
-      per_run: { description: '이번에 만들 장수', default: '10' }
+      per_run: { description: '이번에 만들 장수', default: '50' }
       only: { description: '이 꽃만 (쉼표로 구분, 비우면 순서대로)', default: '' }
   push:
     paths: ['tools/run-now.txt']   # 이 파일을 고쳐 올리면 바로 한 번 실행
@@ -18,7 +18,7 @@ concurrency: { group: flowers, cancel-in-progress: false }
 jobs:
   make:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,7 +27,7 @@ jobs:
       - name: 그림 만들기
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          PER_RUN: ${{ github.event.inputs.per_run || (github.event_name == 'push' && '3') || '10' }}
+          PER_RUN: ${{ github.event.inputs.per_run || (github.event_name == 'push' && '3') || '50' }}
           ONLY: ${{ github.event.inputs.only || '' }}
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then export ONLY="$(grep -v '^#' tools/run-now.txt | tr -d '\n' | xargs)"; fi
