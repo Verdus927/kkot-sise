@@ -1,0 +1,542 @@
+[
+{
+"name": "코스모스",
+"hint": "Cosmos bipinnatus: flat 8-petal daisy-like flowers in pink/white/magenta, yellow center, very fine feathery thread-like leaves, slender stems"
+},
+{
+"name": "튜립",
+"hint": "Tulip (Tulipa): cup-shaped 6-tepal flowers on single smooth stems, broad grey-green strap leaves"
+},
+{
+"name": "쿠루쿠마",
+"hint": "Curcuma alismatifolia (Siam tulip): upright cone of pink papery bracts with green-tipped lower bracts on a tall bare stem, long paddle-shaped leaves"
+},
+{
+"name": "석죽",
+"hint": "Dianthus chinensis / Sweet William type: small 5-petal flowers with fringed serrated petal edges, often bicolor with dark eye, clustered heads, narrow grass-like paired leaves"
+},
+{
+"name": "백일홍",
+"hint": "Zinnia elegans: dense layered dahlia-like double flowers, bright but here muted orange/pink/red, oval rough leaves opposite, thick stems"
+},
+{
+"name": "옥시페탈륨",
+"hint": "Oxypetalum coeruleum (blue star / tweedia): small 5-pointed star-shaped powder-blue flowers in clusters, soft fuzzy heart-shaped grey-green leaves"
+},
+{
+"name": "메리골드",
+"hint": "Marigold (Tagetes erecta): round dense ruffled pompom heads in orange and yellow, finely divided pinnate dark green leaves"
+},
+{
+"name": "천일홍",
+"hint": "Globe amaranth (Gomphrena globosa): small round clover-like papery globe flower heads in magenta/purple/white on thin stems, narrow oval leaves"
+},
+{
+"name": "베로니카",
+"hint": "Veronica spicata (speedwell): slender upright tapering spikes densely packed with tiny violet-blue (or pink/white) florets, lance leaves"
+},
+{
+"name": "스카비오사",
+"hint": "Scabiosa (pincushion flower): flat round lavender flower heads with frilly outer petals and pincushion-like dotted center, long wiry stems, also round spherical seed pods"
+},
+{
+"name": "용담",
+"hint": "Gentiana (gentian): upright stems with deep blue/violet tubular bell flowers clustered at the nodes, narrow opposite lance leaves"
+},
+{
+"name": "브바르디아",
+"hint": "Bouvardia: clusters of small 4-petal tubular star flowers in white/pale pink on top of stems, oval opposite leaves"
+},
+{
+"name": "후록스",
+"hint": "Garden phlox (Phlox paniculata): dome-shaped clusters of many flat 5-petal flowers in pink/lilac/white with darker eye, opposite lance leaves"
+},
+{
+"name": "부들레야",
+"hint": "Buddleja (butterfly bush): long arching cone-shaped panicles of tiny lilac/purple florets with orange eyes, long lance leaves with grey undersides"
+},
+{
+"name": "아미초",
+"hint": "Ammi majus (bishop's flower / lace flower): flat white lacy umbels of tiny flowers on long thin stems, finely divided leaves"
+},
+{
+"name": "아스그레피아스",
+"hint": "Asclepias (milkweed, florist type A. tuberosa / curassavica): flat-topped clusters of small orange-red and yellow star flowers with reflexed petals, narrow leaves"
+},
+{
+"name": "층꽃",
+"hint": "Caryopteris incana (blue spiraea): whorls of small fluffy lavender-blue flowers stacked in tiers along the stem, grey-green toothed oval leaves"
+},
+{
+"name": "등골나무",
+"hint": "Eupatorium (boneset/joe-pye): flat fuzzy clusters of tiny dusty-pink or white tubular florets, opposite toothed leaves"
+},
+{
+"name": "루스커스",
+"hint": "Italian ruscus (Danae racemosa): long arching green stems with glossy narrow lance-shaped leaf-like cladodes alternating along the stem, no flowers"
+},
+{
+"name": "멜라루카",
+"hint": "Melaleuca (paperbark / bottlebrush filler): woody stems with dense tiny needle-like leaves and small fluffy cream bottlebrush flower clusters"
+},
+{
+"name": "비부리움",
+"hint": "Viburnum opulus 'Roseum' (snowball): round lime-green to white ball-shaped flower clusters, three-lobed maple-like leaves"
+},
+{
+"name": "심포리카르포스",
+"hint": "Symphoricarpos (snowberry): thin arching woody twigs with clusters of round white or pink berries, small oval leaves"
+},
+{
+"name": "엽란",
+"hint": "Aspidistra elatior (cast iron plant): single large glossy dark green lance-shaped leaves on short stalks, no flowers"
+},
+{
+"name": "쥐똥나무",
+"hint": "Ligustrum obtusifolium (privet) branch: small glossy black-purple berries in clusters, small oval opposite leaves"
+},
+{
+"name": "캐모마일",
+"hint": "Chamomile / Matricaria: many small daisies with white petals and domed yellow center, feathery finely divided leaves"
+},
+{
+"name": "파니쿰",
+"hint": "Panicum (switchgrass): airy open sprays of tiny reddish-brown seeds on thin grass stems, narrow grass leaves"
+},
+{
+"name": "편백",
+"hint": "Hinoki cypress (Chamaecyparis obtusa): flat fan-like sprays of scale-like green foliage with white Y-marks underneath"
+},
+{
+"name": "도라지꽃",
+"hint": "Balloon flower (Platycodon grandiflorus): open 5-pointed star-shaped violet-blue (or white) flowers and puffy balloon-shaped buds, toothed oval leaves"
+},
+{
+"name": "루드베키아",
+"hint": "Rudbeckia (black-eyed Susan): golden yellow daisies with dark brown domed center, hairy lance leaves"
+},
+{
+"name": "사루비아",
+"hint": "Salvia (florist sage, e.g. Salvia farinacea): tall slender spikes of small violet-blue tubular flowers along the stem, narrow leaves"
+},
+{
+"name": "솔리다고",
+"hint": "Solidago (goldenrod): plume-like branching sprays of tiny mustard-yellow florets, narrow lance leaves"
+},
+{
+"name": "아스파라거스",
+"hint": "Asparagus fern (Asparagus setaceus / plumosus): flat feathery triangular fronds of very fine needle-like green foliage"
+},
+{
+"name": "헬리옵시스",
+"hint": "Heliopsis (false sunflower): golden yellow semi-double daisies with yellow-orange center, toothed oval leaves"
+},
+{
+"name": "꽃고추",
+"hint": "Ornamental pepper (Capsicum annuum): small upright glossy cone-shaped peppers in red, orange, purple, cream on leafy stems"
+},
+{
+"name": "몬스테라",
+"hint": "Monstera deliciosa: single large glossy heart-shaped leaf with deep splits and holes, on a long stalk"
+},
+{
+"name": "버들나무",
+"hint": "Pussy willow (Salix): straight brown-red twigs with soft silvery-grey fuzzy catkins"
+},
+{
+"name": "호엽란",
+"hint": ""
+},
+{
+"name": "개미취",
+"hint": "Aster tataricus: loose clusters of small pale lavender daisies with yellow centers on tall stems, long rough leaves"
+},
+{
+"name": "연밥",
+"hint": "Dried lotus seed pod: flat-topped cone-shaped brown pod with round seed holes on a long stem"
+},
+{
+"name": "조팝",
+"hint": "Spiraea (bridal wreath): long arching twigs densely covered with tiny white 5-petal flowers in small clusters, small leaves"
+},
+{
+"name": "핑크뮬리",
+"hint": "Pink muhly grass (Muhlenbergia capillaris): cloud-like airy pink-purple feathery grass plumes on fine stems"
+},
+{
+"name": "극락조화",
+"hint": "Bird of paradise (Strelitzia reginae): beak-like grey-green bract with orange and blue upright petals like a crested bird head, long stem, paddle leaves"
+},
+{
+"name": "글로리오사",
+"hint": "Gloriosa lily: flowers with wavy reflexed petals red with yellow edges swept backward, long curving stamens, tendril-tipped leaves"
+},
+{
+"name": "기린초",
+"hint": ""
+},
+{
+"name": "냉이초",
+"hint": "Thlaspi 'Green Bell' (pennycress filler): upright stems lined with small round flat green seed pods like tiny coins, small white flowers at tip"
+},
+{
+"name": "노무라",
+"hint": ""
+},
+{
+"name": "보리사초",
+"hint": ""
+},
+{
+"name": "불노초",
+"hint": ""
+},
+{
+"name": "산더소니아",
+"hint": "Sandersonia aurantiaca (Christmas bells): hanging orange lantern-shaped bell flowers along a slender stem, narrow leaves"
+},
+{
+"name": "설유화",
+"hint": "Spiraea thunbergii: thin arching twigs covered with tiny white star flowers, very narrow willow-like leaves"
+},
+{
+"name": "소철",
+"hint": "Sago palm (Cycas revoluta) leaf: long stiff feather-shaped frond with many narrow glossy needle-like leaflets"
+},
+{
+"name": "솔리다스터",
+"hint": "x Solidaster: sprays of tiny pale yellow star-like daisies on branching stems, narrow leaves"
+},
+{
+"name": "신지매",
+"hint": ""
+},
+{
+"name": "아네모네",
+"hint": "Anemone coronaria: poppy-like cup flowers with silky petals (white, red, purple) and a dark navy-black center ring of stamens, ruff of feathery leaves below"
+},
+{
+"name": "영춘화",
+"hint": "Winter jasmine (Jasminum nudiflorum): arching bare green square-ish stems with small bright (muted) yellow 6-petal flowers"
+},
+{
+"name": "오니소갈룸",
+"hint": "Ornithogalum thyrsoides (chincherinchee): dense conical spike of white star-shaped flowers with green centers on a bare stem"
+},
+{
+"name": "잎안개",
+"hint": ""
+},
+{
+"name": "폴리안테스",
+"hint": "Tuberose (Polianthes tuberosa): tall spike of waxy white tubular star flowers and buds, long narrow leaves at base"
+},
+{
+"name": "셀륨",
+"hint": "Philodendron selloum (split-leaf philodendron) leaf: large deeply lobed and ruffled glossy green leaf on a long stalk"
+},
+{
+"name": "시레네",
+"hint": "Silene (campion, florist type 'Green Bells'): inflated papery bladder-like calyces in pale green with small white petals on branching stems"
+},
+{
+"name": "여우얼굴",
+"hint": "Fox face (Solanum mammosum): woody stem with glossy orange-yellow fruits shaped like a fox head with nipple-like bumps, leaves removed"
+},
+{
+"name": "풍선초",
+"hint": "Balloon plant (Gomphocarpus physocarpus): round inflated pale green seed pods covered in soft bristles hanging from stems, narrow leaves"
+},
+{
+"name": "피토스포륨",
+"hint": "Pittosporum (variegated, P. tenuifolium): dark twigs with small wavy-edged oval leaves, grey-green with cream margins"
+},
+{
+"name": "광나무(여정목)",
+"hint": "Ligustrum japonicum branch: clusters of small oval blue-black berries and glossy thick oval leaves"
+},
+{
+"name": "꽈리",
+"hint": "Chinese lantern (Physalis alkekengi): papery orange lantern-shaped husks hanging along a stem"
+},
+{
+"name": "스모그트리",
+"hint": "Smoke tree (Cotinus coggygria): fluffy smoky pinkish-purple hairy flower plumes and round leaves"
+},
+{
+"name": "알피니아",
+"hint": "Red ginger (Alpinia purpurata): upright cone of waxy red bracts on a long stem with large banana-like leaves"
+},
+{
+"name": "조",
+"hint": "Foxtail millet (Setaria italica): heavy nodding cylindrical bristly golden-green seed heads on grass stems"
+},
+{
+"name": "홍가시",
+"hint": "Red tip photinia (Photinia x fraseri): branch with glossy oval leaves, new leaves bright copper-red at tips, older leaves green"
+},
+{
+"name": "델피니움",
+"hint": "Delphinium: tall dense spike of open blue/lavender flowers with spurs and a contrasting center 'bee', deeply divided palmate leaves"
+},
+{
+"name": "아스틸베",
+"hint": "Astilbe: soft feathery plumes of tiny pink/white flowers, glossy fern-like divided leaves"
+},
+{
+"name": "트리플륨",
+"hint": ""
+},
+{
+"name": "각구도라",
+"hint": ""
+},
+{
+"name": "돈나무",
+"hint": "Pittosporum tobira: thick glossy leathery obovate leaves in whorls at twig tips, small creamy white flowers"
+},
+{
+"name": "마가렛",
+"hint": "Marguerite daisy (Argyranthemum frutescens): white daisies with yellow center, finely divided grey-green leaves"
+},
+{
+"name": "금사철",
+"hint": "Golden euonymus (Euonymus japonicus 'Aureomarginatus'): twig with glossy oval toothed leaves edged in golden yellow"
+},
+{
+"name": "명자란",
+"hint": ""
+},
+{
+"name": "상사화",
+"hint": "Lycoris squamigera (magic lily): umbel of pale pink trumpet lily-like flowers on a tall bare leafless stem"
+},
+{
+"name": "에키네시아",
+"hint": "Echinacea (coneflower): pink-purple drooping petals around a large spiny orange-brown cone center"
+},
+{
+"name": "에키놉스",
+"hint": "Echinops (globe thistle): perfectly spherical spiky steel-blue flower heads, thistle-like spiny leaves"
+},
+{
+"name": "작살나무",
+"hint": "Callicarpa (beautyberry): arching twigs with tight clusters of glossy small purple berries at the leaf nodes"
+},
+{
+"name": "연꽃",
+"hint": "Lotus flower (Nelumbo nucifera): large pink cup-shaped flower with broad petals and a yellow seed pod center, round umbrella leaf"
+},
+{
+"name": "하이페리콤",
+"hint": "Hypericum berries (florist St John's wort): clusters of glossy oval berries (red, peach, green) with small pointed sepals, oval opposite leaves"
+},
+{
+"name": "남천",
+"hint": "Nandina domestica: clusters of bright red round berries with fine compound leaves turning red"
+},
+{
+"name": "아카시아",
+"hint": "Mimosa / Acacia dealbata: fluffy tiny round bright yellow pompom flowers in sprays with feathery silver-green bipinnate leaves"
+},
+{
+"name": "헬레늄",
+"hint": "Helenium (sneezeweed): daisies with drooping notched petals in rust-red and yellow and a round brown center ball"
+},
+{
+"name": "아게라덤",
+"hint": "Ageratum (floss flower): fluffy clusters of small powder-puff lavender-blue flowers, heart-shaped soft leaves"
+},
+{
+"name": "아이리스",
+"hint": "Dutch iris: violet-blue flowers with three falls marked with a yellow blotch and upright standards, sword-like leaves"
+},
+{
+"name": "억새풀",
+"hint": "Miscanthus (silver grass): feathery silvery-beige fan-shaped plumes on tall grass stems"
+},
+{
+"name": "금어초",
+"hint": "Snapdragon (Antirrhinum majus): tall spikes of puffy two-lipped 'dragon mouth' flowers in soft pink/peach/white"
+},
+{
+"name": "캄파눌라",
+"hint": "Campanula medium (Canterbury bells): upright stem with large bell-shaped lavender-blue or white flowers"
+},
+{
+"name": "마타리",
+"hint": "Patrinia scabiosifolia: flat airy clusters of tiny yellow flowers on tall branching stems, pinnately divided leaves"
+},
+{
+"name": "디디스커스",
+"hint": "Didiscus / Trachymene coerulea (blue lace flower): flat round lacy umbels of tiny pale blue flowers on stems"
+},
+{
+"name": "골드킹",
+"hint": ""
+},
+{
+"name": "두메",
+"hint": ""
+},
+{
+"name": "리아트리스",
+"hint": "Liatris spicata (blazing star): tall dense fluffy purple spikes that bloom from the top down, grass-like leaves"
+},
+{
+"name": "부추꽃",
+"hint": "Garlic chive flowers (Allium tuberosum): round loose umbels of small white star flowers on tall bare stems"
+},
+{
+"name": "수선",
+"hint": "Narcissus / daffodil: flowers with six pale petals around a central trumpet cup, flat strap leaves"
+},
+{
+"name": "케로네",
+"hint": "Chelone (turtlehead): pink hooded tubular flowers resembling a turtle head in a tight cluster at the stem top, toothed lance leaves"
+},
+{
+"name": "탑사철",
+"hint": ""
+},
+{
+"name": "라넌큘러스",
+"hint": "Ranunculus asiaticus: round many-layered tissue-paper-like petals forming dense cupped balls, ferny leaves"
+},
+{
+"name": "천조초",
+"hint": ""
+},
+{
+"name": "히야신스",
+"hint": "Hyacinth: dense cylindrical spike of waxy star-shaped bell florets in blue/pink/white, thick fleshy stem, strap leaves"
+},
+{
+"name": "심비디움",
+"hint": "Cymbidium orchid: arching spray of waxy orchid flowers with a spotted lip, long narrow strap leaves"
+},
+{
+"name": "이끼시아",
+"hint": ""
+},
+{
+"name": "덴파레",
+"hint": "Dendrobium phalaenopsis orchid: arching spray of flat round purple/white orchid flowers on a cane-like stem"
+},
+{
+"name": "맥문동",
+"hint": "Liriope muscari: spikes of tiny violet bead-like flowers above clumps of grassy dark green leaves"
+},
+{
+"name": "미니볼",
+"hint": ""
+},
+{
+"name": "부들",
+"hint": "Cattail (Typha): tall stiff stems topped with a brown velvety cylindrical sausage-shaped seed head, long flat leaves"
+},
+{
+"name": "부프리움",
+"hint": "Bupleurum griffithii: lime-green filler with small round perfoliate leaves and tiny yellow-green umbels"
+},
+{
+"name": "수수",
+"hint": "Sorghum: drooping clusters of round reddish-brown grains on a tall grass stalk"
+},
+{
+"name": "유포로비아",
+"hint": "Euphorbia fulgens (scarlet plume): long arching stems lined with tiny orange-red flowers and narrow leaves"
+},
+{
+"name": "토마토",
+"hint": "Cherry tomato vine stem with clusters of small round red and green tomatoes and serrated leaves"
+},
+{
+"name": "까치밥",
+"hint": "Currant (Ribes) branch with hanging translucent red berry strands and lobed leaves"
+},
+{
+"name": "꽃양배추",
+"hint": "Ornamental kale (Brassica oleracea): rose-like rosette of frilly leaves with a pink/purple or cream center and grey-green outer leaves on a stem"
+},
+{
+"name": "다정금",
+"hint": ""
+},
+{
+"name": "데이지",
+"hint": "Daisy (Bellis / Leucanthemum): white ray petals around a yellow center"
+},
+{
+"name": "라이스플라워",
+"hint": "Rice flower (Ozothamnus diosmifolius): dense clusters of tiny round rice-like white/pink buds on woody stems with tiny needle leaves"
+},
+{
+"name": "레인보우",
+"hint": ""
+},
+{
+"name": "백야",
+"hint": ""
+},
+{
+"name": "속새",
+"hint": "Horsetail (Equisetum hyemale): straight hollow segmented green stems with dark rings at joints, no leaves"
+},
+{
+"name": "싸리",
+"hint": "Bush clover (Lespedeza): arching thin branches with small trifoliate leaves and tiny pea-like pink-purple flowers"
+},
+{
+"name": "아가판서스",
+"hint": "Agapanthus: large round umbel of many trumpet-shaped blue flowers on a tall bare stem"
+},
+{
+"name": "아그로템마",
+"hint": "Agrostemma githago (corn cockle): single 5-petal pink-magenta flowers with dark lines and long pointed sepals on wiry stems"
+},
+{
+"name": "에렌지움",
+"hint": "Eryngium (sea holly): spiky thistle-like cone heads surrounded by a ruff of spiny silver-blue bracts"
+},
+{
+"name": "유도화",
+"hint": "Oleander (Nerium oleander): clusters of pink 5-petal pinwheel flowers with long narrow leathery leaves"
+},
+{
+"name": "종려",
+"hint": "Palm leaf (Trachycarpus fortunei): fan-shaped pleated palm leaf on a long stalk"
+},
+{
+"name": "치자",
+"hint": "Gardenia: creamy white waxy spiral double flowers with glossy dark green leaves"
+},
+{
+"name": "팜파스",
+"hint": "Pampas grass (Cortaderia): large fluffy beige-cream feathery plumes on tall stems"
+},
+{
+"name": "소재",
+"hint": "BUNDLE: a mixed bundle of florist foliage greens (eucalyptus, ruscus, fern, pittosporum) tied together, no showy flowers"
+},
+{
+"name": "절화",
+"hint": "BUNDLE: a mixed bouquet of assorted cut flowers (rose, chrysanthemum, carnation, lisianthus, filler) tied together"
+},
+{
+"name": "절지",
+"hint": "BUNDLE: a bundle of cut flowering and leafy branches (willow, spiraea, cherry blossom twigs, photinia) tied together"
+},
+{
+"name": "열매",
+"hint": "BUNDLE: a bundle of berry branches (hypericum, snowberry, nandina, beautyberry, privet berries) tied together"
+},
+{
+"name": "허브",
+"hint": "BUNDLE: a bundle of fresh herbs (rosemary, lavender, thyme, mint, sage) tied together"
+},
+{
+"name": "그라스",
+"hint": "BUNDLE: a bundle of ornamental dried grasses (pampas, bunny tail, miscanthus, millet) tied together"
+}
+]

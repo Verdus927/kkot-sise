@@ -1,0 +1,174 @@
+# 밤마다 꽃 그림을 자동으로 만드는 스크립트 (GitHub Actions에서 실행)
+# 1) tools/queue.json 순서대로 아직 안 만든 꽃을 N개 고름 (설명(hint)이 비어 있으면 '확인 필요'로 건너뜀)
+# 2) 승인된 그림 몇 장을 견본으로 보여 주며 같은 그림체로 그려 달라고 OpenAI에 주문
+# 3) tools/process_flower.py 로 체크무늬·번짐 정리 → img/flowers/<이름>.webp
+# 4) tools/state.json 에 기록, 미리보기 페이지의 그림 목록과 버전 갱신, 검수용 모아 보기 이미지 생성
+import base64, datetime, json, os, re, subprocess, sys, time, urllib.request, urllib.error, uuid
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+T = os.path.join(ROOT, 'tools')
+KEY = os.environ.get('OPENAI_API_KEY', '')
+N = int(os.environ.get('PER_RUN', '10'))
+ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x.strip()]
+QUALITY = os.environ.get('QUALITY', 'medium')
+MODELS = [m for m in os.environ.get('MODELS', 'gpt-image-2.5-sunburst,gpt-image-2.5-flare,gpt-image-2,gpt-image-1').split(',') if m]
+REFS = ['금꿩의다리', '국화', '리시안사스', '스타티스']
+
+PROMPT = """다음 식물을 제작한다: {name}
+식물 특징(실제 외형 기준): {hint}
+
+첨부한 참고 이미지들과 똑같은 그림체, 구도, 색감, 종이·테이프·밀랍 인장 표현으로 같은 시리즈처럼 만든다. 참고 이미지 속 꽃을 그리지 말고, 위 식물만 그린다.
+
+위 식물을 실제 식물 특징에 맞게 표현한 빈티지 압화 콜라주 이미지를 만든다. 꽃 모양, 잎 모양, 줄기 형태를 실제와 가깝게 반영한다.
+
+스타일은 사실적인 꽃과 압화의 질감이 느껴지는 빈티지 보태니컬 스크랩북 무드로 한다. 꽃 뒤에는 찢어진 크라프트지, 낡은 영자신문 조각, 손글씨 종이, 오래된 서류 조각을 소량만 겹친다. 연한 핑크, 베이지, 세이지그린, 라벤더 계열의 마스킹테이프와 소량의 빈티지 우표, 작은 식물 도해 카드, 밀랍 인장, 소량의 마끈, 해당 식물의 꽃잎, 드라이플라워를 사용할 수 있다. 마스킹테이프는 꽃 색상 계열로 맞추거나, 조화로운 색으로 약간의 차이를 둘 수 있다. 식물 도감처럼 딱딱하게 나열하지 말고, 실제로 손으로 꾸민 빈티지 압화 다꾸처럼 보이되, 식물 자체는 정확하고 우아하게 중심을 잡아야 한다.
+
+중요한 구성 규칙:
+- 꽃/잎/줄기가 주인공이어야 한다.
+- 세로로 긴 구도에 꽃부터 줄기 끝까지 다 보이게 한다.
+- 꽃의 일부와 잎, 줄기는 종이 바깥으로 자연스럽게 벗어나와야 한다.
+- 종이는 1~3장 정도의 조각으로 절제해 사용하고, 꽃 전체 뒤를 빽빽하게 채우지 않는다.
+- 마스킹테이프는 반드시 최소 1개는 줄기나 하단 고정 지점을 실제로 가로지르며, 꽃을 종이에 붙여 둔 듯 보여야 한다.
+- 꽃이 그냥 종이 위에 놓인 느낌이 아니라, 종이에 고정된 압화 다꾸 느낌이어야 한다.
+- 디자인적으로 균형감 있고 아름답게 구성한다.
+
+색감은 전체적으로 따뜻하고 차분한 빈티지 톤으로 한다. 채도는 낮추고, 압화처럼 약간 바랜 색감으로 표현한다. 너무 쨍한 색, 형광빛, 강한 대비는 금지한다.
+
+절대 넣지 말 것: 두껍고 지저분한 흰 외곽선, 폴라로이드 프레임, 완전한 직사각형 배경 카드, 체크무늬 배경처럼 보이는 표현, 꽃보다 더 눈에 띄는 과한 배경 종이, 줄기에 불필요한 붉은 갈색 반점, 글자로 된 이름표.
+
+배경은 완전히 투명하게 한다.{bg_extra}"""
+
+BUNDLE_EXTRA = "\n이 품목은 꽃 한 종류가 아니라 여러 종류를 섞은 묶음이다. 위 설명의 재료들을 한 다발로 묶어 표현한다."
+
+
+def multipart(fields, files):
+    b = uuid.uuid4().hex
+    out = []
+    for k, v in fields:
+        out += [f'--{b}', f'Content-Disposition: form-data; name="{k}"', '', str(v)]
+    body = '\r\n'.join(out).encode() + b'\r\n'
+    for k, fn, data, ct in files:
+        body += f'--{b}\r\nContent-Disposition: form-data; name="{k}"; filename="{fn}"\r\nContent-Type: {ct}\r\n\r\n'.encode() + data + b'\r\n'
+    body += f'--{b}--\r\n'.encode()
+    return body, f'multipart/form-data; boundary={b}'
+
+
+def call(model, prompt, transparent):
+    fields = [('model', model), ('prompt', prompt), ('size', '1024x1536'), ('quality', QUALITY), ('n', '1')]
+    if transparent:
+        fields += [('background', 'transparent'), ('output_format', 'png')]
+    files = []
+    for r in REFS:
+        p = os.path.join(ROOT, 'img', 'flowers', r + '.webp')
+        if os.path.exists(p):
+            files.append(('image[]', f'ref{len(files)}.webp', open(p, 'rb').read(), 'image/webp'))
+    body, ct = multipart(fields, files)
+    req = urllib.request.Request('https://api.openai.com/v1/images/edits', data=body, method='POST',
+                                 headers={'Authorization': f'Bearer {KEY}', 'Content-Type': ct})
+    with urllib.request.urlopen(req, timeout=600) as res:
+        j = json.loads(res.read())
+    return base64.b64decode(j['data'][0]['b64_json']), j.get('usage')
+
+
+def remove_flat_bg(path):
+    # 투명 배경이 안 되는 모델일 때: 가장자리와 이어진 흰/연한 단색 배경을 지움
+    from PIL import Image
+    import numpy as np
+    from scipy import ndimage
+    im = np.array(Image.open(path).convert('RGBA')).astype(int)
+    rgb = im[:, :, :3]
+    edge = np.concatenate([rgb[0], rgb[-1], rgb[:, 0], rgb[:, -1]])
+    bgc = np.median(edge, axis=0)
+    near = np.abs(rgb - bgc).max(2) < 18
+    seed = np.zeros_like(near); seed[0, :] = seed[-1, :] = seed[:, 0] = seed[:, -1] = True
+    bg = ndimage.binary_propagation(seed & near, mask=near)
+    im[:, :, 3] = np.where(bg, 0, im[:, :, 3])
+    Image.fromarray(im.astype('uint8'), 'RGBA').save(path)
+
+
+def main():
+    if not KEY:
+        print('OPENAI_API_KEY 없음'); sys.exit(1)
+    queue = json.load(open(os.path.join(T, 'queue.json'), encoding='utf-8'))
+    sp = os.path.join(T, 'state.json')
+    state = json.load(open(sp, encoding='utf-8')) if os.path.exists(sp) else {}
+    todo = [q for q in queue if q['hint'] and (q['name'] in ONLY if ONLY else q['name'] not in state)][:N]
+    if not todo:
+        print('할 일 없음'); return
+    raw = os.path.join(T, 'raw'); os.makedirs(raw, exist_ok=True)
+    made = []
+    model_ok = None
+    for q in todo:
+        name = q['name']
+        prompt = PROMPT.format(name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
+        img, used, transparent = None, None, True
+        for m in ([model_ok] if model_ok else MODELS):
+            for tr in (True, False):
+                try:
+                    p = prompt if tr else prompt.replace('배경은 완전히 투명하게 한다.', '배경은 아무것도 없는 단색 흰색으로만 채운다.')
+                    img, usage = call(m, p, tr)
+                    used, transparent = m, tr
+                    break
+                except urllib.error.HTTPError as e:
+                    msg = e.read().decode('utf-8', 'ignore')[:300]
+                    print(f'  {name} / {m} / 투명={tr}: {e.code} {msg}')
+                    if e.code == 401 or (e.code == 429 and ('quota' in msg.lower() or 'billing' in msg.lower())):
+                        print('키 오류 또는 잔액 부족: 여기서 멈춤'); return finish(made, state, sp)
+                    if e.code == 400 and 'transparent' in msg.lower():
+                        continue
+                    break
+                except Exception as e:
+                    print(f'  {name} / {m}: {e}'); break
+            if img:
+                model_ok = m; break
+        if not img:
+            print(f'{name}: 실패'); continue
+        rp = os.path.join(raw, name + '.png'); open(rp, 'wb').write(img)
+        if not transparent:
+            remove_flat_bg(rp)
+        subprocess.run([sys.executable, os.path.join(T, 'process_flower.py'), os.path.join(ROOT, 'img', 'flowers'), f'{name}={rp}'], check=True)
+        state[name] = {'date': datetime.date.today().isoformat(), 'model': used, 'transparent': transparent, 'status': '검수 대기'}
+        made.append(name)
+        print(f'{name}: 완료 ({used}, 투명={transparent})')
+        time.sleep(2)
+    finish(made, state, sp)
+
+
+def finish(made, state, sp):
+    json.dump(state, open(sp, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    if not made:
+        return
+    # 미리보기 페이지: 그림 목록과 그림 버전 갱신
+    for page in ['preview/index.html', 'index.html']:
+        p = os.path.join(ROOT, page)
+        s = open(p, encoding='utf-8').read()
+        m = re.search(r'const FLOWER_IMG=new Set\((\[[^\]]*\])\);', s)
+        if not m:
+            continue
+        cur = json.loads(m.group(1))
+        cur += [n for n in made if n not in cur]
+        s = s.replace(m.group(0), 'const FLOWER_IMG=new Set(' + json.dumps(cur, ensure_ascii=False) + ');')
+        s = re.sub(r"const IMG_V='[^']*'", "const IMG_V='" + datetime.datetime.now().strftime('%Y%m%d%H%M') + "'", s)
+        open(p, 'w', encoding='utf-8').write(s)
+    # 검수용 모아 보기 (흰색·어두운색·크라프트 배경)
+    from PIL import Image, ImageDraw
+    tiles = []
+    for n in made:
+        im = Image.open(os.path.join(ROOT, 'img', 'flowers', n + '.webp')).convert('RGBA'); im.thumbnail((260, 380))
+        row = Image.new('RGB', (840, 400), (250, 246, 238))
+        for j, c in enumerate([(255, 255, 255), (40, 38, 36), (185, 133, 73)]):
+            bg = Image.new('RGBA', (280, 400), c + (255,)); bg.alpha_composite(im, ((280 - im.width) // 2, (400 - im.height) // 2))
+            row.paste(bg.convert('RGB'), (j * 280, 0))
+        tiles.append(row)
+    sheet = Image.new('RGB', (840, 400 * len(tiles)))
+    for i, t in enumerate(tiles):
+        sheet.paste(t, (0, 400 * i))
+    os.makedirs(os.path.join(ROOT, 'review'), exist_ok=True)
+    day = datetime.date.today().isoformat()
+    sheet.save(os.path.join(ROOT, 'review', f'{day}.jpg'), quality=82)
+    lst = os.path.join(ROOT, 'review', 'latest.json')
+    json.dump({'date': day, 'names': made}, open(lst, 'w', encoding='utf-8'), ensure_ascii=False)
+
+
+if __name__ == '__main__':
+    main()
