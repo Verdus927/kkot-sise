@@ -1,0 +1,16 @@
+{
+  "name": "꽃시세 · 오늘의 양재 꽃값",
+  "short_name": "꽃시세",
+  "description": "양재 aT 화훼공판장 절화 경매 시세를 지난주와 비교해서 보여드려요.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F3EBDD",
+  "theme_color": "#F3EBDD",
+  "lang": "ko",
+  "icons": [
+    {"src": "img/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "img/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

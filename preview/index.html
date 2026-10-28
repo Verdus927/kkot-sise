@@ -1,4 +1,4 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#F3EBDD"><title>오늘의 양재 꽃시세</title><meta property="og:type" content="website"><meta property="og:site_name" content="꽃시세"><meta property="og:title" content="오늘의 꽃값, 한눈에!"><meta property="og:description" content="양재 aT 화훼공판장 절화 경매 시세를 지난주와 비교해서 보여드려요."><meta property="og:url" content="https://verdus927.github.io/kkot-sise/preview/"><meta property="og:image" content="https://verdus927.github.io/kkot-sise/og.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="꽃 콜라주와 '오늘의 꽃값, 한눈에!' 문구"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="양재 aT 화훼공판장 절화 경매가를 품목·품종·등급별로 보는 시세 페이지"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#F3EBDD"><link rel="manifest" href="../manifest.webmanifest"><link rel="icon" type="image/png" href="../img/favicon-48.png"><link rel="apple-touch-icon" href="../img/apple-touch-icon.png"><meta name="apple-mobile-web-app-title" content="꽃시세"><meta name="apple-mobile-web-app-capable" content="yes"><title>오늘의 양재 꽃시세</title><meta property="og:type" content="website"><meta property="og:site_name" content="꽃시세"><meta property="og:title" content="오늘의 꽃값, 한눈에!"><meta property="og:description" content="양재 aT 화훼공판장 절화 경매 시세를 지난주와 비교해서 보여드려요."><meta property="og:url" content="https://verdus927.github.io/kkot-sise/preview/"><meta property="og:image" content="https://verdus927.github.io/kkot-sise/og.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="꽃 콜라주와 '오늘의 꽃값, 한눈에!' 문구"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="양재 aT 화훼공판장 절화 경매가를 품목·품종·등급별로 보는 시세 페이지"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
@@ -131,6 +131,18 @@ a{color:inherit}
  .peel.in{display:none}
 }
 .chart-cap{clear:both}
+.progress-note{margin:12px 0 0;padding:9px 13px 9px 34px;position:relative;background:#FFF1D6;border:1px dashed #D8B26A;border-radius:10px;color:#7A4E0E;font-size:14px;font-weight:700;line-height:1.45}
+.progress-note:before{content:"⏳";position:absolute;left:11px;top:8px;font-size:14px}
+.scribble{margin:14px 0 0;font-family:var(--font-hand);font-size:20px;line-height:1.2;color:var(--rose);transform:rotate(-1.2deg);transform-origin:left}
+/* 홈 화면 추가 안내 */
+.a2hs{display:flex;align-items:center;gap:12px;margin:0 0 28px;padding:12px 14px;background:var(--paper);border:1px dashed var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.a2hs[hidden]{display:none}
+.a2hs img{width:44px;height:44px;border-radius:11px;flex:0 0 44px}
+.a2hs .tx{flex:1;min-width:0;font-size:13px;color:var(--ink-2);line-height:1.45}
+.a2hs .tx b{display:block;color:var(--ink);font-size:14px}
+.a2hs .go{border:0;border-radius:999px;background:var(--forest);color:var(--paper);padding:9px 14px;font-weight:800;font-size:13px;white-space:nowrap}
+.a2hs .x{border:0;background:none;color:var(--ink-3);font-size:18px;padding:4px 2px}
+
 .hstar{display:inline-block;vertical-align:-5px;overflow:visible}
 .hstar path{fill:rgba(184,105,122,0);stroke:#B9AC98;stroke-width:1.5;stroke-linejoin:round;transition:fill .2s,stroke .2s}
 .hstar.on path{fill:rgba(184,105,122,.85);stroke:#8E4A5A}
@@ -345,8 +357,10 @@ a{color:inherit}
     <p class="hand">today's flower market</p>
     <h1>오늘의 꽃값,<br><em>한눈에!</em></h1>
     <p id="dayTitle" class="date-chip">양재 현장 경매 기준</p>
+    <p id="progressNote" class="progress-note" hidden></p>
     <p id="daySub" class="hero-sub">시세를 불러오는 중입니다</p>
     <div id="summary" class="hero-stats"></div>
+    <p class="scribble">* 경매 낙찰가예요. 도매상에서 사는 값은 조금 다를 수 있어요!</p>
     <span id="checkStamp" class="hero-stamp"></span>
    </div>
   </div>
@@ -357,6 +371,7 @@ a{color:inherit}
 <main><div class="wrap">
 
 <section class="page on" id="p-today">
+ <div id="a2hs" class="a2hs" hidden><img src="../img/icon-192.png" alt=""><div class="tx"><b>홈 화면에 꽃시세 추가하기</b><span id="a2hsMsg">앱처럼 한 번에 열 수 있어요.</span></div><button id="a2hsGo" class="go" hidden>추가</button><button class="x" aria-label="닫기" onclick="a2hsClose()">✕</button></div>
  <div class="blk">
   <div class="blk-h"><h2>내 관심 꽃</h2><button class="link" onclick="tab('catalog')">꽃 찾기</button></div>
   <p class="blk-sub">☆를 눌러 담은 꽃이 여기 모여요. 이 기기에만 저장돼요.</p>
@@ -575,7 +590,7 @@ function drawTodayLoading(){
  $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
  drawFavorites();drawWeekly();
 }
-function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'거래량 가중평균가 · 지난주 평균과 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';if(IDX?.meta?.inProgressDate)$('daySub').innerHTML=esc($('daySub').textContent)+` · <span class="partial-note">${esc(shortDate(IDX.meta.inProgressDate))} 경매는 아직 집계 중(현재 ${Number(IDX.meta.inProgressCount||0).toLocaleString('ko-KR')}건)이라 직전 본경매를 보여드립니다</span>`;$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 가격 · 거래량 가중평균 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
 function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
 const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
 function drawFavoriteWeekList(){
@@ -866,5 +881,22 @@ function drawSearchPeel(q,rows){
   img.classList.add('on');
  });
  tb.addEventListener('mouseleave',()=>{img.classList.remove('on');ROW_STK=''});
+})();
+
+// 홈 화면에 추가 안내 (휴대폰에서, 아직 앱으로 열지 않았고, 닫은 적 없을 때만)
+let A2HS_EVT=null;
+function a2hsClose(){$('a2hs').hidden=true;try{localStorage.setItem('kkotA2hsClosed','1')}catch(e){}}
+(function(){
+ if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js',{scope:'../'}).catch(()=>{})}
+ const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+ let closed=false;try{closed=localStorage.getItem('kkotA2hsClosed')==='1'}catch(e){}
+ const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+ if(standalone||closed||!mobile)return;
+ const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent),samsung=/SamsungBrowser/i.test(navigator.userAgent);
+ $('a2hsMsg').textContent=ios?'아래 공유 버튼 → "홈 화면에 추가"를 눌러 주세요.':samsung?'아래 메뉴(≡) → "현재 페이지 추가" → "홈 화면"을 눌러 주세요.':'브라우저 메뉴(⋮) → "홈 화면에 추가"를 눌러 주세요.';
+ $('a2hs').hidden=false;
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();A2HS_EVT=e;$('a2hsMsg').textContent='앱처럼 한 번에 열 수 있어요.';$('a2hsGo').hidden=false});
+ $('a2hsGo').addEventListener('click',async()=>{if(!A2HS_EVT)return;A2HS_EVT.prompt();const r=await A2HS_EVT.userChoice;A2HS_EVT=null;if(r.outcome==='accepted')a2hsClose()});
+ window.addEventListener('appinstalled',a2hsClose);
 })();
 </script></body></html>
