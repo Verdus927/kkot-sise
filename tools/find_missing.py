@@ -51,6 +51,4 @@ lines = [f'# 그림 없는 품목 ({datetime.date.today().isoformat()} 기준, �
          '| 품목 | 경매 나온 날 | 거래량(속) | 주요 품종 |', '|---|---|---|---|']
 for o in out:
     lines.append(f"| {o['name']}{' (새로 등장)' if o['name'] in added else ''} | {o['days']}일 | {o['qty']:,} | {', '.join(o['varieties'])} |")
-os.makedirs(os.path.join(ROOT, 'review'), exist_ok=True)
-open(os.path.join(ROOT, 'review', '그림없는품목.md'), 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
 print('\n'.join(lines))
