@@ -16,7 +16,7 @@ T = os.path.join(ROOT, 'tools')
 KEY = os.environ.get('OPENAI_API_KEY', '')
 N = int(os.environ.get('PER_RUN', '10'))
 ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x.strip()]
-QUALITY = os.environ.get('QUALITY', 'medium')
+QUALITY = os.environ.get('QUALITY', 'high')
 MODELS = [m for m in os.environ.get('MODELS', 'gpt-image-2.5-sunburst,gpt-image-2.5-flare,gpt-image-2,gpt-image-1').split(',') if m]
 REFS = ['금꿩의다리', '국화', '리시안사스', '스타티스']
 

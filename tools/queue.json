@@ -296,7 +296,8 @@
 },
 {
 "name": "델피니움",
-"hint": "Delphinium: tall dense spike of open blue/lavender flowers with spurs and a contrasting center 'bee', deeply divided palmate leaves"
+"hint": "Delphinium as sold by florists, in vivid but soft clear blue / periwinkle / sky-blue / lavender-blue: mix of (a) mini delphinium (Delphinium belladonna type) with airy branching stems of open flat 5-petal flowers and rounded green buds, and (b) tall elatum delphinium with a dense column-like spike of open blue flowers with pale centers tapering to green buds; the blue color must read clearly",
+"sci": "Delphinium"
 },
 {
 "name": "아스틸베",
@@ -391,7 +392,8 @@
 },
 {
 "name": "디디스커스",
-"hint": "Didiscus / Trachymene coerulea (blue lace flower): flat round lacy umbels of tiny pale blue flowers on stems"
+"hint": "Didiscus / Trachymene coerulea (blue lace flower): each stem ends in a single rounded DOME-shaped dense umbel of hundreds of tiny pale blue-lavender florets like a soft half-ball (not starburst, not fireworks), round green buds, thin smooth green stems",
+"sci": "Trachymene coerulea"
 },
 {
 "name": "골드킹",
@@ -415,7 +417,8 @@
 },
 {
 "name": "케로네",
-"hint": "Chelone (turtlehead): pink hooded tubular flowers resembling a turtle head in a tight cluster at the stem top, toothed lance leaves"
+"hint": "Chelone obliqua as sold by florists: upright green stems with opposite lance-shaped deeply serrated leaves; at the top a tight cluster of SMALL hooded pink tubular buds (each bud only slightly larger than a fingertip) surrounded by green bracts; buds are small and compact, not large flowers",
+"sci": "Chelone obliqua"
 },
 {
 "name": "탑사철",
@@ -423,7 +426,8 @@
 },
 {
 "name": "라넌큘러스",
-"hint": "Ranunculus asiaticus: round many-layered tissue-paper-like petals forming dense cupped balls, ferny leaves"
+"hint": "Ranunculus asiaticus: round many-layered tissue-paper-like petals forming dense cupped balls, ferny leaves",
+"extra": "꽃 색은 주황 대신 꽃집에서 흔한 연분홍, 크림 노랑, 살구 핑크 같은 부드러운 색으로 2~3가지 섞는다. 꽃 형태(겹겹이 둥근 종이 같은 꽃잎)는 그대로."
 },
 {
 "name": "천조초",
@@ -445,7 +449,8 @@
 },
 {
 "name": "덴파레",
-"hint": "Dendrobium phalaenopsis orchid: arching spray of flat round purple/white orchid flowers on a cane-like stem"
+"hint": "Dendrobium phalaenopsis (덴파레) cut orchid stems as sold by florists: long thin arching green stems carrying 5~8 flat round orchid flowers (pink, magenta-wine, or pink-white bicolor) with a small rolled lip, and many slender green buds toward the tip; no leaves",
+"sci": "Dendrobium"
 },
 {
 "name": "맥문동",
@@ -462,7 +467,8 @@
 },
 {
 "name": "부프리움",
-"hint": "Bupleurum griffithii: lime-green filler with small round perfoliate leaves and tiny yellow-green umbels"
+"hint": "Bupleurum rotundifolium 'Griffithii' (green filler): thin branching stems with round perfoliate grey-green leaves that the stem pierces through, topped by small star-shaped clusters of lime-yellow-green bracts with tiny yellow flowers; airy and light",
+"sci": "Bupleurum rotundifolium"
 },
 {
 "name": "수수",
@@ -480,12 +486,13 @@
 },
 {
 "name": "까치밥",
-"hint": "Currant (Ribes) branch with hanging translucent red berry strands and lobed leaves",
-"sci": "Ribes rubrum"
+"hint": "Celastrus orbiculatus (oriental bittersweet, sold as 까치밥 branch): bare twisting brown woody branches with clusters of small round berries: yellow-orange split husks opening to reveal bright red-orange seeds; no leaves",
+"sci": "Celastrus orbiculatus"
 },
 {
 "name": "꽃양배추",
-"hint": "Ornamental kale (Brassica oleracea): rose-like rosette of frilly leaves with a pink/purple or cream center and grey-green outer leaves on a stem"
+"hint": "Ornamental kale (Brassica oleracea) cut stem as sold by florists: a rose-like rosette head with magenta-pink or cream-yellow ruffled center leaves and grey-green outer leaves, on a thick straight pale stem that shows bumpy scars where lower leaves were stripped off (like a stripped cabbage stalk)",
+"sci": "Brassica oleracea"
 },
 {
 "name": "다정금",
@@ -498,7 +505,8 @@
 },
 {
 "name": "라이스플라워",
-"hint": "Rice flower (Ozothamnus diosmifolius): dense clusters of tiny round rice-like white/pink buds on woody stems with tiny needle leaves"
+"hint": "Rice flower (Ozothamnus diosmifolius) as sold by florists: woody stems with tiny needle-like leaves, topped by rounded dome-shaped dense clusters of tiny round tight cream-white buds like grains of rice (mostly unopened round buds, not open flowers)",
+"sci": "Ozothamnus diosmifolius"
 },
 {
 "name": "레인보우",
@@ -510,7 +518,8 @@
 },
 {
 "name": "속새",
-"hint": "Horsetail (Equisetum hyemale): straight hollow segmented green stems with dark rings at joints, no leaves"
+"hint": "Horsetail / scouring rush (Equisetum hyemale) as florists use it: a neat bundle of straight smooth hollow dark green stems with thin black-and-beige rings at the joints, clean and elegant, a few stems with small pointed cone tips; no leaves; arranged straight and tidy like a bundle of reeds",
+"sci": "Equisetum hyemale"
 },
 {
 "name": "싸리",

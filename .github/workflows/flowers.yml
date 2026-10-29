@@ -25,7 +25,7 @@ jobs:
       - name: 그림 만들기
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          PER_RUN: ${{ github.event.inputs.per_run || (github.event_name == 'push' && '3') || '50' }}
+          PER_RUN: ${{ github.event.inputs.per_run || (github.event_name == 'push' && '20') || '50' }}
           ONLY: ${{ github.event.inputs.only || '' }}
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then export ONLY="$(grep -v '^#' tools/run-now.txt | tr -d '\n' | xargs)"; fi
