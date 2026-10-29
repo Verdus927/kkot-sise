@@ -1,0 +1,29 @@
+name: 그림 없는 품목 찾기
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # 매주 월요일 한국 시간 오전 10시 (그림 비용 없음)
+  workflow_dispatch:
+  push:
+    paths: ['tools/find_missing.py']
+
+permissions:
+  contents: write
+
+concurrency: { group: flowers, cancel-in-progress: false }
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python tools/find_missing.py
+      - run: |
+          git config user.name "kkot-sise-bot"
+          git config user.email "272083087+Verdus927@users.noreply.github.com"
+          git add review/그림없는품목.md tools/missing.json tools/queue.json
+          git diff --cached --quiet && exit 0
+          git commit -m "그림 없는 품목 목록 $(date +%F)"
+          for t in 1 2 3; do git pull --rebase -X theirs && git push && break; sleep 5; done
