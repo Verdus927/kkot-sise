@@ -131,6 +131,28 @@ a{color:inherit}
  .peel.in{display:none}
 }
 .chart-cap{clear:both}
+#favChips{display:none!important}
+.grade{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;padding:0 8px;border-radius:999px;font-size:12.5px;font-weight:800;letter-spacing:-.2px;vertical-align:1px}
+.grade.g1{background:#F3D9D2;color:#8E3B2F}
+.grade.g2{background:#E3EBDD;color:#3F5A3C}
+.grade.g3{background:#ECE3D3;color:#6B6257}
+.grade.g0{background:#EEE;color:#666}
+.c-var{font-size:13px;font-weight:500;color:var(--ink-3);margin-left:6px}
+.c-vtd{color:var(--ink-3);font-size:13px}
+.c-same{color:var(--line)}
+.item-trend{padding:14px 16px 12px;margin:4px 0 14px}
+.item-trend[hidden]{display:none}
+.it-h{font-size:14px;color:var(--ink-2);margin-bottom:8px}
+.item-trend .kpis{margin-bottom:8px}
+@media (max-width:760px){
+ .item-trend .kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px}
+ .item-trend .kpis>div{display:block!important;padding:8px 8px;text-align:center}
+ .item-trend .kpis span{font-size:11px!important;white-space:nowrap}
+ .item-trend .kpis b{text-align:center!important;font-size:15px!important}
+ .item-trend .kpis small{text-align:center!important;font-size:11px;white-space:normal!important}
+}
+.it-h b{font-family:var(--font-deco);font-size:18px;color:var(--forest);margin-right:4px}
+
 .rank-row{position:relative}
 .peel.rkp{display:none;position:absolute;z-index:30;top:50%;width:120px;transform:translateY(-50%) rotate(var(--rot2))}
 #rises .peel.rkp{left:-112px}
@@ -340,6 +362,7 @@ a{color:inherit}
  .auction-table td{display:none;padding:0;border:0;background:none!important}
  .auction-table td.c-star{display:grid;place-items:center;grid-area:s}
  .auction-table td.c-mn{display:block;grid-area:mn;font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .auction-table td.c-ms{margin-top:4px}
  .auction-table td.c-ms{display:block;grid-area:ms;font-size:12px;color:var(--ink-2);min-width:0}
  .auction-table td.c-avg{display:block;grid-area:a;font-weight:800;font-size:16px}
  .auction-table td.c-vol{display:block;grid-area:v;font-size:12px;color:var(--ink-2)}
@@ -413,6 +436,7 @@ a{color:inherit}
   <div id="favChips" class="chips"></div>
   <p id="aliasNote" class="guide"></p><div id="auctionGuide" class="guide" role="status"></div>
   <div id="auctionSummary" class="sumline" aria-live="polite"></div>
+  <div id="itemTrend" class="item-trend paper" hidden></div>
   <div class="toolbar"><div id="wholeFav" class="whole-fav"></div><label class="sort">정렬<select id="auctionSort" onchange="sortFromSelect()"><option value="name:1">품목·품종순</option><option value="grade:1">등급 높은 순</option><option value="grade:-1">등급 낮은 순</option><option value="avg:-1">평균가 높은 순</option><option value="avg:1">평균가 낮은 순</option><option value="volume:-1">거래량 많은 순</option><option value="volume:1">거래량 적은 순</option><option value="" hidden>표 머리글 기준</option></select></label></div>
   <div class="tbl-zone"><div id="searchPeel" class="search-peel" aria-hidden="true"></div><img id="rowPeel" class="row-peel" alt="" aria-hidden="true"><div class="tbl-wrap"><table class="auction-table"><thead><tr id="auctionHead"><th aria-label="즐겨찾기"></th><th data-sort="name" onclick="sortBy('name')">품목</th><th data-sort="variety" onclick="sortBy('variety')">품종</th><th data-sort="grade" onclick="sortBy('grade')">등급</th><th data-sort="avg" onclick="sortBy('avg')">평균가</th><th data-sort="max" onclick="sortBy('max')">최고가</th><th data-sort="min" onclick="sortBy('min')">최저가</th><th data-sort="volume" onclick="sortBy('volume')">거래량</th></tr></thead><tbody id="auctionResults"></tbody></table></div></div>
  </div>
@@ -821,6 +845,24 @@ function searchMatch(r,q){
  if(!t.includes(r.name))return false;
  const v=rest.join('');return !v||nk(r.variety).includes(v);
 }
+
+// 등급을 알아보기 쉽게 동그란 배지로
+function gradeBadge(g){g=String(g||'');const k=g[0]==='특'?'g1':g[0]==='상'?'g2':g[0]==='보'?'g3':'g0';return g?`<span class="grade ${k}">${esc(g)}</span>`:''}
+// 검색한 품목의 품종·등급 전체 평균가 흐름 (최근 8주)
+function drawItemTrend(q,rows){
+ const box=$('itemTrend');if(!box)return;
+ if(!q||!rows.length||!IDX){box.hidden=true;return}
+ const cnt={};rows.forEach(r=>cnt[r.name]=(cnt[r.name]||0)+1);
+ const [name,c]=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+ if(c<rows.length*0.6){box.hidden=true;return}
+ const key=name+SEP+'*',x=IDX.rows?.[key];
+ if(!x){box.hidden=true;if(!drawItemTrend.asked?.[key]){(drawItemTrend.asked=drawItemTrend.asked||{})[key]=1;loadIndexKeys([key]);setTimeout(()=>drawAuctionResults(),2500)}return}
+ const m=IDX.meta||{},yc=x.wa!=null&&x.ya>0?x.wa/x.ya-1:null;
+ box.hidden=false;
+ box.innerHTML=`<div class="it-h"><b>${esc(name)}</b> 품종·등급 전체 평균 시세</div>
+ <div class="kpis"><div><span>${esc(shortDate(m.latestDate))} 본경매</span><b>${x.la!=null?fmt(x.la)+'원':'—'}</b><small>${x.la!=null?'거래 '+fmt(x.lq)+'속':'거래 없음'}</small></div><div><span>지난주 평균</span><b>${fmt(x.wa)}${x.wa==null?'':'원'}</b><small>2주 전보다 ${dlt(x.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(x.ya)}${x.ya==null?'':'원'}</b><small>작년보다 ${dlt(yc)}</small></div></div>
+ <div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart({name,trend:x.trend||[]},m.weekLabels,x.la!=null?{date:m.latestDate,value:x.la}:null)}`;
+}
 function drawAuctionResults(){
  const t=$('auctionResults');if(!t||!FULL_DATE)return;
  const q=$('auctionQuery').value.trim().toLocaleLowerCase('ko');
@@ -853,10 +895,10 @@ function drawAuctionResults(){
   ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${starSvg(on)} ${esc(n)} 전체</button>`}).join('')}`
   :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요 · 표 머리글을 눌러도 정렬돼요</span>`;
  $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
- CAT_ROWS=rows;drawSearchPeel(q,rows);
+ CAT_ROWS=rows;drawSearchPeel(q,rows);drawItemTrend(q,rows);
  t.innerHTML=rows.length?rows.map((r,ri)=>{
   const key=r.name+SEP+r.variety, starred=FAV.has(key);
-  return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starSvg(starred)}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)} · ${esc(r.variety)}</td><td class="c-ms">${esc(r.grade)} · 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td>${esc(r.variety)}</td><td>${esc(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
+  return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starSvg(starred)}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)}${r.variety&&r.variety!==r.name?`<span class="c-var">${esc(r.variety)}</span>`:''}</td><td class="c-ms">${gradeBadge(r.grade)} 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td class="c-vtd">${r.variety&&r.variety!==r.name?esc(r.variety):'<span class="c-same">·</span>'}</td><td>${gradeBadge(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
  }).join(''):`<tr><td colspan="10" class="empty empty-cell">검색 결과가 없어요. aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</td></tr>`;
 }
 // 전체 품목 조회 위쪽의 '내 관심 꽃' 바로가기. 누르면 그 꽃으로 바로 거릅니다.
