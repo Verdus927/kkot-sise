@@ -84,19 +84,23 @@
 },
 {
 "name": "비부리움",
-"hint": "Viburnum opulus 'Roseum' (snowball): round lime-green to white ball-shaped flower clusters, three-lobed maple-like leaves"
+"hint": "Viburnum tinus (laurustinus) as sold by florists: woody stems with glossy dark green oval leaves in opposite pairs, flat-domed clusters of small white 5-petal flowers mixed with many round pink-red buds",
+"sci": "Viburnum tinus"
 },
 {
 "name": "심포리카르포스",
-"hint": "Symphoricarpos (snowberry): thin arching woody twigs with clusters of round white or pink berries, small oval leaves"
+"hint": "Snowberry (Symphoricarpos albus) florist stems: thin reddish-brown arching twigs densely packed with clusters of round pure white berries (some pale green), small round blue-green leaves; berries are the main feature",
+"sci": "Symphoricarpos albus"
 },
 {
 "name": "엽란",
-"hint": "Aspidistra elatior (cast iron plant): single large glossy dark green lance-shaped leaves on short stalks, no flowers"
+"hint": "Aspidistra elatior (cast iron plant): single large glossy dark green lance-shaped leaves on short stalks, no flowers",
+"extra": "잎 위에 의미 없이 올려 둔 테이프는 넣지 않는다. 테이프는 잎자루나 종이를 고정하는 자리에만."
 },
 {
 "name": "쥐똥나무",
-"hint": "Ligustrum obtusifolium (privet) branch: small glossy black-purple berries in clusters, small oval opposite leaves"
+"hint": "Variegated privet (Ligustrum sinense 'Variegatum') sold as foliage filler: thin upright reddish twigs lined with many small oval leaves edged in creamy pale yellow; NO flowers; only a few small black berries as a minor accent",
+"sci": "Ligustrum sinense"
 },
 {
 "name": "캐모마일",
@@ -141,12 +145,13 @@
 },
 {
 "name": "몬스테라",
-"hint": "Monstera deliciosa: single large glossy heart-shaped leaf with deep splits and holes, on a long stalk"
+"hint": "Monstera deliciosa cut LEAF as sold by florists: one or two large glossy heart-shaped split leaves with holes on long stalks; leaves only, no flower spathe and no fruit (at most one tiny spadix, far smaller than the leaves)",
+"sci": "Monstera deliciosa"
 },
 {
 "name": "버들나무",
-"hint": "Pussy willow (Salix): straight brown-red twigs with soft silvery-grey fuzzy catkins",
-"sci": "Salix caprea"
+"hint": "Curly willow (Salix matsudana 'Tortuosa') fresh-cut florist stems: bare twisted corkscrew-like pale green branches and thin curly twigs, absolutely no leaves, no catkins, no flowers, no berries",
+"sci": "Salix matsudana"
 },
 {
 "name": "호엽란",
@@ -210,7 +215,8 @@
 },
 {
 "name": "소철",
-"hint": "Sago palm (Cycas revoluta) leaf: long stiff feather-shaped frond with many narrow glossy needle-like leaflets"
+"hint": "Sago palm (Cycas revoluta) cut LEAF: one or two long stiff feather-shaped fronds with many narrow glossy needle-like leaflets; leaf only, no cone, no fruit, no flower in the center",
+"sci": "Cycas revoluta"
 },
 {
 "name": "솔리다스터",
@@ -256,7 +262,8 @@
 },
 {
 "name": "풍선초",
-"hint": "Balloon plant (Gomphocarpus physocarpus): round inflated pale green seed pods covered in soft bristles hanging from stems, narrow leaves"
+"hint": "Balloon plant (Gomphocarpus physocarpus): round inflated pale green seed pods covered in soft bristles hanging from stems, narrow leaves",
+"extra": "색연필이나 연필 스케치 느낌 금지. 다른 그림들처럼 사실적인 압화 질감과 입체감으로."
 },
 {
 "name": "피토스포륨",
@@ -264,7 +271,8 @@
 },
 {
 "name": "광나무(여정목)",
-"hint": "Ligustrum japonicum branch: clusters of small oval blue-black berries and glossy thick oval leaves"
+"hint": "Ligustrum japonicum (애정목) florist branches: yellow-green thin stems with fluffy airy panicles of tiny creamy white flowers, plus separate stems carrying clusters of small matte blue-black berries on yellowish branchlets, few glossy oval leaves",
+"sci": "Ligustrum japonicum"
 },
 {
 "name": "꽈리",

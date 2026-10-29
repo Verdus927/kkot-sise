@@ -25,8 +25,9 @@ PROMPT = """다음 식물을 제작한다: {name}
 
 {photo_note}첨부한 그림 견본들과 같은 그림체(사실적인 압화 질감, 바랜 빈티지 색감, 종이 질감)로 같은 시리즈처럼 만든다. 단, 견본의 장식 배치(가운데 테이프+밀랍 인장, 오른쪽 우표 카드 같은 구성)는 따라 하지 않는다. 그림 견본 속 꽃을 그리지 말고, 위 식물만 그린다.
 
-이번 그림의 장식은 아래대로 한다. 사람이 손으로 꾸민 것처럼 살짝 삐뚤고 자연스럽게, 매번 같은 틀처럼 보이지 않게:
+이번 그림의 장식은 아래대로 한다. 꾸밈 정도는 '정성 들여 꾸민 다꾸' 수준(1~5 중 3)으로, 너무 심플하지도 과하지도 않게. 사람이 손으로 꾸민 것처럼 살짝 삐뚤고 자연스럽게:
 {recipe}
+- 테이프·클립·인장은 줄기나 종이를 실제로 고정하는 자리에만 쓴다. 꽃이나 잎 위에 의미 없이 올려 두지 않는다. 클립·집게는 줄기를 집지 않는다.{extra}
 
 위 식물을 실제 식물 특징에 맞게 표현한 빈티지 압화 콜라주 이미지를 만든다. 꽃 모양, 잎 모양, 줄기 형태를 실제와 가깝게 반영한다.
 
@@ -64,41 +65,51 @@ def multipart(fields, files):
 
 import random
 
-FIX = ['줄기 아래쪽을 마스킹테이프 한 줄로 비스듬히 가로질러 붙임',
-       '마스킹테이프 두 조각을 X자로 엇갈려 줄기를 고정',
-       '짧게 손으로 찢은 마스킹테이프 조각 3개를 줄기와 잎 여기저기에 삐뚤게 붙임',
-       '줄기를 마끈으로 두세 번 감아 리본 없이 매듭만 짓고, 매듭 위에 작은 테이프 조각',
-       '줄기를 얇은 레이스 리본으로 묶고, 종이에는 테이프 한 조각만',
-       '종이에 칼집을 낸 틈으로 줄기를 끼워 넣은 것처럼 표현하고 테이프는 한쪽 끝에만',
-       '투명 셀로판 테이프 한 줄로 줄기를 붙여 테이프 가장자리만 살짝 반짝임',
-       '종이 클립(빈티지 황동 클립) 하나로 줄기를 종이에 집어 둠']
+PAPER = ['찢어진 크라프트지', '낡은 영자신문 조각', '필기체 손글씨 편지지', '빛바랜 악보 조각', '모눈종이 조각', '오래된 식물도감 페이지 조각', '줄 노트 조각', '얇은 트레이싱지', '레이스 페이퍼 도일리 반쪽']
+FIX = ['줄기 아래쪽을 마스킹테이프 한 줄로 비스듬히 가로질러 종이에 붙임',
+       '마스킹테이프 두 조각을 X자로 엇갈려 줄기를 종이에 고정',
+       '손으로 찢은 짧은 마스킹테이프 조각 2~3개로 줄기와 잎자루를 종이에 눌러 붙임',
+       '줄기 묶음을 마끈으로 두세 번 감아 매듭짓고, 매듭 끝을 종이에 테이프로 고정',
+       '줄기 묶음을 얇은 레이스 리본으로 묶고, 리본 끝을 종이 뒤로 넘겨 테이프로 고정',
+       '종이에 칼집을 내 줄기를 끼워 넣고, 칼집 옆에 짧은 테이프 한 조각']
 TAPE = ['무지', '작은 체크무늬', '작은 도트', '가는 줄무늬', '잔꽃무늬', '영문 손글씨 무늬', '격자무늬', '레이스 무늬', '반투명 와시']
 TAPE_COLOR = ['두 테이프 모두 꽃 색과 같은 계열의 바랜 톤 (한 장은 진하게, 한 장은 연하게)',
               '한 장은 꽃 색과 같은 계열의 바랜 톤, 다른 한 장은 베이지·크라프트 같은 중립색',
               '한 장은 꽃 색과 같은 계열, 다른 한 장은 잎 색에 맞춘 세이지그린 계열',
               '한 장은 꽃 색과 같은 계열, 다른 한 장은 꽃 색과 은은하게 어울리는 보색 계열의 아주 연한 톤']
-EXTRA = ['밀랍 인장 하나 (색은 꽃 색에 맞추고 테이프 위가 아닌 종이 모서리 쪽에)',
-         '빈티지 우표 한 장 (톱니가 한쪽 살짝 찢어지고 소인이 반쯤 찍힌)',
-         '작은 종이 꼬리표(태그)에 마끈이 달려 있는 것',
-         '오래된 영수증이나 도서관 대출 카드 조각',
-         '흐릿한 날짜 고무도장 자국',
-         '손글씨로 짧게 끄적인 메모 쪽지 (읽히지 않는 필기체)',
-         '압화 꽃잎 두세 장이 흩어져 붙음',
-         '구멍 뚫린 바인더 종이 조각',
-         '얇은 트레이싱지 한 장이 꽃 일부를 반쯤 덮음',
-         '작은 단추 하나']
+EXTRA = ['밀랍 인장: 마스킹테이프 끝이나 끈 매듭 위에 눌러 붙여, 테이프·끈을 고정하는 역할로',
+         '밀랍 인장: 종이 접힌 모서리를 봉하듯 모서리 위에',
+         '빈티지 우표 한 장: 종이 모서리에 걸쳐 붙이고, 톱니 한쪽이 살짝 찢어지고 소인이 반쯤 찍힌',
+         '빈티지 우표 두 장을 살짝 겹쳐 종이 귀퉁이에',
+         '마끈 달린 종이 꼬리표: 줄기 묶음 매듭에 매달려 늘어진',
+         '황동 종이 클립 또는 작은 나무 빨래집게: 줄기가 아니라 종이 조각의 가장자리를 집어 종이끼리 고정',
+         '작은 식물 도해 카드: 뒤쪽 종이 모서리에 끼워 넣은',
+         '도서관 대출 카드나 오래된 영수증 조각: 뒤쪽에 반쯤 가려지게',
+         '흐릿한 날짜 고무도장 자국: 종이 위 빈 곳에',
+         '손글씨 짧은 메모 쪽지: 테이프 한 조각으로 종이에',
+         '이 식물의 압화 꽃잎이나 작은 잎 두세 장: 종이 위에 흩어 붙인',
+         '작은 단추 하나: 끈 매듭 위에 꿰매 단 듯이']
 LAYOUT = ['꽃다발을 왼쪽으로 10도쯤 기울여 배치', '꽃다발을 오른쪽으로 살짝 기울여 배치', '줄기를 거의 똑바로 세우고 종이 조각은 한쪽으로 치우치게',
-          '종이 조각을 위쪽 뒤에 두고 줄기 아래는 종이 밖으로 길게 나오게', '종이 조각 2장을 엇갈려 겹치고 꽃은 그 모서리에 걸치게']
+          '종이 조각을 위쪽 뒤에 두고 줄기 아래는 종이 밖으로 길게 나오게', '종이 조각들을 엇갈려 겹치고 꽃은 그 모서리에 걸치게']
 
 
 def deco_recipe(name):
-    r = random.Random('kkot-' + name)
-    parts = [r.choice(LAYOUT), '고정 방법: ' + r.choice(FIX), '테이프 무늬: ' + ', '.join(r.sample(TAPE, 2)), '테이프 색: ' + r.choice(TAPE_COLOR) + ' (테이프가 꽃보다 튀지 않게 채도 낮게)']
-    k = r.choice([0, 1, 1, 2])
-    if k:
-        parts.append('곁들일 소품: ' + ' / '.join(r.sample(EXTRA, k)))
-    else:
-        parts.append('곁들일 소품: 없음 (종이와 테이프만으로 담백하게)')
+    r = random.Random('kkot3-' + name)
+    papers = r.sample(PAPER, r.choice([2, 3, 3]))
+    items = []
+    for it in r.sample(EXTRA, len(EXTRA)):
+        if len(items) >= r.choice([2, 3, 3, 4]):
+            break
+        if it.startswith('밀랍') and any(x.startswith('밀랍') for x in items):
+            continue
+        if it.startswith('빈티지 우표') and any(x.startswith('빈티지 우표') for x in items):
+            continue
+        items.append(it)
+    parts = [r.choice(LAYOUT),
+             '종이 겹: ' + ' 위에 '.join(papers) + ' 순서로 살짝 어긋나게 겹치고, 아래 종이가 가장자리로 보이게',
+             '고정 방법: ' + r.choice(FIX),
+             '테이프 무늬: ' + ', '.join(r.sample(TAPE, 2)), '테이프 색: ' + r.choice(TAPE_COLOR) + ' (테이프가 꽃보다 튀지 않게 채도 낮게)',
+             '곁들일 소품 (각각 붙어 있는 이유가 보이게, 아무 데나 떠 있지 않게):\n  · ' + '\n  · '.join(items)]
     return '\n'.join('- ' + x for x in parts)
 
 
@@ -201,12 +212,17 @@ def main():
     model_ok = None
     for q in todo:
         name = q['name']
-        photos, sq = fetch_photos(q['hint'], sci=q.get('sci', '')) if not q['hint'].startswith('BUNDLE') else ([], '')
+        import glob
+        loc = sorted(glob.glob(os.path.join(T, 'ref_photos', glob.escape(name) + '_*.jpg')))
+        if loc:
+            photos, sq = [open(f, 'rb').read() for f in loc[:3]], (q.get('sci') or '꽃집 유통 사진')
+        else:
+            photos, sq = fetch_photos(q['hint'], sci=q.get('sci', '')) if not q['hint'].startswith('BUNDLE') else ([], '')
         print(f'{name}: 실제 사진 {len(photos)}장 ({sq})')
         if photos:
             os.makedirs(os.path.join(T, 'photos'), exist_ok=True); open(os.path.join(T, 'photos', name + '.jpg'), 'wb').write(photos[0])
-        note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})의 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따른다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
-        prompt = PROMPT.format(recipe=deco_recipe(name), photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
+        note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})이 꽃집에 유통되는 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따른다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
+        prompt = PROMPT.format(extra=('\n- ' + q['extra']) if q.get('extra') else '', recipe=deco_recipe(name), photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
         img, used, transparent = None, None, True
         for m in ([model_ok] if model_ok else MODELS):
             for tr in (True, False):
