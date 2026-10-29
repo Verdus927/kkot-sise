@@ -253,7 +253,14 @@ def main():
         rp = os.path.join(raw, name + '.png'); open(rp, 'wb').write(img)
         if not transparent:
             remove_flat_bg(rp)
-        subprocess.run([sys.executable, os.path.join(T, 'process_flower.py'), os.path.join(ROOT, 'img', 'flowers'), f'{name}={rp}'], check=True)
+        arch = os.path.join(T, 'raw', 'clean'); os.makedirs(arch, exist_ok=True)
+        subprocess.run([sys.executable, os.path.join(T, 'process_flower.py'), os.path.join(ROOT, 'img', 'flowers'), f'{name}={rp}'], check=True, env=dict(os.environ, ARCHIVE=arch))
+        try:
+            from PIL import Image as _I
+            os.makedirs(os.path.join(ROOT, 'originals'), exist_ok=True)
+            _I.open(os.path.join(arch, name + '.png')).save(os.path.join(ROOT, 'originals', name + '.webp'), 'WEBP', quality=92, method=6)
+        except Exception as e:
+            print('  원본 보관 실패', e)
         state[name] = {'date': datetime.date.today().isoformat(), 'model': used, 'transparent': transparent, 'status': '검수 대기'}
         made.append(name)
         print(f'{name}: 완료 ({used}, 투명={transparent})')

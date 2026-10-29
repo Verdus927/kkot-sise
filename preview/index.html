@@ -131,6 +131,12 @@ a{color:inherit}
  .peel.in{display:none}
 }
 .chart-cap{clear:both}
+.rank-row{position:relative}
+.peel.rkp{display:none;position:absolute;z-index:30;top:50%;width:120px;transform:translateY(-50%) rotate(var(--rot2))}
+#rises .peel.rkp{left:-112px}
+#falls .peel.rkp{right:-112px}
+@media (hover:hover){.rank-row:hover>.peel.rkp{display:block;animation:stick2 .38s cubic-bezier(.2,1.5,.4,1) both}}
+
 .progress-note{margin:12px 0 0;padding:9px 13px 9px 34px;position:relative;background:#FFF1D6;border:1px dashed #D8B26A;border-radius:10px;color:#7A4E0E;font-size:14px;font-weight:700;line-height:1.45}
 .progress-note:before{content:"⏳";position:absolute;left:11px;top:8px;font-size:14px}
 .scribble{margin:14px 0 0;font-family:var(--font-hand);font-size:20px;line-height:1.2;color:var(--rose);transform:rotate(-1.2deg);transform-origin:left}
@@ -382,7 +388,7 @@ a{color:inherit}
    <div class="paper"><h3 class="mini-h"><span class="d up">▲</span> 많이 오른 꽃</h3><div id="rises"></div></div>
    <div class="paper"><h3 class="mini-h"><span class="d down">▼</span> 많이 내린 꽃</h3><div id="falls"></div></div>
   </div>
-  <p class="note-s">최근 본경매 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
+  <p class="note-s">전체 품목 중 최근 본경매 거래량 300속 이상인 품목만, 품종·등급을 합친 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
  </div>
  <div class="blk">
   <div class="blk-h"><h2>주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
@@ -579,6 +585,22 @@ function drawFavorites(){if(!DATA)return;
  $('extraFavorites').innerHTML=extra.map(k=>favItemMarkup(k,'today')).join('');
  if(!arr.length&&!extra.length)$('favorites').innerHTML='<div class="empty-cta"><div>자주 사는 꽃을 담아 두면 열자마자 가격이 보여요.</div><button class="btn-pill" onclick="tab(\'catalog\')">☆ 관심 꽃 담으러 가기</button></div>';
 }
+
+// 많이 오른·내린 꽃: 주요 품목만이 아니라 전체 품목(품종·등급 합친 거래량 가중평균)에서 고릅니다.
+// 거래가 적은 품목 때문에 순위가 튀지 않게, 최근 본경매 거래량이 MOVER_MIN_QTY속 이상인 품목만 넣습니다.
+const ALL_ITEMS=["국화", "장미", "카네이션", "안개", "거베라", "리시안사스", "백합", "수국", "알스트메리아", "칼라", "스타티스", "유칼립투스", "금꿩의다리", "고사리", "코스모스", "튜립", "쿠루쿠마", "석죽", "백일홍", "옥시페탈륨", "메리골드", "천일홍", "베로니카", "스카비오사", "용담", "브바르디아", "후록스", "부들레야", "아미초", "아스그레피아스", "층꽃", "등골나무", "루스커스", "멜라루카", "비부리움", "심포리카르포스", "엽란", "쥐똥나무", "캐모마일", "파니쿰", "편백", "도라지꽃", "루드베키아", "사루비아", "솔리다고", "아스파라거스", "헬리옵시스", "꽃고추", "몬스테라", "버들나무", "호엽란", "개미취", "연밥", "조팝", "핑크뮬리", "극락조화", "글로리오사", "기린초", "냉이초", "노무라", "보리사초", "불노초", "산더소니아", "설유화", "소철", "솔리다스터", "신지매", "아네모네", "영춘화", "오니소갈룸", "잎안개", "폴리안테스", "셀륨", "시레네", "여우얼굴", "풍선초", "피토스포륨", "광나무(여정목)", "꽈리", "스모그트리", "알피니아", "조", "홍가시", "델피니움", "아스틸베", "트리플륨", "각구도라", "돈나무", "마가렛", "금사철", "명자란", "상사화", "에키네시아", "에키놉스", "작살나무", "연꽃", "하이페리콤", "남천", "아카시아", "헬레늄", "아게라덤", "아이리스", "억새풀", "금어초", "캄파눌라", "마타리", "디디스커스", "골드킹", "두메", "리아트리스", "부추꽃", "수선", "케로네", "탑사철", "라넌큘러스", "천조초", "히야신스", "심비디움", "이끼시아", "덴파레", "맥문동", "미니볼", "부들", "부프리움", "수수", "유포로비아", "토마토", "까치밥", "꽃양배추", "다정금", "데이지", "라이스플라워", "레인보우", "백야", "속새", "싸리", "아가판서스", "아그로템마", "에렌지움", "유도화", "종려", "치자", "팜파스", "사철나무", "니겔라"];
+const MOVER_MIN_QTY=300;
+const DISP={'리시안사스':'리시안셔스','안개':'안개꽃','알스트메리아':'알스트로메리아','튜립':'튤립','하이페리콤':'히페리쿰','불노초':'불로초'};
+function moverRows(){
+ if(!IDX?.rows)return [];
+ return ALL_ITEMS.map(n=>{const x=IDX.rows[n+SEP+'*'];if(!x||x.la==null||!(x.wa>0)||(x.lq||0)<MOVER_MIN_QTY)return null;return {raw:n,name:DISP[n]||n,todayPrice:x.la,qty:x.lq,rate:x.la/x.wa-1}}).filter(Boolean);
+}
+function openMover(raw){
+ const disp=DISP[raw]||raw;
+ if(dataRows().some(r=>r.name===disp)){scrollFlower(disp);return}
+ tab('catalog');$('auctionQuery').value=disp;if(FULL_DATE)drawAuctionResults();
+}
+function moverRow(r,i){return `<button class="rank-row" onclick="openMover(${safeArg(r.raw)})">${peel(r.raw,'rkp')}<span class="rk">${i+1}</span><span class="rn">${esc(r.name)}</span><span class="rp">${fmt(r.todayPrice)}원</span>${dlt(r.rate)}</button>`}
 function rankingRow(r,i){return `<button class="rank-row" onclick="scrollFlower(${safeArg(r.name)})"><span class="rk">${i+1}</span><span class="rn">${esc(r.name)}</span><span class="rp">${fmt(r.todayPrice)}원</span>${dlt(rate(r))}</button>`}
 function scrollFlower(name){const rows=dataRows();const index=rows.findIndex(x=>x.name===name);if(index<0)return;ACTIVE='today-'+(index+1);drawItems();document.querySelector('#todayItems')?.scrollIntoView({behavior:'smooth',block:'start'})}
 // 미리 계산한 시세가 오기 전: '없음' 대신 불러오는 모양을 보여줍니다.
@@ -590,7 +612,7 @@ function drawTodayLoading(){
  $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
  drawFavorites();drawWeekly();
 }
-function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 가격 · 거래량 가중평균 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;$('rises').innerHTML=good&&ups.length?ups.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 오른 주요 품목이 없어요.</div>';$('falls').innerHTML=good&&downs.length?downs.slice(0,5).map(rankingRow).join(''):'<div class="empty">지난주보다 내린 주요 품목이 없어요.</div>';drawItems();drawFavorites();drawWeekly()}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 가격 · 거래량 가중평균 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;{const mv=moverRows(),mu=mv.filter(r=>r.rate>0).sort((a,b)=>b.rate-a.rate),md=mv.filter(r=>r.rate<0).sort((a,b)=>a.rate-b.rate);$('rises').innerHTML=good&&mu.length?mu.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 오른 품목이 없어요.</div>';$('falls').innerHTML=good&&md.length?md.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 내린 품목이 없어요.</div>'}drawItems();drawFavorites();drawWeekly()}
 function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
 const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
 function drawFavoriteWeekList(){
@@ -660,7 +682,7 @@ function loadLatestMain(){
 
 // 미리 계산한 시세(시세집계 탭)를 받아 주요 품목과 관심 꽃에 채웁니다.
 const MAIN_NAMES=['절화 전체','국화','국화 백선(대국)','장미','카네이션','안개꽃','거베라','리시안셔스','백합','수국','알스트로메리아','칼라','스타티스','유칼립투스'];
-function indexRequestKeys(){return [...new Set([...MAIN_NAMES,...(DATA?.rows||[]).map(r=>r.name)].map(mainKey).concat(favIndexKeys()))]}
+function indexRequestKeys(){return [...new Set([...MAIN_NAMES,...(DATA?.rows||[]).map(r=>r.name)].map(mainKey).concat(ALL_ITEMS.map(n=>n+SEP+'*'),favIndexKeys()))].slice(0,300)}
 function loadIndex(){
  if(!window.google?.script?.run||IDX_LOADING)return;
  IDX_LOADING=true;

@@ -19,7 +19,7 @@ def call(name, args):
 
 meta = call('getPriceIndex', [[], []])['meta']
 days = [d['d'] for d in meta.get('dates', []) if d.get('m')]
-seen = collections.defaultdict(lambda: {'days': set(), 'vars': collections.Counter(), 'qty': 0})
+seen = collections.defaultdict(lambda: {'days': set(), 'vars': collections.Counter(), 'qty': 0, 'amt': 0})
 for d in days:
     for it in call('getCatalogDay', [d]).get('items', []):
         name, var = str(it[0]).strip(), str(it[1]).strip()
@@ -27,9 +27,12 @@ for d in days:
             continue
         s = seen[name]; s['days'].add(d); s['vars'][var] += 1
         try:
-            s['qty'] += float(it[6] or 0)
+            s['qty'] += float(it[6] or 0); s['amt'] += float(it[7] or 0)
         except Exception:
             pass
+
+stats = sorted([{'name': n, 'days': len(v['days']), 'qty': int(v['qty']), 'amount': int(v['amt']), 'varieties': len(v['vars'])} for n, v in seen.items()], key=lambda x: -x['amount'])
+json.dump({'dates': days, 'items': stats}, open(os.path.join(T, 'item_stats.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
 
 imgs = {f[:-5] for f in os.listdir(os.path.join(ROOT, 'img', 'flowers')) if f.endswith('.webp')}
 has = lambda n: n in imgs or any(n.startswith(i) for i in imgs if len(i) >= 2)
