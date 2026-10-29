@@ -24,27 +24,11 @@
   ]
  },
  {
-  "name": "사철나무",
-  "days": 1,
-  "qty": 20,
-  "varieties": [
-   "사철나무"
-  ]
- },
- {
   "name": "레인보우",
   "days": 1,
   "qty": 20,
   "varieties": [
    "트리칼라"
-  ]
- },
- {
-  "name": "니겔라",
-  "days": 1,
-  "qty": 16,
-  "varieties": [
-   "니겔라"
   ]
  }
 ]
