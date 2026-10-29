@@ -201,11 +201,13 @@
 },
 {
 "name": "보리사초",
-"hint": ""
+"hint": "Chasmanthium latifolium (northern sea oats, florist 보리사초): bundle of stems with broad flat bright green bamboo-like leaves and arching thin stems hanging small flat oat-like green spikelets that dangle and flutter",
+"sci": "Chasmanthium latifolium"
 },
 {
 "name": "불노초",
-"hint": ""
+"hint": "Hylotelephium / Sedum (florist 불로초, green type): succulent upright stems with fleshy oval blue-green leaves, topped by domed clusters of many tiny round green buds, some just opening into small pale blush-pink star flowers",
+"sci": "Hylotelephium"
 },
 {
 "name": "산더소니아",
@@ -228,7 +230,8 @@
 },
 {
 "name": "신지매",
-"hint": ""
+"hint": "Sorbaria sorbifolia (false spiraea, florist 신지매): stems with pinnate leaves of many narrow serrated leaflets, topped by large fluffy cone-shaped plumes of tiny creamy white flowers and lime-green buds",
+"sci": "Sorbaria sorbifolia"
 },
 {
 "name": "아네모네",
@@ -244,7 +247,7 @@
 },
 {
 "name": "잎안개",
-"hint": "Talinum paniculatum 'Jewels of Opar' (florist 잎안개): very fine thin wiry branching stems forming an airy cloud, dotted with countless tiny round glossy seed buds in burgundy, red-brown and pink; no visible leaves; delicate like baby's breath but with tiny jewel-like round dots",
+"hint": "Talinum paniculatum 'Jewels of Opar' cut stems: an airy cloud of hair-thin wiry branching stems; tiny seed buds of VARYING sizes (pinpoint to small) in dusty pink, coral, orange and burgundy, denser near the center and gradually thinning and fading out toward the delicate outer tips; soft, hazy, misty feel like baby's breath, not uniform beads",
 "sci": "Talinum paniculatum"
 },
 {
@@ -314,7 +317,8 @@
 },
 {
 "name": "각구도라",
-"hint": ""
+"hint": "Physostegia virginiana (obedient plant, florist 각구도라): upright stems with narrow serrated leaves, topped by long tapering four-sided spikes of soft lilac-pink snapdragon-like tubular flowers neatly stacked, with green bud tips",
+"sci": "Physostegia virginiana"
 },
 {
 "name": "돈나무",
@@ -429,7 +433,8 @@
 },
 {
 "name": "탑사철",
-"hint": ""
+"hint": "Columnar Euonymus japonicus (florist 탑사철): straight upright stems densely stacked with small glossy dark green oval leaves with finely toothed margins, forming slim tower-like columns; leaves only",
+"sci": "Euonymus japonicus"
 },
 {
 "name": "라넌큘러스",
@@ -575,7 +580,7 @@
 {
 "name": "절화",
 "hint": "BUNDLE: a mixed bouquet of assorted cut flowers (rose, chrysanthemum, carnation, lisianthus, filler) tied together",
-"extra": "꽃은 해바라기·노랑 장미·주황 거베라·보라 리시안셔스·분홍 카네이션·흰 스프레이 소국 등 계절 꽃다발처럼 비비드하게 섞고, 노랑을 꼭 넣는다. 분홍 쪽으로 치우치지 않게. 하얀 대국(큰 흰 국화)은 넣지 않는다."
+"extra": "꽃은 해바라기·노랑 장미·주황 거베라·보라 리시안셔스·분홍 카네이션·흰 스프레이 소국 등 계절 꽃다발처럼 비비드하게 섞고, 노랑을 꼭 넣는다. 분홍 쪽으로 치우치지 않게. 하얀 대국(큰 흰 국화)은 넣지 않는다. 색연필 그림처럼 보이지 않게, 다른 그림들처럼 사실적인 꽃 사진 질감이나 실제 압화(눌러 말린 꽃) 질감으로 표현한다."
 },
 {
 "name": "절지",
