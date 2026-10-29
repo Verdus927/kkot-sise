@@ -297,6 +297,7 @@ a{color:inherit}
 .auction-star{border:0;background:none;font-size:20px;color:#CFC6B6;min-width:36px;min-height:36px}
 .auction-star.saved{color:var(--pink-ink)}
 .auction-table .empty{text-align:center}
+.seek{margin:10px 0 6px;font-size:14px;color:var(--ink)}.seek b{font-weight:700}.seek-go{margin-left:6px;padding:4px 10px;border:1px solid var(--ink-2);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}.seek-tip{display:block;color:var(--ink-2);font-size:12px}
 
 /* 불러오는 동안 뼈대 */
 .sk{display:block;height:12px;border-radius:5px;background:linear-gradient(90deg,#EDE5D7 25%,#F7F2E9 50%,#EDE5D7 75%);background-size:200% 100%;animation:sk 1.2s infinite linear}
@@ -899,7 +900,44 @@ function drawAuctionResults(){
  t.innerHTML=rows.length?rows.map((r,ri)=>{
   const key=r.name+SEP+r.variety, starred=FAV.has(key);
   return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starSvg(starred)}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)}${r.variety&&r.variety!==r.name?`<span class="c-var">${esc(r.variety)}</span>`:''}</td><td class="c-ms">${gradeBadge(r.grade)} 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td class="c-vtd">${r.variety&&r.variety!==r.name?esc(r.variety):'<span class="c-same">·</span>'}</td><td>${gradeBadge(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
- }).join(''):`<tr><td colspan="10" class="empty empty-cell">검색 결과가 없어요. aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</td></tr>`;
+ }).join(''):`<tr><td colspan="10" class="empty empty-cell">${esc(FULL_DATE)}에는 검색 결과가 없어요.<div class="seek" id="seekMsg">${q?seekText(q):''}</div><small class="seek-tip">aT 표기가 다를 수 있어요 (예: 리시안사스, 안개, 알스트메리아).</small></td></tr>`;
+ if(!rows.length&&q)seekRecent(q);
+}
+// 검색 결과가 없으면 다른 경매일을 최근 날짜부터 거슬러 올라가며 찾아서 '최근 경매일'을 알려 줍니다.
+const SEEK={},SEEK_RUN={token:0};
+function seekText(q){
+ const r=SEEK[q];
+ if(!r)return '최근 경매일을 찾는 중이에요…';
+ if(r.busy)return `최근 경매일을 찾는 중이에요… (${esc(shortDate(r.at))} 확인 중)`;
+ if(!r.date)return r.checked?`${esc(r.from)} 이후 경매일 ${r.checked}번 모두 거래가 없었어요.`:'다른 경매일 자료가 없어요.';
+ const main=isMainDay(r.date);
+ return `최근 경매: <b>${esc(r.date)}(${WEEKDAYS[wdOf(r.date)]})</b> ${main?'본경매':'온라인·서면입찰'} · ${r.count}건 <button type="button" class="seek-go" onclick="goSeekDate(${safeArg(r.date)})">이 날 보기</button>`;
+}
+function goSeekDate(d){$('auctionDate').value=d;runAuctionSearch()}
+function seekRecent(q){
+ if(SEEK[q]&&(!SEEK[q].busy||SEEK_RUN.q===q))return;
+ const tok=++SEEK_RUN.token;SEEK_RUN.q=q;
+ clearTimeout(SEEK_RUN.t);
+ SEEK_RUN.t=setTimeout(()=>{
+  if(tok!==SEEK_RUN.token)return;
+  if($('auctionQuery').value.trim().toLocaleLowerCase('ko')!==q){SEEK_RUN.q='';return}
+  const dates=(IDX?.meta?.dates||[]).map(x=>x.d).filter(d=>d!==FULL_DATE).sort().reverse().slice(0,40);
+  const st=SEEK[q]={busy:true,at:dates[0],checked:0,from:dates[dates.length-1]};
+  const paint=()=>{const el=$('seekMsg');if(el&&$('auctionQuery').value.trim().toLocaleLowerCase('ko')===q)el.innerHTML=seekText(q)};
+  let i=0;
+  const step=()=>{
+   if(tok!==SEEK_RUN.token){if(st.busy&&SEEK[q]===st)delete SEEK[q];return}
+   if(i>=dates.length){st.busy=false;st.date=null;paint();return}
+   const batch=dates.slice(i,i+3);i+=3;st.at=batch[0];paint();
+   let got=0;const res={};
+   batch.forEach(d=>fetchCatalog(d,data=>{res[d]=data;if(++got<batch.length)return;
+    for(const b of batch){const rows=(res[b].rows||[]).filter(r=>searchMatch(r,q));st.checked++;
+     if(rows.length){st.busy=false;st.date=b;st.count=rows.length;paint();return}}
+    step();
+   }));
+  };
+  step();
+ },700);
 }
 // 전체 품목 조회 위쪽의 '내 관심 꽃' 바로가기. 누르면 그 꽃으로 바로 거릅니다.
 function drawFavChips(){

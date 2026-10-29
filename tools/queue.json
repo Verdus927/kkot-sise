@@ -608,5 +608,25 @@
 "name": "니겔라",
 "hint": "Nigella damascena (love-in-a-mist) as sold by florists in autumn: thin stems with fine thread-like feathery foliage, some soft blue 5-petal flowers wrapped in a lacy green ruff, and many inflated round striped green-and-burgundy seed pods with little horns on top",
 "sci": "Nigella damascena"
+},
+{
+"name": "스위트피",
+"hint": "Sweet pea (Lathyrus odoratus): ruffled butterfly-like pea flowers with a large upright standard petal, in soft lavender, pink and white, several flowers along a slender stem, curling tendrils, small paired oval leaves",
+"sci": "Lathyrus odoratus"
+},
+{
+"name": "왁스플라워",
+"hint": "Geraldton waxflower (Chamelaucium uncinatum): many tiny round 5-petal waxy flowers in pale pink and white with darker centers, on woody branching stems with fine needle-like leaves",
+"sci": "Chamelaucium uncinatum"
+},
+{
+"name": "작약",
+"hint": "Chinese peony (Paeonia lactiflora): large lush double bowl-shaped blooms with many ruffled petals in blush pink, round tight buds, deeply lobed glossy dark green leaves",
+"sci": "Paeonia lactiflora"
+},
+{
+"name": "프리지아",
+"hint": "Freesia: funnel-shaped fragrant flowers arranged in a one-sided row along a stem bent at a right angle, buds getting smaller toward the tip, in cream yellow and white, narrow sword leaves",
+"sci": "Freesia"
 }
 ]
