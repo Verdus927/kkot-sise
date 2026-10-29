@@ -37,4 +37,4 @@ jobs:
           for f in img/flowers tools/state.json tools/last_run.log preview/index.html review; do [ -e "$f" ] && git add "$f"; done
           git diff --cached --quiet && echo "바뀐 것 없음" && exit 0
           git commit -m "꽃 그림 자동 제작 $(date +%F)"
-          git pull --rebase && git push
+          for t in 1 2 3; do git pull --rebase -X theirs && git push && break; sleep 5; done
