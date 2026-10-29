@@ -794,5 +794,29 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "검수 대기"
+ },
+ "스위트피": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "왁스플라워": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "작약": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "프리지아": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
