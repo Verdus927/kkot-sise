@@ -253,8 +253,8 @@
 },
 {
 "name": "시레네",
-"hint": "Silene (campion, florist type 'Green Bells'): inflated papery bladder-like calyces in pale green with small white petals on branching stems",
-"sci": "Silene vulgaris"
+"hint": "Silene (florist pink catchfly, light pink variety): many upright branching stems topped by dense rounded clusters of small pale blush-pink 5-petal star flowers with notched petals, with slim tubular green calyces between the flowers, oval opposite green leaves",
+"sci": "Silene"
 },
 {
 "name": "여우얼굴",
@@ -305,7 +305,8 @@
 },
 {
 "name": "트리플륨",
-"hint": ""
+"hint": "Trifolium rubens 'white' (white clover filler): soft green stems with trifoliate clover leaves and elongated oval white-cream clover flower heads that nod slightly, cream fading to pale green",
+"sci": "Trifolium rubens"
 },
 {
 "name": "각구도라",
@@ -313,7 +314,8 @@
 },
 {
 "name": "돈나무",
-"hint": "Pittosporum tobira: thick glossy leathery obovate leaves in whorls at twig tips, small creamy white flowers"
+"hint": "Pittosporum tobira cut foliage branches as florists use them: woody stems with glossy thick leathery obovate dark green leaves arranged in whorled rosettes at each branch tip; no flowers, no fruit",
+"sci": "Pittosporum tobira"
 },
 {
 "name": "마가렛",
@@ -325,7 +327,8 @@
 },
 {
 "name": "명자란",
-"hint": ""
+"hint": "Variegated Solomon's seal (Polygonatum odoratum 'Variegatum') foliage stems: arching dark reddish stems with alternate oval pointed leaves striped and edged with creamy lemon-white; leaves only",
+"sci": "Polygonatum odoratum"
 },
 {
 "name": "상사화",
@@ -431,7 +434,8 @@
 },
 {
 "name": "천조초",
-"hint": ""
+"hint": "Larkspur (Consolida ajacis) as sold by florists: slender airy stems with fine feathery thread-like leaves and loose spikes of delicate ruffled flowers in soft pink, lavender-purple, and white, with many green buds at the tips; lighter and more delicate than delphinium",
+"sci": "Consolida ajacis"
 },
 {
 "name": "히야신스",
@@ -445,7 +449,8 @@
 },
 {
 "name": "이끼시아",
-"hint": ""
+"hint": "Tritonia / crocosmia-like stems (이끼시아): thin arching wiry stems with a zigzag row of buds; some stems show open bright (muted) orange star-shaped 6-petal flowers, other stems show round brown seed pods lined up along the stem; mix both flowering and seed-pod stems",
+"sci": "Tritonia"
 },
 {
 "name": "덴파레",
@@ -481,8 +486,8 @@
 },
 {
 "name": "토마토",
-"hint": "Cherry tomato vine stem with clusters of small round red and green tomatoes and serrated leaves",
-"sci": "Solanum lycopersicum"
+"hint": "Ornamental tomato branch (화초토마토, Solanum ornamental fruit stem) as used in ikebana: long bare green stems carrying small round glossy red-orange fruits in pairs and small clusters along the stem, few small leaves; elegant line, fruits small like cherries",
+"sci": "Solanum"
 },
 {
 "name": "까치밥",
@@ -496,7 +501,8 @@
 },
 {
 "name": "다정금",
-"hint": ""
+"hint": "Rhaphiolepis umbellata (Yeddo hawthorn) branch with fruit: reddish twigs with glossy leathery oval dark green leaves and clusters of round blue-black glossy berries on red stalks",
+"sci": "Rhaphiolepis umbellata"
 },
 {
 "name": "데이지",
@@ -514,7 +520,8 @@
 },
 {
 "name": "백야",
-"hint": ""
+"hint": "Ageratina altissima (white snakeroot, florist 백야): branching stems with opposite toothed heart-shaped leaves (some dark burgundy-tinged), topped by flat dense fluffy clusters of tiny bright white tufted flower heads at the branch ends",
+"sci": "Ageratina altissima"
 },
 {
 "name": "속새",

@@ -285,12 +285,6 @@
   "transparent": true,
   "status": "검수 대기"
  },
- "시레네": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
  "여우얼굴": {
   "date": "2026-10-28",
   "model": "gpt-image-2.5-sunburst",
@@ -370,12 +364,6 @@
   "status": "검수 대기"
  },
  "아스틸베": {
-  "date": "2026-10-29",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
- "돈나무": {
   "date": "2026-10-29",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
@@ -532,12 +520,6 @@
   "status": "검수 대기"
  },
  "유포로비아": {
-  "date": "2026-10-29",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
- "토마토": {
   "date": "2026-10-29",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
