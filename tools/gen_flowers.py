@@ -226,7 +226,7 @@ def main():
         print(f'{name}: 실제 사진 {len(photos)}장 ({sq})')
         if photos:
             os.makedirs(os.path.join(T, 'photos'), exist_ok=True); open(os.path.join(T, 'photos', name + '.jpg'), 'wb').write(photos[0])
-        note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})이 꽃집에 유통되는 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따른다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
+        note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})이 꽃집에 유통되는 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따르되, 사진의 구도·각도·배치를 그대로 베끼지 말고 식물의 형태 특징만 참고해 새로 그린다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
         prompt = PROMPT.format(extra=('\n- ' + q['extra']) if q.get('extra') else '', recipe=deco_recipe(name), photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
         img, used, transparent = None, None, True
         for m in ([model_ok] if model_ok else MODELS):

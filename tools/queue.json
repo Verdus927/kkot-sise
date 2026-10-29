@@ -155,7 +155,8 @@
 },
 {
 "name": "호엽란",
-"hint": ""
+"hint": "Ophiopogon jaburan (호엽란) leaf bundle as sold by florists: a tied bundle of long slender arching grass-like strap leaves, some solid dark green, some variegated with cream-white stripes; leaves only, flowing and curving gracefully",
+"sci": "Ophiopogon jaburan"
 },
 {
 "name": "개미취",
@@ -186,7 +187,8 @@
 },
 {
 "name": "기린초",
-"hint": ""
+"hint": "Florist 기린초 = goldenrod-type filler (Solidago canadensis florist cut): upright leafy stems with long narrow lance leaves topped by fluffy branching plumes of tiny lime-yellow buds and florets, fresh green-yellow tone",
+"sci": "Solidago canadensis"
 },
 {
 "name": "냉이초",
@@ -194,7 +196,8 @@
 },
 {
 "name": "노무라",
-"hint": ""
+"hint": "Leatherleaf fern / 노무라 (Rumohra adiantiformis type florist fern): stiff triangular glossy dark green fern fronds with many regularly serrated pinnae, on long bare green stems, tied as a bundle; leaves only",
+"sci": "Rumohra adiantiformis"
 },
 {
 "name": "보리사초",
@@ -241,7 +244,8 @@
 },
 {
 "name": "잎안개",
-"hint": ""
+"hint": "Talinum paniculatum 'Jewels of Opar' (florist 잎안개): very fine thin wiry branching stems forming an airy cloud, dotted with countless tiny round glossy seed buds in burgundy, red-brown and pink; no visible leaves; delicate like baby's breath but with tiny jewel-like round dots",
+"sci": "Talinum paniculatum"
 },
 {
 "name": "폴리안테스",
@@ -486,8 +490,8 @@
 },
 {
 "name": "토마토",
-"hint": "Ornamental tomato branch (화초토마토, Solanum ornamental fruit stem) as used in ikebana: long bare green stems carrying small round glossy red-orange fruits in pairs and small clusters along the stem, few small leaves; elegant line, fruits small like cherries",
-"sci": "Solanum"
+"hint": "Ornamental tomato branch (화초토마토, Solanum integrifolium / pumpkin-on-a-stick type) for ikebana: thick sturdy green stems branching in a striking sculptural line, carrying many small ribbed round red-orange fruits (like tiny pumpkins) in clusters along the stem, some yellow-green unripe fruits, leaves removed",
+"sci": "Solanum integrifolium"
 },
 {
 "name": "까치밥",
@@ -543,7 +547,8 @@
 },
 {
 "name": "에렌지움",
-"hint": "Eryngium (sea holly): spiky thistle-like cone heads surrounded by a ruff of spiny silver-blue bracts"
+"hint": "Eryngium (sea holly) cut stems as sold by florists: branching steel-blue to silvery-violet stems, each ending in a small oval spiky cone head surrounded by a star-shaped ruff of narrow spiny silver-blue bracts; deeply cut spiny leaves low on the stem",
+"sci": "Eryngium planum"
 },
 {
 "name": "유도화",
@@ -551,7 +556,8 @@
 },
 {
 "name": "종려",
-"hint": "Palm leaf (Trachycarpus fortunei): fan-shaped pleated palm leaf on a long stalk"
+"hint": "Trachycarpus fortunei (windmill palm) cut LEAF: one or two large pleated fan-shaped palm leaves on long smooth stalks; leaf only, no flower spike, no fruit",
+"sci": "Trachycarpus fortunei"
 },
 {
 "name": "치자",
@@ -568,11 +574,13 @@
 },
 {
 "name": "절화",
-"hint": "BUNDLE: a mixed bouquet of assorted cut flowers (rose, chrysanthemum, carnation, lisianthus, filler) tied together"
+"hint": "BUNDLE: a mixed bouquet of assorted cut flowers (rose, chrysanthemum, carnation, lisianthus, filler) tied together",
+"extra": "꽃은 해바라기·노랑 장미·주황 거베라·보라 리시안셔스·분홍 카네이션·흰 스프레이 소국 등 계절 꽃다발처럼 비비드하게 섞고, 노랑을 꼭 넣는다. 분홍 쪽으로 치우치지 않게. 하얀 대국(큰 흰 국화)은 넣지 않는다."
 },
 {
 "name": "절지",
-"hint": "BUNDLE: a bundle of cut flowering and leafy branches (willow, spiraea, cherry blossom twigs, photinia) tied together"
+"hint": "BUNDLE: a bundle of cut flowering and leafy branches (willow, spiraea, cherry blossom twigs, photinia) tied together",
+"extra": "꽃은 거의 없이 가지의 멋을 살린다: 곱슬버들처럼 꼬불꼬불한 가지, 갈색 나뭇가지, 잎 달린 홍가시 가지, 열매 가지 등을 길고 멋있는 선으로. 흰 꽃송이는 넣지 않는다."
 },
 {
 "name": "열매",
