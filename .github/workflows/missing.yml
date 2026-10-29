@@ -2,7 +2,7 @@ name: 그림 없는 품목 찾기
 
 on:
   schedule:
-    - cron: '0 1 * * 1'   # 매주 월요일 한국 시간 오전 10시 (그림 비용 없음)
+    - cron: '30 22 * * 2'   # 매주 수요일 한국 시간 오전 7시 30분 (그림 비용 없음)
   workflow_dispatch:
   push:
     paths: ['tools/find_missing.py']
