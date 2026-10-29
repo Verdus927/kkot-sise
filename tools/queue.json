@@ -598,5 +598,13 @@
 {
 "name": "그라스",
 "hint": "BUNDLE: a bundle of ornamental dried grasses (pampas, bunny tail, miscanthus, millet) tied together"
+},
+{
+"name": "사철나무",
+"hint": ""
+},
+{
+"name": "니겔라",
+"hint": ""
 }
 ]
