@@ -740,5 +740,47 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "검수 대기"
+ },
+ "보리사초": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "불노초": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "신지매": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "잎안개": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "각구도라": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "탑사철": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "절화": {
+  "date": "2026-10-29",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
