@@ -123,18 +123,6 @@
   "transparent": true,
   "status": "검수 대기"
  },
- "심포리카르포스": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
- "엽란": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
  "쥐똥나무": {
   "date": "2026-10-29",
   "model": "gpt-image-2.5-sunburst",
@@ -207,12 +195,6 @@
   "transparent": true,
   "status": "검수 대기"
  },
- "버들나무": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
  "개미취": {
   "date": "2026-10-28",
   "model": "gpt-image-2.5-sunburst",
@@ -267,12 +249,6 @@
   "transparent": true,
   "status": "검수 대기"
  },
- "소철": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
  "솔리다스터": {
   "date": "2026-10-28",
   "model": "gpt-image-2.5-sunburst",
@@ -321,19 +297,7 @@
   "transparent": true,
   "status": "검수 대기"
  },
- "풍선초": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
  "피토스포륨": {
-  "date": "2026-10-28",
-  "model": "gpt-image-2.5-sunburst",
-  "transparent": true,
-  "status": "검수 대기"
- },
- "광나무(여정목)": {
   "date": "2026-10-28",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
