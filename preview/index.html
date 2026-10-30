@@ -198,6 +198,7 @@ a{color:inherit}
 }
 @keyframes stick3{from{opacity:0;transform:rotate(calc(var(--rot2) - 16deg)) scale(.55)}to{opacity:1;transform:rotate(var(--rot2)) scale(1)}}
 
+.list-div{padding:16px 16px 10px;border-top:1px dashed var(--line);background:linear-gradient(rgba(234,240,228,.55),transparent)}.list-div b{display:block;font-family:var(--font-deco);font-size:16px;color:var(--forest)}.list-div span{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-2)}
 .wk-tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#EAF0E4;color:#4E6B4A;font-size:11px;font-weight:700;vertical-align:2px}
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
@@ -455,7 +456,7 @@ a{color:inherit}
  </div>
  <div class="blk">
   <div class="blk-h"><h2 class="lbl">주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
-  <p class="blk-sub">1년 내내 많이 팔리는 꽃·소재에 지난주 많이 거래된 품목 5개를 더했어요. 누르면 8주 흐름이 보여요.</p>
+  <p class="blk-sub">1년 내내 경매에서 많이 거래되는 꽃과 소재예요. 누르면 8주 흐름이 보여요.</p>
   <div class="taped"><img class="tape-img t-mid t-right" src="../img/deco/tape-rose.webp?v=1" alt="" aria-hidden="true" width="220" height="126"><div id="todayItems" class="list"></div></div>
  </div>
  <div class="blk">
@@ -558,7 +559,7 @@ function rowMarkup(r,scope,mode='today'){
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
  const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume)+'속':'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>2주 전보다 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>작년보다 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
- return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}${r.season?'<span class="wk-tag">이번 주</span>':''}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+ return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
@@ -608,7 +609,7 @@ document.addEventListener('click',e=>{
  document.querySelectorAll('.chart .tip').forEach(n=>n.remove());document.querySelectorAll('.chart .exv').forEach(n=>n.style.opacity='');
 },true);
 document.addEventListener('mouseover',e=>{const r=e.target.closest&&e.target.closest('.chart .hit');if(r&&matchMedia('(hover:hover)').matches)chartTip(r)});
-function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map(r=>rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
+function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map((r,i)=>(r.season&&!available[i-1]?.season?'<div class="list-div"><b>요즘 많이 거래되는 꽃</b><span>지난주 거래가 많았던 품목이에요. 매주 바뀌어요.</span></div>':'')+rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
 function favoriteLabel(key){const p=key.split(SEP);return p.length>1?(p[1]==='*'?(p[0]==='*'?'절화 전체':p[0]+' 전체'):p[0]+' · '+p[1]):key}
 function favoriteDetails(name){
  FAV_OPEN=FAV_OPEN===name?null:name;
