@@ -322,7 +322,7 @@ a{color:inherit}
 
 
 /* ---------- 다꾸 소재 ---------- */
-.h2-seal{position:absolute;width:34px;height:auto;right:-42px;top:-6px;transform:rotate(12deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25))}
+.h2-seal{position:absolute;width:36px;height:auto;right:-6px;top:4px;transform:rotate(12deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25))}
 .sealed{position:relative;overflow:visible!important}
 .sealed .seal{position:absolute;width:48px;height:auto;top:-16px;right:-10px;z-index:3;transform:rotate(-8deg);filter:drop-shadow(0 4px 4px rgba(80,50,20,.25));pointer-events:none}
 .taped{position:relative}
@@ -332,7 +332,8 @@ a{color:inherit}
 .trend-tape .tape-img.t-mid{transform:rotate(3deg);top:-18px}
 .trend-tape:has(#itemTrend[hidden]) .tape-img{display:none}
 .news-wrap>.tape-img.t-left{z-index:3}
-.blk h2.lbl{display:flex;align-items:center;width:262px;height:86px;margin:-14px 0 -4px -14px;padding:0 20px 0 74px;background:url(../img/deco/label.webp?v=1) left center/100% 100% no-repeat;font-size:21px;letter-spacing:-.5px}
+.blk h2.lbl{display:flex;align-items:center;min-width:236px;height:80px;margin:-14px 0 -4px -14px;padding:0 46px 0 72px;isolation:isolate;font-size:21px;font-weight:800;letter-spacing:-.5px;color:#22301f;text-shadow:0 0 6px rgba(255,248,232,.9),0 1px 0 rgba(255,250,240,.8)}
+.blk h2.lbl:before{content:"";position:absolute;inset:0;z-index:-1;background:url(../img/deco/label.webp?v=1) left center/100% 100% no-repeat;filter:brightness(1.16) saturate(.75) contrast(.92)}
 .blk h2.lbl:after{display:none}
 .fav-list:has(.memo){background:none;border:0;box-shadow:none;overflow:visible}
 .memo{width:300px;height:285px;flex:none;margin:-6px 0 -10px -6px;background:url(../img/deco/memo-lavender.webp?v=1) center/100% 100% no-repeat;display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:88px 58px 0 44px;filter:drop-shadow(0 8px 10px rgba(80,50,20,.18))}
@@ -346,7 +347,7 @@ a{color:inherit}
 .garland-wrap{display:flex;justify-content:center;margin:6px 0 -18px;position:relative;z-index:2}
 .garland-wrap img{width:min(360px,80vw);height:auto}
 .foot-stamp{float:right;width:108px;height:auto;margin:-4px 0 8px 14px;transform:rotate(6deg);filter:drop-shadow(0 6px 6px rgba(80,50,20,.18))}
-@media (max-width:760px){.foot-stamp{width:84px}.blk h2.lbl{width:240px;height:79px;font-size:19px;padding-left:68px}.h2-seal{width:30px;right:-36px}}
+@media (max-width:760px){.foot-stamp{width:84px}.blk h2.lbl{min-width:216px;height:74px;font-size:19px;padding:0 40px 0 64px}.h2-seal{width:32px;right:-6px}}
 
 /* ---------- 휴대폰 ---------- */
 @media (max-width:760px){
@@ -434,7 +435,7 @@ a{color:inherit}
 <section class="page on" id="p-today">
  <div id="a2hs" class="a2hs" hidden><img src="../img/icon-192.png?v=2" alt=""><div class="tx"><b>홈 화면에 꽃시세 추가하기</b><span id="a2hsMsg">앱처럼 한 번에 열 수 있어요.</span></div><button id="a2hsGo" class="go" hidden>추가</button><button class="x" aria-label="닫기" onclick="a2hsClose()">✕</button></div>
  <div class="blk">
-  <div class="blk-h"><h2>내 관심 꽃<img class="h2-seal" src="../img/deco/seal-star.webp?v=1" alt="" aria-hidden="true" width="120" height="108"></h2><button class="link" onclick="tab('catalog')">꽃 찾기</button></div>
+  <div class="blk-h"><h2 class="lbl">내 관심 꽃<img class="h2-seal" src="../img/deco/seal-star.webp?v=1" alt="" aria-hidden="true" width="120" height="108"></h2><button class="link" onclick="tab('catalog')">꽃 찾기</button></div>
   <p class="blk-sub">☆를 눌러 담은 꽃이 여기 모여요. 이 기기에만 저장돼요.</p>
   <div class="list fav-list"><div id="favorites"></div><div id="extraFavorites"></div></div>
  </div>
@@ -446,12 +447,12 @@ a{color:inherit}
   <p class="note-s">전체 품목 중 최근 본경매 거래량 300속 이상인 품목만, 품종·등급을 합친 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
  </div>
  <div class="blk">
-  <div class="blk-h"><h2>주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
+  <div class="blk-h"><h2 class="lbl">주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
   <p class="blk-sub">누르면 등급별 가격과 8주 흐름이 펼쳐져요.</p>
   <div class="taped"><img class="tape-img t-mid" src="../img/deco/tape-rose.webp?v=1" alt="" aria-hidden="true" width="220" height="126"><div id="todayItems" class="list"></div></div>
  </div>
  <div class="blk">
-  <div class="blk-h"><h2>시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
+  <div class="blk-h"><h2 class="lbl">시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
   <p class="blk-sub">화훼 시장 관련 최신 기사예요.</p>
   <div class="news-wrap"><img class="tape-img t-mid" src="../img/deco/tape-kraft.webp?v=1" alt="" aria-hidden="true" width="220" height="95"><img class="news-deco" data-drag="news-top" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsTop" class="news-list paper"><div class="empty">기사를 불러오는 중</div></div></div>
  </div>
@@ -481,7 +482,7 @@ a{color:inherit}
   <div class="news-wrap"><img class="tape-img t-mid" src="../img/deco/tape-kraft.webp?v=1" alt="" aria-hidden="true" width="220" height="95"><img class="news-deco" data-drag="news-all" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsAll" class="news-list paper"><div class="empty">뉴스를 불러오는 중</div></div></div>
  </div>
  <div class="blk">
-  <div class="blk-h"><h2>계절·행사 일정</h2></div>
+  <div class="blk-h"><h2 class="lbl">계절·행사 일정</h2></div>
   <p class="blk-sub">다가오는 꽃 수요 시즌이에요.</p>
   <div id="seasonSite"></div>
   <div class="events" id="events"></div>
