@@ -306,13 +306,16 @@ a{color:inherit}
 /* ---------- 하단 ---------- */
 .news-wrap{position:relative}
 .news-deco{display:none}
+@media (min-width:1180px){.news-deco{width:170px;right:-56px}}
 @media (min-width:761px){
  .news-wrap .news-list{position:relative;z-index:1}
- .news-deco{display:block;position:absolute;z-index:2;pointer-events:none;width:210px;height:auto;right:9%;top:50%;transform:translateY(-50%) rotate(-14deg);filter:drop-shadow(0 12px 14px rgba(80,50,20,.25))}
+ .news-deco{display:block;position:absolute;z-index:2;width:150px;height:auto;right:-30px;bottom:-70px;transform:rotate(-12deg);filter:drop-shadow(0 12px 14px rgba(80,50,20,.25))}
  .end-deco{display:none!important}
 }
 .end-deco{display:flex;justify-content:center;margin:-24px 0 -26px;position:relative;z-index:1;pointer-events:none}
-.end-deco img{width:190px;height:auto;filter:drop-shadow(0 10px 14px rgba(80,50,20,.22));transform:rotate(-3deg)}
+.end-deco img{pointer-events:auto;width:190px;height:auto;filter:drop-shadow(0 10px 14px rgba(80,50,20,.22));transform:rotate(-3deg)}
+ [data-drag]{cursor:grab;touch-action:none;user-select:none;-webkit-user-drag:none;transition:filter .15s}
+[data-drag].dragging{cursor:grabbing;filter:drop-shadow(0 22px 22px rgba(80,50,20,.32))!important;z-index:20}
 .foot{color:var(--ink-3);font-size:12px;line-height:1.7;padding:22px 0 30px;border-top:1px solid var(--line)}
 .foot p{margin:0 0 6px}
 .foot .src{color:var(--ink-2)}
@@ -422,7 +425,7 @@ a{color:inherit}
  <div class="blk">
   <div class="blk-h"><h2>시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
   <p class="blk-sub">화훼 시장 관련 최신 기사예요.</p>
-  <div class="news-wrap"><img class="news-deco" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsTop" class="news-list paper"><div class="empty">기사를 불러오는 중</div></div></div>
+  <div class="news-wrap"><img class="news-deco" data-drag="news-top" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsTop" class="news-list paper"><div class="empty">기사를 불러오는 중</div></div></div>
  </div>
 </section>
 
@@ -447,7 +450,7 @@ a{color:inherit}
  <div class="blk">
   <div class="blk-h"><h2>시장 소식</h2><span id="newsStamp" class="count"></span></div>
   <p class="blk-sub">화훼 시장 관련 기사를 모았어요. 같은 내용의 기사는 하나만 보여드려요.</p>
-  <div class="news-wrap"><img class="news-deco" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsAll" class="news-list paper"><div class="empty">뉴스를 불러오는 중</div></div></div>
+  <div class="news-wrap"><img class="news-deco" data-drag="news-all" src="../img/bouquet.webp" alt="" aria-hidden="true" width="492" height="620" decoding="async"><div id="newsAll" class="news-list paper"><div class="empty">뉴스를 불러오는 중</div></div></div>
  </div>
  <div class="blk">
   <div class="blk-h"><h2>계절·행사 일정</h2></div>
@@ -459,7 +462,7 @@ a{color:inherit}
 
 </div></main>
 <nav class="tabs bottom-bar" aria-label="아래 메뉴"><button class="sel" data-tab="today" onclick="tab('today')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5.6" r="3"/><circle cx="17.4" cy="10" r="3"/><circle cx="15.3" cy="16.3" r="3"/><circle cx="8.7" cy="16.3" r="3"/><circle cx="6.6" cy="10" r="3"/><circle cx="12" cy="11.6" r="1.6" fill="currentColor"/></svg>오늘 시세</button><button data-tab="catalog" onclick="tab('catalog')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>전체 품목</button><button data-tab="insight" onclick="tab('insight')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M8 9h8M8 12.5h8M8 16h5"/></svg>시장 소식</button></nav>
-<div class="end-deco" aria-hidden="true"><img src="../img/bouquet.webp" alt="" width="492" height="620" loading="lazy" decoding="async"></div>
+<div class="end-deco" aria-hidden="true"><img data-drag="end" src="../img/bouquet.webp" alt="" width="492" height="620" loading="lazy" decoding="async"></div>
 <footer class="foot"><div class="wrap"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p></div></footer>
 <script src="../js/config.js?v=20261027"></script><script src="../js/api.js?v=20261027"></script><script>
 const PREVIEW_DATA=null;
@@ -1003,4 +1006,21 @@ function a2hsClose(){$('a2hs').hidden=true;try{localStorage.setItem('kkotA2hsClo
  $('a2hsGo').addEventListener('click',async()=>{if(!A2HS_EVT)return;A2HS_EVT.prompt();const r=await A2HS_EVT.userChoice;A2HS_EVT=null;if(r.outcome==='accepted')a2hsClose()});
  window.addEventListener('appinstalled',a2hsClose);
 })();
+
+// 꾸미기 스티커는 끌어서 옮길 수 있어요. 옮긴 자리는 이 브라우저에 기억하고, 두 번 누르면 제자리로.
+function initDragStickers(){
+ const mode=()=>innerWidth>760?'d':'m',K=el=>'kkot-stk-'+el.dataset.drag+'-'+mode();
+ const load=el=>{let v=null;try{v=JSON.parse(localStorage.getItem(K(el))||'null')}catch(e){}el.style.translate=v?`${v[0]}px ${v[1]}px`:''};
+ document.querySelectorAll('[data-drag]').forEach(el=>{
+  el.title='끌어서 옮길 수 있어요 · 두 번 누르면 제자리';el.draggable=false;load(el);
+  let sx=0,sy=0,bx=0,by=0,on=false;
+  el.addEventListener('pointerdown',e=>{if(e.button)return;on=true;el.setPointerCapture(e.pointerId);const t=(el.style.translate||'0px 0px').split(' ');bx=parseFloat(t[0])||0;by=parseFloat(t[1])||0;sx=e.clientX;sy=e.clientY;el.classList.add('dragging');e.preventDefault()});
+  el.addEventListener('pointermove',e=>{if(!on)return;el.style.translate=`${Math.round(bx+e.clientX-sx)}px ${Math.round(by+e.clientY-sy)}px`});
+  const end=()=>{if(!on)return;on=false;el.classList.remove('dragging');const t=(el.style.translate||'0px 0px').split(' ');try{localStorage.setItem(K(el),JSON.stringify([parseFloat(t[0])||0,parseFloat(t[1])||0]))}catch(e){}};
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+  el.addEventListener('dblclick',()=>{el.style.translate='';try{localStorage.removeItem(K(el))}catch(e){}});
+ });
+ let w=mode();addEventListener('resize',()=>{if(mode()!==w){w=mode();document.querySelectorAll('[data-drag]').forEach(load)}});
+}
+initDragStickers();
 </script></body></html>
