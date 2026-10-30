@@ -142,7 +142,8 @@ a{color:inherit}
 .c-same{color:var(--line)}
 .item-trend{padding:14px 16px 12px;margin:4px 0 14px}
 .item-trend[hidden]{display:none}
-.it-h{font-size:14px;color:var(--ink-2);margin-bottom:8px}
+.it-h{font-size:14px;color:var(--ink-2);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.it-fav{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.it-fav svg{width:16px;height:16px}.it-fav.saved{border-color:#C98A96;background:#F8E9EA}
 .item-trend .kpis{margin-bottom:8px}
 @media (max-width:760px){
  .item-trend .kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px}
@@ -328,8 +329,8 @@ a{color:inherit}
 .sealed .seal{position:absolute;width:48px;height:auto;top:-16px;right:-10px;z-index:3;transform:rotate(-8deg);filter:drop-shadow(0 4px 4px rgba(80,50,20,.25));pointer-events:none}
 .taped{position:relative}
 .tape-img{position:absolute;z-index:4;height:auto;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(80,50,20,.15))}
-.tape-img.t-left{width:92px;top:-14px;left:22px;transform:rotate(-7deg)}
-.tape-img.t-mid{width:108px;top:-26px;left:50%;margin-left:-54px;transform:rotate(-4deg)}
+.tape-img.t-left{width:72px;top:-12px;left:22px;transform:rotate(-7deg)}
+.tape-img.t-mid{width:78px;top:-20px;left:50%;margin-left:-39px;transform:rotate(-4deg)}
 .tape-img.t-mid.t-right{left:74%;transform:rotate(5deg)}
 .trend-tape .tape-img.t-mid{transform:rotate(3deg);top:-18px}
 .trend-tape:has(#itemTrend[hidden]) .tape-img{display:none}
@@ -349,7 +350,7 @@ a{color:inherit}
 .garland-wrap{display:flex;justify-content:center;margin:6px 0 -18px;position:relative;z-index:2}
 .garland-wrap img{width:min(360px,80vw);height:auto}
 .foot-stamp{float:right;width:108px;height:auto;margin:-4px 0 8px 14px;transform:rotate(6deg);filter:drop-shadow(0 6px 6px rgba(80,50,20,.18))}
-@media (max-width:760px){.foot-stamp{width:84px}.blk h2.lbl{min-width:216px;height:74px;font-size:19px;padding:0 40px 0 64px}.h2-seal{width:32px;right:-6px}}
+@media (max-width:760px){.tape-img.t-mid{width:66px;margin-left:-33px;top:-17px}.foot-stamp{width:84px}.blk h2.lbl{min-width:216px;height:74px;font-size:19px;padding:0 40px 0 64px}.h2-seal{width:32px;right:-6px}}
 
 /* ---------- 휴대폰 ---------- */
 @media (max-width:760px){
@@ -915,17 +916,19 @@ function gradeBadge(g){g=String(g||'');const k=g[0]==='특'?'g1':g[0]==='상'?'g
 // 검색한 품목의 품종·등급 전체 평균가 흐름 (최근 8주)
 function drawItemTrend(q,rows){
  const box=$('itemTrend');if(!box)return;
- if(!q||!rows.length||!IDX){box.hidden=true;return}
+ if(!q||!rows.length||!IDX){box.hidden=true;return null}
  const cnt={};rows.forEach(r=>cnt[r.name]=(cnt[r.name]||0)+1);
  const [name,c]=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
- if(c<rows.length*0.6){box.hidden=true;return}
+ if(c<rows.length*0.6){box.hidden=true;return null}
  const key=name+SEP+'*',x=IDX.rows?.[key];
- if(!x){box.hidden=true;if(!drawItemTrend.asked?.[key]){(drawItemTrend.asked=drawItemTrend.asked||{})[key]=1;loadIndexKeys([key]);setTimeout(()=>drawAuctionResults(),2500)}return}
+ if(!x){box.hidden=true;if(!drawItemTrend.asked?.[key]){(drawItemTrend.asked=drawItemTrend.asked||{})[key]=1;loadIndexKeys([key]);setTimeout(()=>drawAuctionResults(),2500)}return null}
  const m=IDX.meta||{},yc=x.wa!=null&&x.ya>0?x.wa/x.ya-1:null;
  box.hidden=false;
- box.innerHTML=`<div class="it-h"><b>${esc(name)}</b> 품종·등급 전체 평균 시세</div>
+ const fk=name+SEP+'*',on=FAV.has(fk);
+ box.innerHTML=`<div class="it-h"><span><b>${esc(name)}</b> 품종·등급 전체 평균 시세</span><button type="button" class="it-fav${on?' saved':''}" onclick="toggleFav(${safeArg(fk)})" aria-pressed="${on}">${starSvg(on)} ${on?'관심 꽃에 담김':esc(name)+' 전체 담기'}</button></div>
  <div class="kpis"><div><span>${esc(shortDate(m.latestDate))} 본경매</span><b>${x.la!=null?fmt(x.la)+'원':'—'}</b><small>${x.la!=null?'거래 '+fmt(x.lq)+'속':'거래 없음'}</small></div><div><span>지난주 평균</span><b>${fmt(x.wa)}${x.wa==null?'':'원'}</b><small>2주 전보다 ${dlt(x.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(x.ya)}${x.ya==null?'':'원'}</b><small>작년보다 ${dlt(yc)}</small></div></div>
  <div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart({name,trend:x.trend||[]},m.weekLabels,x.la!=null?{date:m.latestDate,value:x.la}:null)}`;
+ return name;
 }
 function drawAuctionResults(){
  const t=$('auctionResults');if(!t||!FULL_DATE)return;
@@ -953,13 +956,14 @@ function drawAuctionResults(){
  const meta=FULL_META[FULL_DATE]||{};
  $('auctionInfo').textContent=FULL_DATE+(isMainDay(FULL_DATE)?' · 본경매':' · 온라인·서면입찰(참고용)')+(meta.p?' · 집계 중':'')+' · 이 날 전체 '+FULL_ROWS.length.toLocaleString('ko-KR')+'건 중 '+rows.length.toLocaleString('ko-KR')+'건 표시';
  $('fullCount').textContent=rows.length.toLocaleString('ko-KR')+'건';
- const names=[...new Set(rows.map(r=>r.name))];
+ const trendName=drawItemTrend(q,rows);
+ const names=[...new Set(rows.map(r=>r.name))].filter(n=>n!==trendName);
  // 검색어가 있으면 '품목 전체로 즐겨찾기' 버튼, 없으면 같은 자리에 안내 문구 (정렬 기준 줄이 비어 보이지 않게)
- $('wholeFav').innerHTML=q&&names.length&&names.length<=8
+ $('wholeFav').innerHTML=trendName&&!names.length?'<span class="hint">💡 표 머리글을 눌러도 정렬돼요</span>':q&&names.length&&names.length<=8
   ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${starSvg(on)} ${esc(n)} 전체</button>`}).join('')}`
   :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요 · 표 머리글을 눌러도 정렬돼요</span>`;
  $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
- CAT_ROWS=rows;drawSearchPeel(q,rows);drawItemTrend(q,rows);
+ CAT_ROWS=rows;drawSearchPeel(q,rows);
  t.innerHTML=rows.length?rows.map((r,ri)=>{
   const key=r.name+SEP+r.variety, starred=FAV.has(key);
   return `<tr data-i="${ri}"><td class="c-star"><button class="auction-star ${starred?'saved':''}" onclick="toggleFav(${safeArg(key)})" aria-label="${esc(r.name)} ${esc(r.variety)} 관심 꽃 ${starred?'해제':'담기'}" aria-pressed="${starred}">${starSvg(starred)}</button></td><td class="c-mn" title="${esc(r.name)} · ${esc(r.variety)}">${esc(r.name)}${r.variety&&r.variety!==r.name?`<span class="c-var">${esc(r.variety)}</span>`:''}</td><td class="c-ms">${gradeBadge(r.grade)} 최고 ${r.max==null?'—':fmt(r.max)} · 최저 ${r.min==null?'—':fmt(r.min)}</td><td><strong>${esc(r.name)}</strong></td><td class="c-vtd">${r.variety&&r.variety!==r.name?esc(r.variety):'<span class="c-same">·</span>'}</td><td>${gradeBadge(r.grade)}</td><td class="n c-avg">${fmt(r.avg)}원</td><td class="n">${r.max==null?'—':fmt(r.max)+'원'}</td><td class="n">${r.min==null?'—':fmt(r.min)+'원'}</td><td class="n c-vol">${fmt(r.volume)}<span class="c-unit">속</span></td></tr>`
