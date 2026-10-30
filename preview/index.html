@@ -194,6 +194,7 @@ a{color:inherit}
 }
 @keyframes stick3{from{opacity:0;transform:rotate(calc(var(--rot2) - 16deg)) scale(.55)}to{opacity:1;transform:rotate(var(--rot2)) scale(1)}}
 
+.wk-tag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#EAF0E4;color:#4E6B4A;font-size:11px;font-weight:700;vertical-align:2px}
 .r-name{grid-area:n;font-weight:700;font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chev{display:inline-block;font-size:11px;color:var(--ink-3);margin-left:4px;transition:transform .2s}
 .row.open .chev{transform:rotate(180deg)}
@@ -329,6 +330,7 @@ a{color:inherit}
 .tape-img{position:absolute;z-index:4;height:auto;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(80,50,20,.15))}
 .tape-img.t-left{width:92px;top:-14px;left:22px;transform:rotate(-7deg)}
 .tape-img.t-mid{width:108px;top:-26px;left:50%;margin-left:-54px;transform:rotate(-4deg)}
+.tape-img.t-mid.t-right{left:74%;transform:rotate(5deg)}
 .trend-tape .tape-img.t-mid{transform:rotate(3deg);top:-18px}
 .trend-tape:has(#itemTrend[hidden]) .tape-img{display:none}
 .news-wrap>.tape-img.t-left{z-index:3}
@@ -448,8 +450,8 @@ a{color:inherit}
  </div>
  <div class="blk">
   <div class="blk-h"><h2 class="lbl">주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
-  <p class="blk-sub">누르면 등급별 가격과 8주 흐름이 펼쳐져요.</p>
-  <div class="taped"><img class="tape-img t-mid" src="../img/deco/tape-rose.webp?v=1" alt="" aria-hidden="true" width="220" height="126"><div id="todayItems" class="list"></div></div>
+  <p class="blk-sub">1년 내내 많이 팔리는 꽃·소재에 지난주 많이 거래된 품목 5개를 더했어요. 누르면 8주 흐름이 보여요.</p>
+  <div class="taped"><img class="tape-img t-mid t-right" src="../img/deco/tape-rose.webp?v=1" alt="" aria-hidden="true" width="220" height="126"><div id="todayItems" class="list"></div></div>
  </div>
  <div class="blk">
   <div class="blk-h"><h2 class="lbl">시장 소식</h2><button class="link" onclick="tab('insight')">더 보기</button></div>
@@ -551,7 +553,7 @@ function rowMarkup(r,scope,mode='today'){
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
  const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
  const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume)+'속':'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>2주 전보다 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>작년보다 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
- return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
+ return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}${r.season?'<span class="wk-tag">이번 주</span>':''}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
@@ -763,8 +765,36 @@ function loadIndexKeys(keys){
   drawFavorites();drawFavoriteWeekList();drawFavChips();
  }).withFailureHandler(()=>{}).getPriceIndex(keys,keys);
 }
+// 주요 품목 구성 (2025-10~2026-10 연간 분석 기준)
+// 고정: 1년 내내 거래금액 상위인 꽃 8개 + 국화 대국 + 1년 내내 거래량이 많은 소재 2개
+// 이번 주 품목: 고정을 뺀 나머지 중 지난주(월·수·금) 거래금액 순위와 거래량 순위 가운데 더 높은 쪽 기준 상위 5개
+const FIXED_MAIN=['장미','국화','국화 백선(대국)','리시안셔스','거베라','백합','안개꽃','칼라','옥시페탈륨','루스커스','유칼립투스'];
+const WEEK_PICK=5, WEEK_SKIP=new Set(['소재','절화','절지','열매','허브','그라스']);
+Object.keys(DISP).forEach(raw=>{if(!MAIN_ALIAS[DISP[raw]])MAIN_ALIAS[DISP[raw]]=raw+SEP+'*'});
+const rawOf=k=>String(k).split(SEP)[0];
+function weekPicks(){
+ const fixedRaw=new Set(FIXED_MAIN.map(n=>rawOf(mainKey(n))));
+ const c=ALL_ITEMS.filter(n=>!fixedRaw.has(n)&&!WEEK_SKIP.has(n)).map(n=>{const x=IDX.rows[n+SEP+'*'];return x&&x.wa>0&&x.wq>0?{n,amt:x.wa*x.wq,qty:x.wq}:null}).filter(Boolean);
+ const ra={},rq={};[...c].sort((a,b)=>b.amt-a.amt).forEach((x,i)=>ra[x.n]=i);[...c].sort((a,b)=>b.qty-a.qty).forEach((x,i)=>rq[x.n]=i);
+ return c.sort((a,b)=>Math.min(ra[a.n],rq[a.n])-Math.min(ra[b.n],rq[b.n])||b.amt-a.amt).slice(0,WEEK_PICK).map(x=>x.n);
+}
+function idxRow(name,season){
+ const x=IDX.rows[mainKey(name)];if(!x)return null;
+ return {name,season,price:x.wa,previous:x.pa,change:x.change,trend:x.trend||[],year:x.ya,yearChange:x.wa!=null&&x.ya>0?x.wa/x.ya-1:null};
+}
+function buildMainRows(){
+ if(!DATA||!IDX?.rows)return;
+ if(!DATA._base)DATA._base=DATA.rows.slice();
+ const base=DATA._base,byName={};base.forEach(r=>byName[r.name]=r);
+ const pick=weekPicks().map(n=>DISP[n]||n);
+ const out=[base[0]];
+ FIXED_MAIN.forEach(n=>{const r=idxRow(n,false)||byName[n];if(r)out.push(Object.assign({},byName[n]||{},r))});
+ pick.forEach(n=>{const r=idxRow(n,true);if(r)out.push(r)});
+ DATA.rows=out;
+}
 function applyIndex(){
  if(!DATA||!IDX)return;
+ buildMainRows();
  LATEST_MAIN_DATE=IDX.meta?.latestDate||null;
  for(const r of DATA.rows){const x=IDX.rows[mainKey(r.name)];r.todayPrice=x?.la??null;r.todayVolume=x?.lq||0}
 }
