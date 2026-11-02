@@ -357,6 +357,19 @@ a{color:inherit}
 .foot-stamp{float:right;width:108px;height:auto;margin:-4px 0 8px 14px;transform:rotate(6deg);filter:drop-shadow(0 6px 6px rgba(80,50,20,.18))}
 @media (max-width:760px){.tape-img.t-mid{width:66px;margin-left:-33px;top:-17px}.foot-stamp{width:84px}.blk h2.lbl{min-width:216px;height:74px;font-size:19px;padding:0 40px 0 64px}.h2-seal{width:32px;right:-6px}}
 
+.promo{display:flex;align-items:center;gap:22px;position:relative}
+.promo[hidden]{display:none}
+.promo-memo{flex:none;width:250px;height:230px;background:url(../img/deco/memo-clip.webp?v=1) center/100% 100% no-repeat;padding:66px 40px 0 44px;filter:drop-shadow(0 8px 10px rgba(80,50,20,.18));transform:rotate(-2deg)}
+.promo-memo b{display:block;font-family:var(--font-deco);font-size:19px;line-height:1.35;color:var(--forest)}
+.promo-memo span{display:block;margin-top:8px;font-family:var(--font-deco);font-size:13.5px;line-height:1.6;color:var(--ink-2);font-weight:700}
+.promo-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.promo-side p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.6}
+.promo-btns{display:flex;gap:8px;flex-wrap:wrap}
+.promo-btns a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:14px;border-radius:999px;padding:11px 16px;min-height:44px}
+.promo-btns a.p1{background:var(--forest);color:var(--paper)}
+.promo-btns a.p2{background:var(--paper);color:var(--forest);border:1.5px solid var(--forest)}
+.promo-x{position:absolute;top:-6px;right:0;border:0;background:none;color:var(--ink-3);font-size:13px;padding:6px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+@media (max-width:760px){.promo{flex-direction:column;align-items:flex-start;gap:12px}.promo-memo{margin:0 auto;width:236px;height:217px;padding:62px 36px 0 40px}.promo-memo b{font-size:18px}.promo-side{width:100%}.promo-btns{flex-direction:column}.promo-btns a{justify-content:center}}
 /* ---------- 휴대폰 ---------- */
 @media (max-width:760px){
  :root{--lift:0px;--bottom-h:calc(84px + var(--lift) + env(safe-area-inset-bottom))}
@@ -454,6 +467,7 @@ a{color:inherit}
   </div>
   <p class="note-s">전체 품목 중 최근 본경매 거래량 300속 이상인 품목만, 품종·등급을 합친 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
  </div>
+ <div id="gradPromo" class="blk promo" hidden></div>
  <div class="blk">
   <div class="blk-h"><h2 class="lbl">주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
   <p class="blk-sub">1년 내내 경매에서 많이 거래되는 꽃과 소재예요. 누르면 8주 흐름이 보여요.</p>
@@ -515,7 +529,9 @@ const mainKey=name=>MAIN_ALIAS[name]||(name+SEP+'*');
 const favKey=k=>k.includes(SEP)?k:mainKey(k);
 const favIndexKeys=()=>[...new Set([...FAV].map(favKey))];
 // 졸업식·행사 준비 사이트 주소. 배포하면 아래 따옴표 안에 주소를 넣으세요. 비어 있으면 '준비 중'으로 보입니다.
-const SEASON_SITE_URL='';
+const SEASON_SITE_URL='https://best15993232-sudo.github.io/flower-planner/';
+const GRAD_PROMO_URL='https://m.site.naver.com/2k46q';
+const GRAD_PROMO_UNTIL='2027-02-28';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
 const dlt=x=>x==null||!isFinite(x)?'<span class="d flat">—</span>':`<span class="d ${sg(x)}">${x>0?'▲':x<0?'▼':'–'} ${Math.abs(x*100).toFixed(1)}%</span>`;
 const IMG_V='202611021210'; // 그림을 바꾸면 이 값을 바꿔서 휴대폰에 남은 옛 그림 대신 새 그림을 받게 합니다
@@ -710,7 +726,7 @@ function loadNews(){const g=typeof google!=='undefined'&&google.script&&google.s
 const EVENTS=[{m:2,d:14,n:'밸런타인데이',items:'장미',note:'선물용 꽃 수요를 살펴볼 시기'},{m:3,d:1,n:'졸업·입학 시즌',len:21,items:'장미 · 거베라 · 안개꽃',note:'학교별 행사 일정은 다를 수 있어요'},{m:3,d:14,n:'화이트데이',items:'장미 · 안개꽃',note:'선물 수요 참고'},{m:5,d:1,n:'봄 웨딩 시즌',len:61,items:'장미 · 수국 · 리시안셔스',note:'예식 수요 참고'},{m:5,d:8,n:'어버이날',items:'카네이션',note:'카네이션 수요가 집중되는 시기'},{m:5,d:15,n:'스승의 날',items:'카네이션',note:'선물 관련 규정도 확인 필요'},{m:9,d:1,n:'가을 웨딩 시즌',len:61,items:'장미 · 수국',note:'예식 수요 참고'},{m:9,d:1,n:'가을 국화 시즌',len:75,items:'국화',note:'가을 행사·추모 수요 참고'},{m:11,d:11,n:'빼빼로데이',items:'장미',note:'선물 수요 참고'},{m:12,d:1,n:'연말 행사 시즌',len:30,items:'장미 · 백합',note:'연말 행사 수요 참고'}];
 function drawSeasonSite(){
  const box=$('seasonSite');if(!box)return;
- box.innerHTML=`<div class="site-card cornered"><img class="corner tl" src="../img/deco/corner-tl.webp?v=1" alt="" aria-hidden="true"><img class="corner br" src="../img/deco/corner-br.webp?v=1" alt="" aria-hidden="true"><div><b>졸업·입학 시즌 꽃 준비</b><p>학교별 졸업식 일정과 시즌 준비 정보를 한곳에서 확인하는 사이트입니다.</p></div>${SEASON_SITE_URL?`<a class="go" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">사이트 열기 ↗</a>`:'<span class="soon">준비 중</span>'}</div>`;
+ box.innerHTML=`<div class="site-card cornered"><img class="corner tl" src="../img/deco/corner-tl.webp?v=1" alt="" aria-hidden="true"><img class="corner br" src="../img/deco/corner-br.webp?v=1" alt="" aria-hidden="true"><div><b>졸업·입학 시즌 꽃 준비</b><p>우리 동네 학교 졸업식 날짜를 지도와 목록으로 찾아보고, 판매 일정을 메모해 두는 사이트예요.</p></div>${SEASON_SITE_URL?`<a class="go" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">졸업식 날짜 찾기 ↗</a>`:'<span class="soon">준비 중</span>'}</div>`;
 }
 function drawEvents(){drawSeasonSite();let endDate=DATA?.periodEnd;const ref=endDate&&/^\d{4}-\d{2}-\d{2}$/.test(endDate)?new Date(endDate+'T12:00:00'):new Date(),end=new Date(ref);end.setDate(end.getDate()+45);const items=[];for(let y=ref.getFullYear()-1;y<=ref.getFullYear()+1;y++)for(const e of EVENTS){let start=new Date(y,e.m-1,e.d,12),last=new Date(start);last.setDate(last.getDate()+(e.len||1)-1);if(last>=ref&&start<=end)items.push({...e,start,last})}items.sort((a,b)=>a.start-b.start);$('events').innerHTML=items.slice(0,6).map(e=>`<div class="event"><span>${e.start.getMonth()+1}/${e.start.getDate()}</span><b>${esc(e.n)}</b><p>${esc(e.note)}</p></div>`).join('')||'<div class="empty">해당 기간에 등록된 행사 없음</div>'}
 function drawFooter(){if(!DATA)return;$('footerTimes').textContent=`시세 갱신 ${IDX?.meta?.builtAt||DATA.lastTodayCheck||'확인 중'} · 화면 조회 ${DATA.fetchedAt||''}`}
@@ -1092,4 +1108,19 @@ function initDragStickers(){
  let w=mode();addEventListener('resize',()=>{if(mode()!==w){w=mode();document.querySelectorAll('[data-drag]').forEach(load)}});
 }
 initDragStickers();
+
+// 졸업 시즌 안내 (GRAD_PROMO_UNTIL 까지만, 닫으면 그 브라우저에서는 다시 안 보임)
+function drawGradPromo(){
+ const box=$('gradPromo');if(!box)return;
+ const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date());
+ let closed=false;try{closed=localStorage.getItem('kkot-promo-grad')===GRAD_PROMO_UNTIL}catch(e){}
+ if(closed||today>GRAD_PROMO_UNTIL){box.hidden=true;return}
+ box.hidden=false;
+ box.innerHTML=`<div class="promo-memo"><b>졸업 시즌,<br>미리 준비해요</b><span>졸업식 날짜 확인하고<br>꽃다발 부자재 챙기기</span></div>
+ <div class="promo-side"><p>우리 동네 학교 졸업식이 언제인지 찾아보고, 졸업 꽃다발에 쓰는 포장지·리본 같은 부자재도 한 번에 둘러보세요.</p>
+ <div class="promo-btns"><a class="p1" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">📅 졸업식 날짜 찾기</a><a class="p2" href="${esc(GRAD_PROMO_URL)}" target="_blank" rel="noopener">🎀 졸업 꽃다발 부자재 보기</a></div></div>
+ <button type="button" class="promo-x" onclick="closeGradPromo()">닫기</button>`;
+}
+function closeGradPromo(){try{localStorage.setItem('kkot-promo-grad',GRAD_PROMO_UNTIL)}catch(e){}$('gradPromo').hidden=true}
+drawGradPromo();
 </script></body></html>
