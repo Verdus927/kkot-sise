@@ -326,6 +326,7 @@ a{color:inherit}
 .foot{color:var(--ink-3);font-size:12px;line-height:1.7;padding:22px 0 30px;border-top:1px solid var(--line)}
 .foot p{margin:0 0 6px}
 .foot .src{color:var(--ink-2)}
+.foot .contact{margin-top:10px;color:var(--ink-2)}.foot .contact a{color:var(--forest);font-weight:700;text-underline-offset:3px}
 
 
 /* ---------- 다꾸 소재 ---------- */
@@ -515,7 +516,7 @@ a{color:inherit}
 <nav class="tabs bottom-bar" aria-label="아래 메뉴"><button class="sel" data-tab="today" onclick="tab('today')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5.6" r="3"/><circle cx="17.4" cy="10" r="3"/><circle cx="15.3" cy="16.3" r="3"/><circle cx="8.7" cy="16.3" r="3"/><circle cx="6.6" cy="10" r="3"/><circle cx="12" cy="11.6" r="1.6" fill="currentColor"/></svg>오늘 시세</button><button data-tab="catalog" onclick="tab('catalog')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>전체 품목</button><button data-tab="insight" onclick="tab('insight')"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M8 9h8M8 12.5h8M8 16h5"/></svg>시장 소식</button></nav>
 <div class="end-deco" aria-hidden="true"><img data-drag="end" src="../img/bouquet.webp" alt="" width="492" height="620" loading="lazy" decoding="async"></div>
 <div class="garland-wrap" aria-hidden="true"><img data-drag="garland" src="../img/deco/garland.webp?v=1" alt="" width="800" height="135" loading="lazy" decoding="async"></div>
-<footer class="foot"><div class="wrap"><img class="foot-stamp" data-drag="stamp" src="../img/deco/stamp.webp?v=1" alt="" aria-hidden="true" width="300" height="254" loading="lazy" decoding="async"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p></div></footer>
+<footer class="foot"><div class="wrap"><img class="foot-stamp" data-drag="stamp" src="../img/deco/stamp.webp?v=1" alt="" aria-hidden="true" width="300" height="254" loading="lazy" decoding="async"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p><p class="contact">제휴 · 광고 문의 <a href="mailto:contact@bestflower.co.kr">contact@bestflower.co.kr</a></p></div></footer>
 <script src="../js/config.js?v=20261027"></script><script src="../js/api.js?v=20261027"></script><script>
 const PREVIEW_DATA=null;
 let LATEST_MAIN_DATE=null, MAIN_LOADING=false, DATA=null,NEWS=[],CATALOG=[],CATALOG_READY=false,CATFILTER='all',ACTIVE=null,FAV=new Set(),FAV_OPEN=null;
@@ -1085,6 +1086,14 @@ function a2hsClose(){$('a2hs').hidden=true;try{localStorage.setItem('kkotA2hsClo
  const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
  if(standalone||closed||!mobile)return;
  const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent),samsung=/SamsungBrowser/i.test(navigator.userAgent);
+ // 카카오톡·인스타그램·네이버 앱 안의 브라우저에서는 '홈 화면에 추가'가 안 되므로 바깥 브라우저로 열도록 안내
+ const ua=navigator.userAgent,kakao=/KAKAOTALK/i.test(ua),inapp=kakao||/Instagram|FBAN|FBAV|NAVER\(inapp|Line\/|DaumApps|everytimeApp/i.test(ua);
+ if(inapp){
+  const br=ios?'Safari':'인터넷 앱(크롬·삼성 인터넷)';
+  $('a2hsMsg').textContent=kakao?`카톡 안에서는 추가가 안 돼요. ${ios?'Safari':'인터넷 앱'}에서 열어 주세요.`:`앱 안에서는 홈 화면에 추가할 수 없어요. 오른쪽 위 메뉴(⋯)에서 "${ios?'Safari로 열기':'다른 브라우저로 열기'}"를 눌러 주세요.`;
+  if(kakao){const g=$('a2hsGo');g.textContent=ios?'Safari로 열기':'브라우저로 열기';g.hidden=false;g.addEventListener('click',()=>{location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(location.href)})}
+  $('a2hs').hidden=false;return;
+ }
  $('a2hsMsg').textContent=ios?'아래 공유 버튼 → "홈 화면에 추가"를 눌러 주세요.':samsung?'아래 메뉴(≡) → "현재 페이지 추가" → "홈 화면"을 눌러 주세요. (바로가기로 추가돼요)':'브라우저 메뉴(⋮) → "홈 화면에 추가"를 눌러 주세요.';
  $('a2hs').hidden=false;
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();A2HS_EVT=e;$('a2hsMsg').textContent='앱처럼 한 번에 열 수 있어요.';$('a2hsGo').hidden=false});
