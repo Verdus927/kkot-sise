@@ -1,13 +1,5 @@
 [
  {
-  "name": "두메",
-  "days": 6,
-  "qty": 170,
-  "varieties": [
-   "두메"
-  ]
- },
- {
   "name": "미니볼",
   "days": 5,
   "qty": 431,
@@ -16,11 +8,35 @@
   ]
  },
  {
+  "name": "두메",
+  "days": 5,
+  "qty": 150,
+  "varieties": [
+   "두메"
+  ]
+ },
+ {
   "name": "골드킹",
-  "days": 4,
-  "qty": 800,
+  "days": 3,
+  "qty": 600,
   "varieties": [
    "골드킹"
+  ]
+ },
+ {
+  "name": "양란",
+  "days": 1,
+  "qty": 46,
+  "varieties": [
+   "온시디움"
+  ]
+ },
+ {
+  "name": "야생화",
+  "days": 1,
+  "qty": 20,
+  "varieties": [
+   "야생화"
   ]
  },
  {
