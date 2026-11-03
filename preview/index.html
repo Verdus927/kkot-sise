@@ -686,7 +686,7 @@ function moverRows(){
 function openMover(raw){
  const disp=DISP[raw]||raw;
  if(dataRows().some(r=>r.name===disp)){scrollFlower(disp);return}
- tab('catalog');$('auctionQuery').value=disp;if(FULL_DATE)drawAuctionResults();
+ tab('catalog');$('auctionQuery').value=raw;if(FULL_DATE)drawAuctionResults(); // 검색은 원자료 이름(예: 불노초)으로
 }
 function moverRow(r,i){return `<button class="rank-row" onclick="openMover(${safeArg(r.raw)})">${peel(r.raw,'rkp')}<span class="rk">${i+1}</span><span class="rn">${esc(r.name)}</span><span class="rp">${fmt(r.todayPrice)}원</span>${dlt(r.rate)}</button>`}
 function rankingRow(r,i){return `<button class="rank-row" onclick="scrollFlower(${safeArg(r.name)})"><span class="rk">${i+1}</span><span class="rn">${esc(r.name)}</span><span class="rp">${fmt(r.todayPrice)}원</span>${dlt(rate(r))}</button>`}
@@ -926,6 +926,8 @@ const ALIAS={
  '아미초':['레이스플라워'],'클레마티스':['크레마티스'],'멜라루카':['멜라레우카'],'아가판서스':['아가판투스'],'오니소갈룸':['오니소갈럼'],
  '수국':['하이드랜지아'],'마가렛':['마거릿','마가렛트'],'캐모마일':['카모마일','마트리카리아'],'스타티스':['리모니움']
 };
+// 화면에 고쳐 쓴 이름(DISP: 불노초→불로초 등)으로 검색해도 찾도록 별칭에 자동 추가
+Object.keys(DISP).forEach(raw=>{const a=ALIAS[raw]||(ALIAS[raw]=[]);if(!a.includes(DISP[raw]))a.push(DISP[raw])});
 const nk=x=>String(x||'').toLocaleLowerCase('ko').replace(/\s+/g,'');
 // 입력한 첫 단어가 별칭(또는 별칭의 앞부분, 2글자 이상)이면 원자료 품목명을 돌려줍니다
 function aliasTargets(word){const w=nk(word);if(w.length<2)return [];return Object.keys(ALIAS).filter(raw=>!nk(raw).includes(w)&&ALIAS[raw].some(a=>nk(a)===w||nk(a).startsWith(w)))}
