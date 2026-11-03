@@ -96,7 +96,9 @@ html{overflow-x:clip}
 .blk h2{margin:0;font-family:var(--font-deco);font-size:23px;letter-spacing:-.6px;font-weight:700;color:var(--forest);position:relative;display:inline-block}
 .blk h2:after{content:"";position:absolute;left:-6px;right:-8px;bottom:1px;height:9px;background:rgba(226,170,175,.45);transform:rotate(-1deg);z-index:-1;border-radius:2px}
 .blk-sub{margin:4px 0 12px;font-size:13px;color:var(--ink-2)}
-.link{border:0;background:none;padding:6px 0;font-size:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;white-space:nowrap}
+.link{border:0;background:none;padding:6px 0;font-size:14px;font-weight:700;color:var(--forest);text-decoration:none;white-space:nowrap;cursor:pointer}
+.link:after{content:" ›";font-size:17px;line-height:0}
+.link:hover{text-decoration:underline;text-underline-offset:4px}
 .count{font-size:13px;color:var(--ink-2);white-space:nowrap}
 
 /* 종이 카드 */
@@ -183,7 +185,7 @@ html{overflow-x:clip}
 .whole-fav .hstar{width:16px;height:16px;vertical-align:-3px}
 /* 그래프: 색연필 느낌 + 터치하면 값 */
 .chart{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
-.chart text{font-family:var(--font-hand)}
+.chart text{font-family:var(--font);font-weight:600}
 .chart .hit{fill:transparent;cursor:pointer}
 .legend .tap-hint{color:var(--ink-3);margin-left:auto}
 .chart .tip{pointer-events:none;animation:tipin .18s ease both}
@@ -288,6 +290,7 @@ html{overflow-x:clip}
 .whole-fav button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:700;min-height:36px}
 .whole-fav button.saved{border-color:var(--pink-ink);color:var(--pink-ink)}
 .whole-fav .hint{color:var(--ink-3)}
+.hint .hi{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:4px}
 @media (max-width:760px){.desk-only{display:none!important}}
 .whole-fav .hint b{color:var(--ink-2)}
 .sort{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-2);margin-left:auto}
@@ -332,6 +335,7 @@ html{overflow-x:clip}
 
 
 /* ---------- 다꾸 소재 ---------- */
+/* 카드 규칙: 실선 카드 = 시세 정보, 점선 카드 = 안내·광고(홈 화면 추가, 졸업 띠, 행사 카드) */
 .h2-seal{position:absolute;width:36px;height:auto;right:-6px;top:4px;transform:rotate(12deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25))}
 .sealed{position:relative;overflow:visible!important}
 .sealed .seal{position:absolute;width:48px;height:auto;top:-16px;right:-10px;z-index:3;transform:rotate(-8deg);filter:drop-shadow(0 4px 4px rgba(80,50,20,.25));pointer-events:none}
@@ -484,7 +488,7 @@ html{overflow-x:clip}
 
 <section class="page" id="p-catalog">
  <div class="blk">
-  <div class="blk-h"><h2 class="lbl">전체 품목 시세</h2><span id="fullCount" class="count"></span></div>
+  <div class="blk-h"><h2 class="lbl">전체 품목 시세</h2><span id="fullCount" class="count" hidden></span></div>
   <p class="blk-sub" id="auctionInfo">경매 자료를 불러오는 중</p>
   <div class="controls">
    <label class="field">경매일<select id="auctionDate" onchange="runAuctionSearch()"></select></label>
@@ -575,7 +579,7 @@ function rowMarkup(r,scope,mode='today'){
  const key=scope+'-'+DATA.rows.indexOf(r),open=ACTIVE===key,saved=FAV.has(r.name);
  const loading=num==null&&mode==='today'&&!IDX&&!IDX_ERROR;
  const price=loading?'<span class="sk" style="width:70px"></span>':num==null?'—':fmt(num)+'원';
- const meta=`지난주 ${fmt(base)}${base==null?'':'원'}`;
+ const meta=`지난주 ${fmt(base)}${base==null?'':'원'}${r.season&&r.weekQty?` · ${fmt(r.weekQty)}속 거래`:''}`;
  const detail=open?`<div class="detail">${peel(r.name,'in')}<div class="kpis"><div><span>최근 본경매 거래량</span><b>${hasToday(r)?fmt(r.todayVolume)+'속':'—'}</b></div><div><span>지난주 평균</span><b>${fmt(r.price)}원</b><small>2주 전보다 ${dlt(r.change)}</small></div><div><span>작년 이맘때</span><b>${fmt(r.year)}${r.year==null?'':'원'}</b><small>작년보다 ${dlt(r.yearChange)}</small></div></div><div class="chart-cap">최근 8주 거래량 가중평균 경매가</div>${chart(r,null,mode==='today'&&hasToday(r)?{date:LATEST_MAIN_DATE||DATA.todayDate,value:r.todayPrice}:null)}</div>`:'';
  return `<div class="row${open?' open':''}">${peel(r.name,'hover')}<div class="row-in"><button class="star${saved?' saved':''}" aria-label="${esc(r.name)} 관심 꽃 ${saved?'해제':'담기'}" aria-pressed="${saved}" onclick="toggleFav(${safeArg(r.name)})">${starSvg(saved)}</button><button class="row-main" type="button" aria-expanded="${open}" onclick="expand(${safeArg(key)})"><span class="r-name">${esc(r.name)}<span class="chev">▾</span></span><span class="r-price">${price}</span><span class="r-meta">${meta}</span><span class="r-diff">${loading?'':dlt(diff)}</span></button></div>${detail}</div>`;
 }
@@ -627,7 +631,7 @@ document.addEventListener('click',e=>{
  document.querySelectorAll('.chart .tip').forEach(n=>n.remove());document.querySelectorAll('.chart .exv').forEach(n=>n.style.opacity='');
 },true);
 document.addEventListener('mouseover',e=>{const r=e.target.closest&&e.target.closest('.chart .hit');if(r&&matchMedia('(hover:hover)').matches)chartTip(r)});
-function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map((r,i)=>(r.season&&!available[i-1]?.season?'<div class="list-div"><b>요즘 많이 거래되는 꽃</b><span>지난주 거래가 많았던 품목이에요. 매주 바뀌어요.</span></div>':'')+rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
+function drawItems(){if(!DATA)return;const available=dataRows().filter(hasToday);$('todayItems').innerHTML=available.length?available.map((r,i)=>(r.season&&!available[i-1]?.season?'<div class="list-div"><b>요즘 많이 거래되는 꽃</b><span>지난주 거래가 많았던 품목이에요. 거래량 많은 순, 매주 바뀌어요.</span></div>':'')+rowMarkup(r,'today')).join(''):'<div class="empty">최근 본경매에서 집계된 주요 품목이 없습니다.</div>'}
 function favoriteLabel(key){const p=key.split(SEP);return p.length>1?(p[1]==='*'?(p[0]==='*'?'절화 전체':p[0]+' 전체'):p[0]+' · '+p[1]):key}
 function favoriteDetails(name){
  FAV_OPEN=FAV_OPEN===name?null:name;
@@ -696,7 +700,7 @@ function drawTodayLoading(){
  $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
  drawFavorites();drawWeekly();
 }
-function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 가격 · 거래량 가중평균 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.replace('T',' ').slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;{const mv=moverRows(),mu=mv.filter(r=>r.rate>0).sort((a,b)=>b.rate-a.rate),md=mv.filter(r=>r.rate<0).sort((a,b)=>a.rate-b.rate);$('rises').innerHTML=good&&mu.length?mu.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 오른 품목이 없어요.</div>';$('falls').innerHTML=good&&md.length?md.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 내린 품목이 없어요.</div>'}drawItems();drawFavorites();drawWeekly()}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 평균 경매가 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.replace('T',' ').slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;{const mv=moverRows(),mu=mv.filter(r=>r.rate>0).sort((a,b)=>b.rate-a.rate),md=mv.filter(r=>r.rate<0).sort((a,b)=>a.rate-b.rate);$('rises').innerHTML=good&&mu.length?mu.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 오른 품목이 없어요.</div>';$('falls').innerHTML=good&&md.length?md.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 내린 품목이 없어요.</div>'}drawItems();drawFavorites();drawWeekly()}
 function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
 const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
 function drawFavoriteWeekList(){
@@ -800,11 +804,11 @@ function weekPicks(){
  const fixedRaw=new Set(FIXED_MAIN.map(n=>rawOf(mainKey(n))));
  const c=ALL_ITEMS.filter(n=>!fixedRaw.has(n)&&!WEEK_SKIP.has(n)).map(n=>{const x=IDX.rows[n+SEP+'*'];return x&&x.wa>0&&x.wq>0?{n,amt:x.wa*x.wq,qty:x.wq}:null}).filter(Boolean);
  const ra={},rq={};[...c].sort((a,b)=>b.amt-a.amt).forEach((x,i)=>ra[x.n]=i);[...c].sort((a,b)=>b.qty-a.qty).forEach((x,i)=>rq[x.n]=i);
- return c.sort((a,b)=>Math.min(ra[a.n],rq[a.n])-Math.min(ra[b.n],rq[b.n])||b.amt-a.amt).slice(0,WEEK_PICK).map(x=>x.n);
+ return c.sort((a,b)=>Math.min(ra[a.n],rq[a.n])-Math.min(ra[b.n],rq[b.n])||b.amt-a.amt).slice(0,WEEK_PICK).sort((a,b)=>b.qty-a.qty).map(x=>x.n);
 }
 function idxRow(name,season){
  const x=IDX.rows[mainKey(name)];if(!x)return null;
- return {name,season,price:x.wa,previous:x.pa,change:x.change,trend:x.trend||[],year:x.ya,yearChange:x.wa!=null&&x.ya>0?x.wa/x.ya-1:null};
+ return {name,season,weekQty:x.wq,price:x.wa,previous:x.pa,change:x.change,trend:x.trend||[],year:x.ya,yearChange:x.wa!=null&&x.ya>0?x.wa/x.ya-1:null};
 }
 function buildMainRows(){
  if(!DATA||!IDX?.rows)return;
@@ -982,9 +986,9 @@ function drawAuctionResults(){
  const trendName=drawItemTrend(q,rows);
  const names=[...new Set(rows.map(r=>r.name))].filter(n=>n!==trendName);
  // 검색어가 있으면 '품목 전체로 즐겨찾기' 버튼, 없으면 같은 자리에 안내 문구 (정렬 기준 줄이 비어 보이지 않게)
- $('wholeFav').innerHTML=trendName&&!names.length?'<span class="hint desk-only">💡 표 머리글을 눌러도 정렬돼요</span>':q&&names.length&&names.length<=8
+ $('wholeFav').innerHTML=trendName&&!names.length?'<span class="hint desk-only"><svg class="hi" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></svg>표 머리글을 눌러도 정렬돼요</span>':q&&names.length&&names.length<=8
   ?`<span>품목 전체로 즐겨찾기</span>${names.map(n=>{const k=n+SEP+'*',on=FAV.has(k);return `<button type="button" class="${on?'saved':''}" onclick="toggleFav(${safeArg(k)})">${starSvg(on)} ${esc(n)} 전체</button>`}).join('')}`
-  :`<span class="hint">💡 ${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요<span class="desk-only"> · 표 머리글을 눌러도 정렬돼요</span></span>`;
+  :`<span class="hint"><svg class="hi" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></svg>${q?'검색어를 좁히면(품목 8개 이하)':'품목 이름을 검색하면'} <b>품목 전체</b>를 즐겨찾기할 수 있어요<span class="desk-only"> · 표 머리글을 눌러도 정렬돼요</span></span>`;
  $('auctionSummary').innerHTML=`<span><b>${rows.length.toLocaleString('ko-KR')}</b>건</span><span>가중평균 <b>${avg==null?'—':fmt(avg)+'원'}</b></span><span>총 거래 <b>${fmt(volume)}</b>속</span>`;
  CAT_ROWS=rows;drawSearchPeel(q,rows);if(trendName)$('searchPeel').innerHTML='';
  t.innerHTML=rows.length?rows.map((r,ri)=>{
