@@ -358,19 +358,17 @@ a{color:inherit}
 .foot-stamp{float:right;width:108px;height:auto;margin:-4px 0 8px 14px;transform:rotate(6deg);filter:drop-shadow(0 6px 6px rgba(80,50,20,.18))}
 @media (max-width:760px){.tape-img.t-mid{width:66px;margin-left:-33px;top:-17px}.foot-stamp{width:84px}.blk h2.lbl{min-width:216px;height:74px;font-size:19px;padding:0 40px 0 64px}.h2-seal{width:32px;right:-6px}}
 
-.promo{display:flex;align-items:center;gap:22px;position:relative}
+.promo{display:flex;align-items:center;gap:12px;position:relative;margin:-8px 0 28px;padding:10px 40px 10px 12px;background:var(--paper);border:1px dashed var(--line);border-radius:16px}
 .promo[hidden]{display:none}
-.promo-memo{flex:none;width:250px;height:230px;background:url(../img/deco/memo-clip.webp?v=1) center/100% 100% no-repeat;padding:66px 40px 0 44px;filter:drop-shadow(0 8px 10px rgba(80,50,20,.18));transform:rotate(-2deg)}
-.promo-memo b{display:block;font-family:var(--font-deco);font-size:19px;line-height:1.35;color:var(--forest)}
-.promo-memo span{display:block;margin-top:8px;font-family:var(--font-deco);font-size:13.5px;line-height:1.6;color:var(--ink-2);font-weight:700}
-.promo-side{display:flex;flex-direction:column;gap:10px;min-width:0}
-.promo-side p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.6}
-.promo-btns{display:flex;gap:8px;flex-wrap:wrap}
-.promo-btns a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:800;font-size:14px;border-radius:999px;padding:11px 16px;min-height:44px}
+.promo-ic{flex:none;width:46px;height:auto;transform:rotate(-6deg);filter:drop-shadow(0 3px 4px rgba(80,50,20,.18))}
+.promo-tx{flex:1;min-width:0;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.promo-tx b{color:var(--forest);font-family:var(--font-deco);font-size:15px;margin-right:6px}
+.promo-btns{display:flex;gap:6px;flex:none}
+.promo-btns a{display:inline-flex;align-items:center;gap:4px;text-decoration:none;font-weight:800;font-size:13px;border-radius:999px;padding:7px 12px;white-space:nowrap}
 .promo-btns a.p1{background:var(--forest);color:var(--paper)}
 .promo-btns a.p2{background:var(--paper);color:var(--forest);border:1.5px solid var(--forest)}
-.promo-x{position:absolute;top:-6px;right:0;border:0;background:none;color:var(--ink-3);font-size:13px;padding:6px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-@media (max-width:760px){.promo{flex-direction:column;align-items:flex-start;gap:12px}.promo-memo{margin:0 auto;width:236px;height:217px;padding:62px 36px 0 40px}.promo-memo b{font-size:18px}.promo-side{width:100%}.promo-btns{flex-direction:column}.promo-btns a{justify-content:center}}
+.promo-x{position:absolute;top:50%;right:8px;transform:translateY(-50%);border:0;background:none;color:var(--ink-3);font-size:17px;padding:6px;cursor:pointer;line-height:1}
+@media (max-width:760px){.promo{flex-wrap:wrap;padding:10px 34px 10px 10px}.promo-x{top:14px;transform:none}.promo-tx{flex:1 1 calc(100% - 60px)}.promo-btns{flex:1 1 100%}.promo-btns a{flex:1;justify-content:center}}
 /* ---------- 휴대폰 ---------- */
 @media (max-width:760px){
  :root{--lift:0px;--bottom-h:calc(84px + var(--lift) + env(safe-area-inset-bottom))}
@@ -468,7 +466,7 @@ a{color:inherit}
   </div>
   <p class="note-s">전체 품목 중 최근 본경매 거래량 300속 이상인 품목만, 품종·등급을 합친 평균가를 지난주(월·수·금) 평균과 비교했어요.</p>
  </div>
- <div id="gradPromo" class="blk promo" hidden></div>
+ <div id="gradPromo" class="promo" hidden></div>
  <div class="blk">
   <div class="blk-h"><h2 class="lbl">주요 품목</h2><button class="link" onclick="tab('catalog')">전체 품목</button></div>
   <p class="blk-sub">1년 내내 경매에서 많이 거래되는 꽃과 소재예요. 누르면 8주 흐름이 보여요.</p>
@@ -1125,10 +1123,9 @@ function drawGradPromo(){
  let closed=false;try{closed=localStorage.getItem('kkot-promo-grad')===GRAD_PROMO_UNTIL}catch(e){}
  if(closed||today>GRAD_PROMO_UNTIL){box.hidden=true;return}
  box.hidden=false;
- box.innerHTML=`<div class="promo-memo"><b>졸업 시즌,<br>미리 준비해요</b><span>졸업식 날짜 확인하고<br>꽃다발 부자재 챙기기</span></div>
- <div class="promo-side"><p>우리 동네 학교 졸업식이 언제인지 찾아보고, 졸업 꽃다발에 쓰는 포장지·리본 같은 부자재도 한 번에 둘러보세요.</p>
- <div class="promo-btns"><a class="p1" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">📅 졸업식 날짜 찾기</a><a class="p2" href="${esc(GRAD_PROMO_URL)}" target="_blank" rel="noopener">🎀 졸업 꽃다발 부자재 보기</a></div></div>
- <button type="button" class="promo-x" onclick="closeGradPromo()">닫기</button>`;
+ box.innerHTML=`<img class="promo-ic" src="../img/deco/memo-clip.webp?v=1" alt="" aria-hidden="true"><div class="promo-tx"><b>졸업 시즌 준비</b>우리 동네 졸업식 날짜와 졸업 꽃다발 부자재를 한 번에</div>
+ <div class="promo-btns"><a class="p1" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">📅 졸업식 날짜</a><a class="p2" href="${esc(GRAD_PROMO_URL)}" target="_blank" rel="noopener">🎀 부자재 보기</a></div>
+ <button type="button" class="promo-x" onclick="closeGradPromo()" aria-label="닫기">✕</button>`;
 }
 function closeGradPromo(){try{localStorage.setItem('kkot-promo-grad',GRAD_PROMO_UNTIL)}catch(e){}$('gradPromo').hidden=true}
 drawGradPromo();
