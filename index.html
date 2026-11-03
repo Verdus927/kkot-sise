@@ -558,7 +558,7 @@ function peelOf(f,name,kind){if(!f)return '';let h=0;for(const ch of String(name
 function thumb(name){const f=stickerOf(name);return `<span class="thumb${f?'':' none'}">${f?`<img src="${STK}flowers/${encodeURIComponent(f)}.webp?v=${IMG_V}" alt="" loading="lazy" decoding="async">`:''}</span>`}
 
 // 손으로 그린 별 (담으면 장미색으로 칠해짐)
-function starSvg(on){return `<svg class="hstar${on?' on':''}" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12.2 2.6c.9 2.3 1.8 4.6 2.9 6.6 2.4.1 4.7.2 6.9.6-1.8 1.6-3.6 3-5.4 4.6.6 2.4 1.2 4.6 1.6 6.9-2.1-1.3-4.1-2.6-6.1-3.8-2 1.3-4 2.6-6.1 3.7.6-2.3 1.2-4.6 1.8-6.8C6 12.8 4.1 11.4 2.2 9.9c2.4-.3 4.7-.4 7-.6.9-2.2 1.9-4.4 3-6.7z" filter="url(#pencil)"/></svg>`}
+function starSvg(on){return `<svg class="hstar${on?' on':''}" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12.2 2.6c.9 2.3 1.8 4.6 2.9 6.6 2.4.1 4.7.2 6.9.6-1.8 1.6-3.6 3-5.4 4.6.6 2.4 1.2 4.6 1.6 6.9-2.1-1.3-4.1-2.6-6.1-3.8-2 1.3-4 2.6-6.1 3.7.6-2.3 1.2-4.6 1.8-6.8C6 12.8 4.1 11.4 2.2 9.9c2.4-.3 4.7-.4 7-.6.9-2.2 1.9-4.4 3-6.7z"/></svg>`}
 const KDAY=['일','월','화','수','목','금','토'];
 const kDate=k=>{const p=String(k||'').split('-').map(Number);if(p.length!==3||!p[0])return String(k||'');const w=new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay();return `${p[1]}월 ${p[2]}일(${KDAY[w]})`};
 const shortDate=d=>{const p=String(d||'').split('-');return p.length===3?Number(p[1])+'/'+Number(p[2]):String(d||'')};
@@ -585,6 +585,12 @@ function rowMarkup(r,scope,mode='today'){
 }
 function expand(k){ACTIVE=ACTIVE===k?null:k;drawItems();drawFavorites();drawWeekly()}
 // 8주 주간 평균(초록 선) + 최근 본경매 하루 가격(주황 점). extra = {date:'2026-10-26', value:8955}
+// 연필로 그린 듯 살짝 흔들리는 선 (SVG 필터는 휴대폰에서 픽셀이 깨져 보여서, 좌표를 조금씩 흔드는 방식으로)
+function rough(pts,amp,seed){let r=seed;const rnd=()=>{r=(r*16807)%2147483647;return r/2147483647-.5};let d='';
+ for(let k=0;k<pts.length;k++){const [x,y]=pts[k];if(!k){d+=`M${x.toFixed(1)} ${y.toFixed(1)}`;continue}
+  const [px,py]=pts[k-1],len=Math.hypot(x-px,y-py),n=Math.max(1,Math.round(len/14)),nx=-(y-py)/(len||1),ny=(x-px)/(len||1);
+  for(let i=1;i<=n;i++){const t=i/n,o=i===n?0:rnd()*amp*2;d+=` L${(px+(x-px)*t+nx*o).toFixed(1)} ${(py+(y-py)*t+ny*o).toFixed(1)}`}}
+ return d}
 function chart(r,labels,extra){
  const L=labels||DATA?.weeks||[],a=r.trend||[],points=a.map((v,i)=>({v,i})).filter(x=>Number.isFinite(x.v));
  const ex=extra&&Number.isFinite(extra.value)?extra:null;
@@ -596,19 +602,19 @@ function chart(r,labels,extra){
  const INK='#2F3F34',ROSE='#B8697A';
  let paths=[],current=[];a.forEach((v,i)=>{if(v==null){if(current.length)paths.push(current);current=[]}else current.push([xx(i),yy(v)])});if(current.length)paths.push(current);
  const pl=(p,dx,dy)=>p.map(([x,y])=>`${(x+dx).toFixed(1)},${(y+dy).toFixed(1)}`).join(' ');
- const line=p=>`<polyline points="${pl(p,0,0)}" stroke="${INK}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#crayon)"/><polyline points="${pl(p,.8,-.6)}" stroke="${INK}" stroke-opacity=".45" stroke-width="1.3" stroke-linecap="round" fill="none" filter="url(#pencil)"/>`;
+ const line=p=>`<path d="${rough(p,1.1,7)}" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="${rough(p,1.4,19)}" stroke="${INK}" stroke-opacity=".38" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
  const last=points[points.length-1];
  const lab=i=>String(L[i]||'').replace(/주\(.*\)$|주$/,'');
  const hits=[];
  points.forEach(p=>hits.push({i:p.i,x:xx(p.i),y:yy(p.v),t:`${lab(p.i)} 주 평균`,v:p.v,c:INK}));
  if(ex)hits.push({i:exI,x:xx(exI),y:yy(ex.value),t:`${shortDate(ex.date)} 본경매`,v:ex.value,c:ROSE});
  const colW=(w-left-right)/Math.max(1,slots-1);
- const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ROSE}" stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round" filter="url(#pencil)"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ROSE}" fill-opacity=".85" stroke="${ROSE}" stroke-width="1.5" filter="url(#crayon)"/><text class="exv" x="${xx(exI)}" y="${yy(ex.value)-12}" font-size="${FS+2}" text-anchor="end" fill="${ROSE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="${ROSE}">${esc(shortDate(ex.date))}</text>`:'';
+ const exMark=ex?`${last?`<line x1="${xx(last.i)}" y1="${yy(last.v)}" x2="${xx(exI)}" y2="${yy(ex.value)}" stroke="${ROSE}" stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round"/>`:''}<circle cx="${xx(exI)}" cy="${yy(ex.value)}" r="6" fill="${ROSE}" fill-opacity=".85" stroke="${ROSE}" stroke-width="1.5"/><text class="exv" x="${xx(exI)}" y="${yy(ex.value)-12}" font-size="${FS+2}" text-anchor="end" fill="${ROSE}">${fmt(ex.value)}원</text><text x="${xx(exI)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="${ROSE}">${esc(shortDate(ex.date))}</text>`:'';
  const legend=`<div class="legend"><span><i style="background:${INK}"></i>주간 평균 (월·수·금)</span>${ex?`<span><i style="background:${ROSE}"></i>최근 본경매 ${esc(shortDate(ex.date))} 하루 가격</span>`:''}<span class="tap-hint">점을 누르면 가격이 보여요</span></div>`;
  return `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(r.name)} 최근 8주 평균가 추이" data-w="${w}">`
-  +[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#D9CBB2" stroke-width="1" stroke-dasharray="3 5" filter="url(#pencil)"/>`).join('')
+  +[0,.5,1].map(k=>`<line x1="${left}" x2="${w-right}" y1="${top+(h-top-bottom)*k}" y2="${top+(h-top-bottom)*k}" stroke="#D9CBB2" stroke-width="1" stroke-dasharray="3 5"/>`).join('')
   +paths.map(line).join('')
-  +points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3.6" fill="#FCF8F0" stroke="${INK}" stroke-width="1.8" filter="url(#pencil)"/>`).join('')
+  +points.map(p=>`<circle cx="${xx(p.i)}" cy="${yy(p.v)}" r="3.6" fill="#FCF8F0" stroke="${INK}" stroke-width="1.8"/>`).join('')
   +a.map((_,i)=>narrow&&i%2===(a.length%2)?'':`<text x="${xx(i)}" y="${h-8}" font-size="${FS}" text-anchor="middle" fill="#9A8F81">${esc(lab(i))}</text>`).join('')
   +exMark
   +hits.map(t=>`<rect class="hit" x="${(t.x-colW/2).toFixed(1)}" y="0" width="${colW.toFixed(1)}" height="${h}" data-x="${t.x.toFixed(1)}" data-y="${t.y.toFixed(1)}" data-t="${esc(t.t)}" data-v="${fmt(t.v)}원" data-c="${t.c}" data-fs="${FS}"/>`).join('')
@@ -622,7 +628,7 @@ function chartTip(rect){
  const t1=rect.dataset.t,t2=rect.dataset.v,bw=Math.max(t1.length*fs*.62,t2.length*fs*.66)+22,bh=fs*2.5+6;
  let bx=Math.min(Math.max(x-bw/2,4),W-bw-4),by=y-bh-14;if(by<2)by=y+14;
  const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','tip');
- g.innerHTML=`<line x1="${x}" x2="${x}" y1="${Math.min(y,by+bh)}" y2="${Math.max(y,by)}" stroke="${c}" stroke-width="1" stroke-dasharray="2 3"/><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="10" fill="#FFFDF8" stroke="${c}" stroke-width="1.4" filter="url(#pencil)"/><text x="${bx+bw/2}" y="${by+fs+3}" font-size="${fs-1}" text-anchor="middle" fill="#6B6257">${esc(t1)}</text><text x="${bx+bw/2}" y="${by+fs*2.2+3}" font-size="${fs+3}" text-anchor="middle" fill="${c}" font-weight="700">${esc(t2)}</text><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="2"/>`;
+ g.innerHTML=`<line x1="${x}" x2="${x}" y1="${Math.min(y,by+bh)}" y2="${Math.max(y,by)}" stroke="${c}" stroke-width="1" stroke-dasharray="2 3"/><rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="10" fill="#FFFDF8" stroke="${c}" stroke-width="1.4"/><text x="${bx+bw/2}" y="${by+fs+3}" font-size="${fs-1}" text-anchor="middle" fill="#6B6257">${esc(t1)}</text><text x="${bx+bw/2}" y="${by+fs*2.2+3}" font-size="${fs+3}" text-anchor="middle" fill="${c}" font-weight="700">${esc(t2)}</text><circle cx="${x}" cy="${y}" r="6" fill="none" stroke="${c}" stroke-width="2"/>`;
  svg.appendChild(g);
 }
 document.addEventListener('click',e=>{
