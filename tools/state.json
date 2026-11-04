@@ -823,12 +823,12 @@
   "date": "2026-11-04",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
-  "status": "검수 대기"
+  "status": "승인"
  },
  "야생화": {
   "date": "2026-11-04",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
-  "status": "검수 대기"
+  "status": "승인"
  }
 }
