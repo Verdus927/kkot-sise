@@ -4,10 +4,16 @@ jobs:
   t:
     runs-on: ubuntu-latest
     steps:
-      - name: call
+      - name: page
         run: |
-          U=$(echo 'https://script.google.com/macros/s/AKfycbxg-kUWJ1lR6-qhZmQNAWKG6R6IAQT9aa1kZb6xl_ci2p53lEu85f9eoPL6wKz3yei3/exec')
-          A=$(python3 -c "import urllib.parse,json;print(urllib.parse.quote(json.dumps([['장미␟골든부부젤라(sp)','장미␟굿무드(sp)','장미␟*'],['장미␟골든부부젤라(sp)']],ensure_ascii=False)))")
-          curl -sL "$U?api=getPriceIndex&args=$A" | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('ok'),d.get('error'));r=d.get('data',{}).get('rows',{});print(list(r.keys()));print({k:(v.get('la'),v.get('wa')) for k,v in r.items()});print({k:len(v) for k,v in d.get('data',{}).get('grades',{}).items()})"
-          B=$(python3 -c "import urllib.parse,json;print(urllib.parse.quote(json.dumps(['2026-11-04'])))")
-          curl -sL "$U?api=getCatalogDay&args=$B" | python3 -c "import sys,json;d=json.load(sys.stdin);it=d['data']['items'];print([repr(x[:3]) for x in it if '부부젤라' in str(x[1])])"
+          npm i playwright@1.47.2 >/dev/null 2>&1 && npx playwright install chromium >/dev/null 2>&1
+          cat > t.js <<'J'
+          const {chromium}=require('playwright');
+          (async()=>{const b=await chromium.launch();const pg=await b.newPage();
+          await pg.addInitScript(()=>localStorage.setItem('yangjaeFav2',JSON.stringify(['장미␟골든부부젤라(sp)','장미␟*'])));
+          pg.on('request',r=>{if(r.url().includes('getPriceIndex'))console.log('REQ len',r.url().length)});
+          await pg.goto('https://verdus927.github.io/kkot-sise/');await pg.waitForTimeout(15000);
+          console.log(await pg.evaluate(()=>JSON.stringify({idx:!!IDX,err:IDX_ERROR,n:IDX&&Object.keys(IDX.rows).length,has:IDX&&!!IDX.rows['장미␟골든부부젤라(sp)'],keys:indexRequestKeys().length,fav:[...FAV],favtxt:document.getElementById('extraFavorites').innerText.slice(0,200)})));
+          await b.close()})();
+          J
+          node t.js
