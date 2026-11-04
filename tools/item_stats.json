@@ -1,5 +1,6 @@
 {
 "dates": [
+"2026-11-04",
 "2026-11-02",
 "2026-10-30",
 "2026-10-28",
@@ -27,367 +28,388 @@
 "items": [
 {
 "name": "장미",
-"days": 23,
-"qty": 436214,
-"amount": 4019887090,
+"days": 24,
+"qty": 453390,
+"amount": 4204350110,
 "varieties": 197
 },
 {
 "name": "국화",
-"days": 23,
-"qty": 480067,
-"amount": 1673970790,
-"varieties": 185
+"days": 24,
+"qty": 499368,
+"amount": 1721682240,
+"varieties": 192
 },
 {
 "name": "리시안사스",
-"days": 23,
-"qty": 143510,
-"amount": 1600386370,
-"varieties": 89
+"days": 24,
+"qty": 149146,
+"amount": 1661472770,
+"varieties": 90
 },
 {
 "name": "거베라",
-"days": 23,
-"qty": 256469,
-"amount": 1310338240,
+"days": 24,
+"qty": 269496,
+"amount": 1369465440,
 "varieties": 31
 },
 {
 "name": "백합",
-"days": 23,
-"qty": 58305,
-"amount": 543035710,
+"days": 24,
+"qty": 60957,
+"amount": 562139630,
 "varieties": 39
 },
 {
 "name": "칼라",
-"days": 23,
-"qty": 57166,
-"amount": 485794067,
+"days": 24,
+"qty": 59711,
+"amount": 502956647,
 "varieties": 33
 },
 {
 "name": "옥시페탈륨",
-"days": 23,
-"qty": 43872,
-"amount": 393296320,
+"days": 24,
+"qty": 46451,
+"amount": 414420910,
 "varieties": 9
 },
 {
 "name": "다알리아",
-"days": 23,
-"qty": 30522,
-"amount": 366880320,
+"days": 24,
+"qty": 31328,
+"amount": 379757610,
 "varieties": 27
 },
 {
 "name": "안개",
-"days": 23,
-"qty": 17922,
-"amount": 295605930,
+"days": 24,
+"qty": 18565,
+"amount": 306644030,
 "varieties": 6
 },
 {
 "name": "공작초",
-"days": 23,
-"qty": 42229,
-"amount": 254722170,
+"days": 24,
+"qty": 44283,
+"amount": 268783250,
 "varieties": 18
 },
 {
 "name": "스톡크",
-"days": 23,
-"qty": 99350,
-"amount": 233835100,
+"days": 24,
+"qty": 105294,
+"amount": 245005350,
 "varieties": 16
 },
 {
 "name": "유칼립투스",
-"days": 23,
-"qty": 44407,
-"amount": 197397260,
+"days": 24,
+"qty": 47164,
+"amount": 206853660,
 "varieties": 8
 },
 {
 "name": "보리사초",
-"days": 23,
-"qty": 27035,
-"amount": 177222400,
+"days": 24,
+"qty": 27837,
+"amount": 181859000,
 "varieties": 1
 },
 {
 "name": "해바라기",
-"days": 23,
-"qty": 55328,
-"amount": 175277110,
+"days": 24,
+"qty": 56284,
+"amount": 179981180,
 "varieties": 25
 },
 {
 "name": "맨드라미",
-"days": 23,
-"qty": 38325,
-"amount": 158101190,
+"days": 24,
+"qty": 39891,
+"amount": 165749070,
 "varieties": 40
 },
 {
 "name": "글라디올러스",
-"days": 23,
-"qty": 17117,
-"amount": 154855220,
+"days": 24,
+"qty": 18026,
+"amount": 163999840,
 "varieties": 18
 },
 {
 "name": "파니쿰",
-"days": 23,
-"qty": 28071,
-"amount": 150328700,
+"days": 24,
+"qty": 28789,
+"amount": 156593740,
 "varieties": 3
 },
 {
 "name": "안시리움",
-"days": 23,
-"qty": 41581,
-"amount": 150228050,
+"days": 24,
+"qty": 42740,
+"amount": 154828570,
 "varieties": 18
 },
 {
+"name": "호접란",
+"days": 11,
+"qty": 20311,
+"amount": 141658140,
+"varieties": 32
+},
+{
 "name": "아미초",
-"days": 23,
-"qty": 14173,
-"amount": 134757340,
+"days": 24,
+"qty": 14916,
+"amount": 141206390,
 "varieties": 3
 },
 {
 "name": "튜립",
-"days": 23,
-"qty": 9069,
-"amount": 125130610,
+"days": 24,
+"qty": 9626,
+"amount": 132951430,
 "varieties": 16
 },
 {
-"name": "호접란",
-"days": 10,
-"qty": 17666,
-"amount": 121755220,
-"varieties": 31
-},
-{
 "name": "메리골드",
-"days": 23,
-"qty": 26568,
-"amount": 115615920,
+"days": 24,
+"qty": 27614,
+"amount": 120621460,
 "varieties": 8
 },
 {
 "name": "스타티스",
-"days": 23,
-"qty": 12156,
-"amount": 107238300,
+"days": 24,
+"qty": 13045,
+"amount": 115292550,
 "varieties": 15
 },
 {
 "name": "노무라",
-"days": 23,
-"qty": 32990,
-"amount": 106745400,
+"days": 24,
+"qty": 34145,
+"amount": 109069950,
 "varieties": 1
 },
 {
 "name": "절화",
-"days": 23,
-"qty": 18345,
-"amount": 105515200,
+"days": 24,
+"qty": 18545,
+"amount": 106430900,
 "varieties": 13
 },
 {
 "name": "코스모스",
-"days": 23,
-"qty": 14728,
-"amount": 86930120,
+"days": 24,
+"qty": 14903,
+"amount": 88351420,
 "varieties": 15
 },
 {
 "name": "용담",
-"days": 23,
-"qty": 7075,
-"amount": 83002570,
+"days": 24,
+"qty": 7195,
+"amount": 84886570,
 "varieties": 6
 },
 {
 "name": "설유화",
-"days": 23,
-"qty": 11571,
-"amount": 81982050,
+"days": 24,
+"qty": 11897,
+"amount": 84809800,
 "varieties": 1
 },
 {
 "name": "천일홍",
-"days": 23,
-"qty": 20123,
-"amount": 74760670,
+"days": 24,
+"qty": 20841,
+"amount": 78802540,
 "varieties": 8
 },
 {
 "name": "후록스",
-"days": 23,
-"qty": 8908,
-"amount": 72714800,
+"days": 24,
+"qty": 9040,
+"amount": 73873500,
 "varieties": 5
 },
 {
 "name": "스카비오사",
-"days": 23,
-"qty": 8333,
-"amount": 64205740,
+"days": 24,
+"qty": 8785,
+"amount": 67169020,
 "varieties": 6
 },
 {
 "name": "시레네",
-"days": 22,
-"qty": 8442,
-"amount": 63840290,
+"days": 23,
+"qty": 8803,
+"amount": 66491590,
 "varieties": 1
 },
 {
 "name": "영춘화",
-"days": 23,
-"qty": 17248,
-"amount": 63498280,
+"days": 24,
+"qty": 17945,
+"amount": 66189520,
 "varieties": 1
 },
 {
 "name": "쿠루쿠마",
-"days": 23,
-"qty": 22334,
-"amount": 63310770,
+"days": 24,
+"qty": 22354,
+"amount": 63341770,
 "varieties": 12
 },
 {
 "name": "베로니카",
-"days": 23,
-"qty": 7205,
-"amount": 57960130,
+"days": 24,
+"qty": 7323,
+"amount": 59165830,
 "varieties": 5
 },
 {
 "name": "수국",
-"days": 22,
-"qty": 9879,
-"amount": 56280680,
+"days": 23,
+"qty": 10102,
+"amount": 58210370,
 "varieties": 22
 },
 {
 "name": "클레마티스",
-"days": 23,
-"qty": 6764,
-"amount": 56190560,
+"days": 24,
+"qty": 6899,
+"amount": 57248760,
 "varieties": 17
 },
 {
+"name": "캐모마일",
+"days": 24,
+"qty": 8240,
+"amount": 53445510,
+"varieties": 3
+},
+{
 "name": "글로리오사",
-"days": 23,
-"qty": 5536,
-"amount": 50756800,
+"days": 24,
+"qty": 5693,
+"amount": 52972200,
 "varieties": 1
 },
 {
 "name": "아스그레피아스",
-"days": 23,
-"qty": 7250,
-"amount": 50200740,
+"days": 24,
+"qty": 7273,
+"amount": 50672840,
 "varieties": 4
 },
 {
-"name": "캐모마일",
-"days": 23,
-"qty": 7455,
-"amount": 50036570,
-"varieties": 3
-},
-{
-"name": "냉이초",
-"days": 23,
-"qty": 6721,
-"amount": 46499140,
-"varieties": 1
-},
-{
 "name": "금어초",
-"days": 12,
-"qty": 9131,
-"amount": 44106620,
+"days": 13,
+"qty": 10992,
+"amount": 49997820,
 "varieties": 14
 },
 {
+"name": "냉이초",
+"days": 24,
+"qty": 7105,
+"amount": 48805040,
+"varieties": 1
+},
+{
 "name": "산더소니아",
-"days": 23,
-"qty": 1879,
-"amount": 39472600,
+"days": 24,
+"qty": 1933,
+"amount": 40719550,
 "varieties": 1
 },
 {
 "name": "솔리다스터",
-"days": 23,
-"qty": 7331,
-"amount": 37665880,
+"days": 24,
+"qty": 7829,
+"amount": 40694580,
 "varieties": 1
 },
 {
-"name": "절지",
-"days": 23,
-"qty": 6653,
-"amount": 34271870,
-"varieties": 10
-},
-{
 "name": "루스커스",
-"days": 23,
-"qty": 25709,
-"amount": 33656580,
+"days": 24,
+"qty": 26656,
+"amount": 35221550,
 "varieties": 3
 },
 {
+"name": "절지",
+"days": 24,
+"qty": 6762,
+"amount": 34941440,
+"varieties": 10
+},
+{
 "name": "심포리카르포스",
-"days": 23,
-"qty": 6233,
-"amount": 32736860,
+"days": 24,
+"qty": 6589,
+"amount": 34611040,
 "varieties": 3
 },
 {
 "name": "등골나무",
-"days": 22,
-"qty": 9368,
-"amount": 32658780,
+"days": 23,
+"qty": 9408,
+"amount": 32934780,
 "varieties": 3
 },
 {
-"name": "소재",
-"days": 23,
-"qty": 11186,
-"amount": 31040760,
-"varieties": 1
-},
-{
 "name": "열매",
-"days": 23,
-"qty": 5471,
-"amount": 30812040,
+"days": 24,
+"qty": 5639,
+"amount": 32162540,
 "varieties": 7
 },
 {
+"name": "소재",
+"days": 24,
+"qty": 11364,
+"amount": 31635160,
+"varieties": 1
+},
+{
+"name": "라넌큘러스",
+"days": 9,
+"qty": 1758,
+"amount": 26939220,
+"varieties": 9
+},
+{
 "name": "불노초",
-"days": 22,
-"qty": 7709,
-"amount": 24832350,
+"days": 23,
+"qty": 8114,
+"amount": 26425950,
 "varieties": 1
 },
 {
 "name": "허브",
-"days": 23,
-"qty": 6017,
-"amount": 24331470,
+"days": 24,
+"qty": 6405,
+"amount": 26087020,
 "varieties": 8
+},
+{
+"name": "솔리다고",
+"days": 22,
+"qty": 3648,
+"amount": 24492660,
+"varieties": 2
+},
+{
+"name": "석죽",
+"days": 24,
+"qty": 4671,
+"amount": 23717860,
+"varieties": 10
 },
 {
 "name": "과꽃",
@@ -397,67 +419,46 @@
 "varieties": 17
 },
 {
-"name": "솔리다고",
-"days": 21,
-"qty": 3497,
-"amount": 23368680,
+"name": "알스트메리아",
+"days": 23,
+"qty": 3398,
+"amount": 22810710,
 "varieties": 2
 },
 {
-"name": "석죽",
-"days": 23,
-"qty": 4392,
-"amount": 22399610,
-"varieties": 10
-},
-{
-"name": "라넌큘러스",
-"days": 8,
-"qty": 1415,
-"amount": 21843920,
-"varieties": 7
-},
-{
 "name": "브바르디아",
-"days": 22,
-"qty": 2154,
-"amount": 21618950,
+"days": 23,
+"qty": 2233,
+"amount": 22578470,
 "varieties": 5
 },
 {
+"name": "디디스커스",
+"days": 14,
+"qty": 2902,
+"amount": 22070060,
+"varieties": 2
+},
+{
 "name": "편백",
-"days": 23,
-"qty": 12874,
-"amount": 20998360,
+"days": 24,
+"qty": 13478,
+"amount": 21824960,
 "varieties": 3
 },
 {
 "name": "기린초",
-"days": 23,
-"qty": 4629,
-"amount": 20633240,
+"days": 24,
+"qty": 4713,
+"amount": 21144800,
 "varieties": 1
 },
 {
-"name": "알스트메리아",
-"days": 22,
-"qty": 3011,
-"amount": 19856660,
-"varieties": 2
-},
-{
 "name": "부들레야",
-"days": 23,
-"qty": 6825,
-"amount": 19557630,
+"days": 24,
+"qty": 6900,
+"amount": 19830250,
 "varieties": 4
-},
-{
-"name": "디디스커스",
-"days": 13,
-"qty": 2560,
-"amount": 19447160,
-"varieties": 2
 },
 {
 "name": "개미취",
@@ -465,6 +466,20 @@
 "qty": 4976,
 "amount": 18205210,
 "varieties": 2
+},
+{
+"name": "마가렛",
+"days": 18,
+"qty": 1151,
+"amount": 17962680,
+"varieties": 2
+},
+{
+"name": "홍가시",
+"days": 20,
+"qty": 2730,
+"amount": 17903080,
+"varieties": 1
 },
 {
 "name": "헬리옵시스",
@@ -475,38 +490,45 @@
 },
 {
 "name": "백일홍",
-"days": 23,
-"qty": 3105,
-"amount": 17107000,
+"days": 24,
+"qty": 3240,
+"amount": 17683520,
 "varieties": 8
 },
 {
 "name": "소철",
-"days": 23,
-"qty": 9705,
-"amount": 16991990,
+"days": 24,
+"qty": 10126,
+"amount": 17631380,
 "varieties": 1
-},
-{
-"name": "홍가시",
-"days": 19,
-"qty": 2522,
-"amount": 16181280,
-"varieties": 1
-},
-{
-"name": "엽란",
-"days": 23,
-"qty": 14868,
-"amount": 15663490,
-"varieties": 4
 },
 {
 "name": "아스틸베",
-"days": 15,
-"qty": 1294,
-"amount": 15538960,
+"days": 16,
+"qty": 1404,
+"amount": 16914010,
 "varieties": 3
+},
+{
+"name": "심비디움",
+"days": 10,
+"qty": 2117,
+"amount": 16704490,
+"varieties": 4
+},
+{
+"name": "엽란",
+"days": 24,
+"qty": 15701,
+"amount": 16556110,
+"varieties": 4
+},
+{
+"name": "핑크뮬리",
+"days": 20,
+"qty": 3567,
+"amount": 15720840,
+"varieties": 2
 },
 {
 "name": "금꿩의다리",
@@ -516,25 +538,11 @@
 "varieties": 2
 },
 {
-"name": "마가렛",
-"days": 17,
-"qty": 948,
-"amount": 15181780,
-"varieties": 2
-},
-{
-"name": "핑크뮬리",
-"days": 19,
-"qty": 3467,
-"amount": 15002040,
-"varieties": 2
-},
-{
-"name": "심비디움",
-"days": 9,
-"qty": 1629,
-"amount": 13877900,
-"varieties": 4
+"name": "극락조화",
+"days": 24,
+"qty": 1203,
+"amount": 13057950,
+"varieties": 1
 },
 {
 "name": "조팝",
@@ -544,32 +552,32 @@
 "varieties": 1
 },
 {
-"name": "극락조화",
-"days": 23,
-"qty": 1149,
-"amount": 12211950,
-"varieties": 1
-},
-{
 "name": "잎안개",
-"days": 23,
-"qty": 3257,
-"amount": 12113750,
+"days": 24,
+"qty": 3420,
+"amount": 12676110,
 "varieties": 1
 },
 {
 "name": "층꽃",
-"days": 19,
-"qty": 2791,
-"amount": 10947720,
+"days": 20,
+"qty": 2862,
+"amount": 11374200,
 "varieties": 4
 },
 {
 "name": "캄파눌라",
-"days": 11,
-"qty": 1284,
-"amount": 10035340,
+"days": 12,
+"qty": 1417,
+"amount": 11104130,
 "varieties": 5
+},
+{
+"name": "아게라덤",
+"days": 16,
+"qty": 2813,
+"amount": 9845850,
+"varieties": 1
 },
 {
 "name": "수선",
@@ -593,17 +601,10 @@
 "varieties": 2
 },
 {
-"name": "아게라덤",
-"days": 15,
-"qty": 2373,
-"amount": 8411550,
-"varieties": 1
-},
-{
 "name": "멜라루카",
-"days": 17,
-"qty": 1490,
-"amount": 7658510,
+"days": 18,
+"qty": 1549,
+"amount": 7905590,
 "varieties": 3
 },
 {
@@ -615,9 +616,9 @@
 },
 {
 "name": "아스파라거스",
-"days": 22,
-"qty": 1280,
-"amount": 6511870,
+"days": 23,
+"qty": 1342,
+"amount": 6846470,
 "varieties": 3
 },
 {
@@ -628,6 +629,20 @@
 "varieties": 1
 },
 {
+"name": "천조초",
+"days": 6,
+"qty": 512,
+"amount": 5459720,
+"varieties": 4
+},
+{
+"name": "쥐똥나무",
+"days": 23,
+"qty": 1142,
+"amount": 5309830,
+"varieties": 3
+},
+{
 "name": "스모그트리",
 "days": 11,
 "qty": 349,
@@ -635,11 +650,18 @@
 "varieties": 1
 },
 {
-"name": "쥐똥나무",
-"days": 22,
-"qty": 1057,
-"amount": 4958630,
-"varieties": 3
+"name": "풍선초",
+"days": 20,
+"qty": 1244,
+"amount": 5100640,
+"varieties": 2
+},
+{
+"name": "아네모네",
+"days": 18,
+"qty": 375,
+"amount": 4791260,
+"varieties": 2
 },
 {
 "name": "도라지꽃",
@@ -649,46 +671,32 @@
 "varieties": 2
 },
 {
-"name": "천조초",
-"days": 5,
-"qty": 446,
-"amount": 4667720,
-"varieties": 3
-},
-{
-"name": "아네모네",
-"days": 17,
-"qty": 361,
-"amount": 4595260,
-"varieties": 2
-},
-{
-"name": "풍선초",
-"days": 19,
-"qty": 1126,
-"amount": 4571660,
-"varieties": 2
-},
-{
-"name": "비부리움",
-"days": 23,
-"qty": 1106,
-"amount": 4276970,
-"varieties": 3
-},
-{
 "name": "아이리스",
-"days": 13,
-"qty": 706,
-"amount": 4262440,
+"days": 14,
+"qty": 733,
+"amount": 4444690,
 "varieties": 1
 },
 {
 "name": "조",
-"days": 15,
-"qty": 1438,
-"amount": 4254940,
+"days": 16,
+"qty": 1472,
+"amount": 4405560,
 "varieties": 1
+},
+{
+"name": "비부리움",
+"days": 24,
+"qty": 1131,
+"amount": 4390720,
+"varieties": 3
+},
+{
+"name": "하이페리콤",
+"days": 10,
+"qty": 751,
+"amount": 4197860,
+"varieties": 2
 },
 {
 "name": "오니소갈룸",
@@ -698,17 +706,24 @@
 "varieties": 1
 },
 {
-"name": "하이페리콤",
-"days": 9,
-"qty": 620,
-"amount": 3433010,
-"varieties": 2
+"name": "꽃양배추",
+"days": 4,
+"qty": 1790,
+"amount": 3639600,
+"varieties": 3
 },
 {
 "name": "버들나무",
 "days": 18,
 "qty": 759,
 "amount": 3357320,
+"varieties": 2
+},
+{
+"name": "사루비아",
+"days": 22,
+"qty": 448,
+"amount": 3349170,
 "varieties": 2
 },
 {
@@ -720,10 +735,17 @@
 },
 {
 "name": "피토스포륨",
-"days": 21,
-"qty": 672,
-"amount": 3168220,
+"days": 22,
+"qty": 702,
+"amount": 3283720,
 "varieties": 1
+},
+{
+"name": "그라스",
+"days": 17,
+"qty": 816,
+"amount": 3235210,
+"varieties": 3
 },
 {
 "name": "상사화",
@@ -733,45 +755,24 @@
 "varieties": 1
 },
 {
-"name": "사루비아",
-"days": 21,
-"qty": 405,
-"amount": 3030470,
-"varieties": 2
-},
-{
-"name": "그라스",
-"days": 16,
-"qty": 716,
-"amount": 2490210,
+"name": "트리플륨",
+"days": 13,
+"qty": 765,
+"amount": 2546820,
 "varieties": 3
 },
 {
 "name": "여우얼굴",
-"days": 19,
-"qty": 348,
-"amount": 2296980,
+"days": 20,
+"qty": 370,
+"amount": 2445480,
 "varieties": 1
 },
 {
-"name": "트리플륨",
-"days": 12,
-"qty": 673,
-"amount": 2214320,
-"varieties": 3
-},
-{
-"name": "꽃양배추",
-"days": 3,
-"qty": 1000,
-"amount": 2000200,
-"varieties": 2
-},
-{
 "name": "카네이션",
-"days": 9,
-"qty": 761,
-"amount": 1912750,
+"days": 10,
+"qty": 799,
+"amount": 2053730,
 "varieties": 2
 },
 {
@@ -803,6 +804,13 @@
 "varieties": 2
 },
 {
+"name": "니겔라",
+"days": 3,
+"qty": 95,
+"amount": 1520500,
+"varieties": 1
+},
+{
 "name": "히야신스",
 "days": 1,
 "qty": 75,
@@ -817,17 +825,24 @@
 "varieties": 2
 },
 {
+"name": "돈나무",
+"days": 14,
+"qty": 421,
+"amount": 1401560,
+"varieties": 2
+},
+{
+"name": "호엽란",
+"days": 18,
+"qty": 745,
+"amount": 1266300,
+"varieties": 2
+},
+{
 "name": "각구도라",
 "days": 8,
 "qty": 303,
 "amount": 1259820,
-"varieties": 2
-},
-{
-"name": "돈나무",
-"days": 13,
-"qty": 376,
-"amount": 1243960,
 "varieties": 2
 },
 {
@@ -838,17 +853,17 @@
 "varieties": 1
 },
 {
-"name": "호엽란",
+"name": "몬스테라",
 "days": 17,
-"qty": 715,
-"amount": 1210500,
+"qty": 558,
+"amount": 1189400,
 "varieties": 2
 },
 {
-"name": "몬스테라",
-"days": 16,
-"qty": 529,
-"amount": 1096280,
+"name": "억새풀",
+"days": 9,
+"qty": 429,
+"amount": 1101660,
 "varieties": 2
 },
 {
@@ -859,18 +874,18 @@
 "varieties": 5
 },
 {
-"name": "셀륨",
-"days": 19,
-"qty": 495,
-"amount": 890550,
-"varieties": 1
+"name": "남천",
+"days": 6,
+"qty": 317,
+"amount": 991960,
+"varieties": 2
 },
 {
-"name": "억새풀",
-"days": 8,
-"qty": 369,
-"amount": 816060,
-"varieties": 2
+"name": "셀륨",
+"days": 20,
+"qty": 505,
+"amount": 913950,
+"varieties": 1
 },
 {
 "name": "광나무(여정목)",
@@ -894,6 +909,13 @@
 "varieties": 1
 },
 {
+"name": "토마토",
+"days": 9,
+"qty": 181,
+"amount": 673220,
+"varieties": 1
+},
+{
 "name": "골드킹",
 "days": 3,
 "qty": 600,
@@ -908,10 +930,10 @@
 "varieties": 1
 },
 {
-"name": "토마토",
-"days": 8,
-"qty": 164,
-"amount": 601310,
+"name": "양란",
+"days": 2,
+"qty": 69,
+"amount": 581900,
 "varieties": 1
 },
 {
@@ -919,13 +941,6 @@
 "days": 9,
 "qty": 146,
 "amount": 565340,
-"varieties": 1
-},
-{
-"name": "니겔라",
-"days": 2,
-"qty": 36,
-"amount": 560000,
 "varieties": 1
 },
 {
@@ -964,6 +979,13 @@
 "varieties": 1
 },
 {
+"name": "까치밥",
+"days": 5,
+"qty": 57,
+"amount": 394770,
+"varieties": 1
+},
+{
 "name": "아카시아",
 "days": 3,
 "qty": 125,
@@ -978,17 +1000,10 @@
 "varieties": 1
 },
 {
-"name": "양란",
-"days": 1,
-"qty": 46,
-"amount": 351900,
-"varieties": 1
-},
-{
 "name": "금사철",
-"days": 11,
-"qty": 219,
-"amount": 344980,
+"days": 12,
+"qty": 239,
+"amount": 374180,
 "varieties": 1
 },
 {
@@ -1003,13 +1018,6 @@
 "days": 4,
 "qty": 17,
 "amount": 324450,
-"varieties": 1
-},
-{
-"name": "까치밥",
-"days": 4,
-"qty": 47,
-"amount": 312270,
 "varieties": 1
 },
 {
@@ -1038,13 +1046,6 @@
 "days": 2,
 "qty": 40,
 "amount": 253600,
-"varieties": 1
-},
-{
-"name": "남천",
-"days": 5,
-"qty": 115,
-"amount": 200210,
 "varieties": 1
 },
 {
