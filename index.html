@@ -1,9 +1,9 @@
-<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#F3EBDD"><script>if(!/SamsungBrowser/i.test(navigator.userAgent))document.write('<link rel="manifest" href="manifest.webmanifest">')</script><meta name="apple-mobile-web-app-title" content="꽃시세"><meta name="apple-mobile-web-app-capable" content="yes"><title>오늘의 양재 꽃시세</title><link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png?v=2"><link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png?v=2"><link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png?v=2"><meta property="og:type" content="website"><meta property="og:site_name" content="꽃시세"><meta property="og:title" content="오늘의 꽃값, 한눈에!"><meta property="og:description" content="양재 aT 화훼공판장 절화 경매 시세를 지난주와 비교해서 보여드려요."><meta property="og:url" content="https://verdus927.github.io/kkot-sise/"><meta property="og:image" content="https://verdus927.github.io/kkot-sise/og.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="꽃 콜라주와 '오늘의 꽃값, 한눈에!' 문구"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="양재 aT 화훼공판장 절화 경매가를 품목·품종·등급별로 보는 시세 페이지">
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#F3EBDD"><meta name="color-scheme" content="only light"><script>if(!/SamsungBrowser/i.test(navigator.userAgent))document.write('<link rel="manifest" href="manifest.webmanifest">')</script><meta name="apple-mobile-web-app-title" content="꽃시세"><meta name="apple-mobile-web-app-capable" content="yes"><title>오늘의 양재 꽃시세</title><link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png?v=2"><link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png?v=2"><link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png?v=2"><meta property="og:type" content="website"><meta property="og:site_name" content="꽃시세"><meta property="og:title" content="오늘의 꽃값, 한눈에!"><meta property="og:description" content="양재 aT 화훼공판장 절화 경매 시세를 지난주와 비교해서 보여드려요."><meta property="og:url" content="https://verdus927.github.io/kkot-sise/"><meta property="og:image" content="https://verdus927.github.io/kkot-sise/og.jpg?v=1"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="꽃 콜라주와 '오늘의 꽃값, 한눈에!' 문구"><meta name="twitter:card" content="summary_large_image"><meta name="description" content="양재 aT 화훼공판장 절화 경매가를 품목·품종·등급별로 보는 시세 페이지">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
 /* ---------- 색 (CSS 변수로 관리) ---------- */
-:root{
+:root{color-scheme:only light;
  --ivory:#F3EBDD; --paper:#FCF8F0; --paper-2:#F6EFE2;
  --line:#E2D5BF; --line-2:#ECE3D3;
  --ink:#2F2B26; --ink-2:#6B6257; --ink-3:#9A8F81;
@@ -76,6 +76,7 @@ a{color:inherit}
 .hs b{font-size:15px;color:var(--ink);font-weight:800}
 @media (max-width:420px){.hero-stats{gap:6px}.hs{padding:6px 10px;gap:4px;font-size:12px}.hs b{font-size:14px}}
 html{overflow-x:clip}
+@media (prefers-color-scheme:dark){body{background-color:var(--ivory);color:var(--ink)}}
 .hero-stamp{display:block;margin-top:12px;font-family:var(--font-hand);font-size:19px;color:var(--ink-3)}
 .alerts{display:none;margin:12px 0 0;border-radius:18px;background:var(--rose-bg);color:var(--plum);padding:11px 14px;font-size:13px}
 .alerts.show{display:block}
@@ -646,11 +647,12 @@ function favoriteDetails(name){
  if(FAV_OPEN===name&&IDX&&!IDX.grades?.[favKey(name)])loadIndexKeys([favKey(name)]);
 }
 // 관심 꽃 한 줄. mode: 'today'(최근 본경매 vs 지난주) / 'week'(지난주 vs 전주)
+const FAV_ASKED={}; // 처음 받은 시세에 없던 관심 꽃은 한 번 더 따로 받아 봅니다
 function favItemMarkup(k,mode){
  const x=IDX?.rows?.[favKey(k)],opened=FAV_OPEN===k;
  let price,meta,diff=null;
  if(!IDX){price=IDX_ERROR?'—':'<span class="sk" style="width:70px"></span>';meta=IDX_ERROR?'불러오지 못했어요':'<span class="sk" style="width:120px"></span>'}
- else if(!x){price='—';meta='최근 8주 본경매 거래 없음'}
+ else if(!x){const fk=favKey(k);if(!FAV_ASKED[fk]){FAV_ASKED[fk]=1;loadIndexKeys([fk]);price='<span class="sk" style="width:70px"></span>';meta='<span class="sk" style="width:120px"></span>'}else{price='—';meta='최근 8주 본경매 거래 없음'}}
  else if(mode==='today'){
   price=x.la!=null?fmt(x.la)+'원':(x.lastDate?`<span class="r-last">${esc(shortDate(x.lastDate))} ${fmt(x.lastAvg)}원</span>`:'—');
   meta=x.la!=null?`지난주 ${fmt(x.wa)}${x.wa==null?'':'원'}`:'최근 본경매엔 거래 없음';
@@ -1103,14 +1105,14 @@ function a2hsClose(){$('a2hs').hidden=true;try{localStorage.setItem('kkotA2hsClo
  if(standalone||closed||!mobile)return;
  const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent),samsung=/SamsungBrowser/i.test(navigator.userAgent);
  // 카카오톡·인스타그램·네이버 앱 안의 브라우저에서는 '홈 화면에 추가'가 안 되므로 바깥 브라우저로 열도록 안내
- const ua=navigator.userAgent,kakao=/KAKAOTALK/i.test(ua),inapp=kakao||/Instagram|FBAN|FBAV|NAVER\(inapp|Line\/|DaumApps|everytimeApp/i.test(ua);
+ const ua=navigator.userAgent,kakao=/KAKAOTALK/i.test(ua),gsa=/\bGSA\//.test(ua),inapp=kakao||gsa||/Instagram|FBAN|FBAV|NAVER\(inapp|Line\/|DaumApps|everytimeApp/i.test(ua);
  if(inapp){
   const br=ios?'Safari':'인터넷 앱(크롬·삼성 인터넷)';
-  $('a2hsMsg').textContent=kakao?`카톡 안에서는 추가가 안 돼요. ${ios?'Safari':'인터넷 앱'}에서 열어 주세요.`:`앱 안에서는 홈 화면에 추가할 수 없어요. 오른쪽 위 메뉴(⋯)에서 "${ios?'Safari로 열기':'다른 브라우저로 열기'}"를 눌러 주세요.`;
+  $('a2hsMsg').textContent=kakao?`카톡 안에서는 추가가 안 돼요. ${ios?'Safari':'인터넷 앱'}에서 열어 주세요.`:gsa?`구글 앱 안에서는 추가가 안 돼요. ${ios?'아래 공유 버튼 → "Safari에서 열기"':'오른쪽 위 메뉴(⋮) → "Chrome에서 열기"'}를 눌러 주세요.`:`앱 안에서는 홈 화면에 추가할 수 없어요. 오른쪽 위 메뉴(⋯)에서 "${ios?'Safari로 열기':'다른 브라우저로 열기'}"를 눌러 주세요.`;
   if(kakao){const g=$('a2hsGo');g.textContent=ios?'Safari로 열기':'브라우저로 열기';g.hidden=false;g.addEventListener('click',()=>{location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(location.href)})}
   $('a2hs').hidden=false;return;
  }
- $('a2hsMsg').textContent=ios?'아래 공유 버튼 → "홈 화면에 추가"를 눌러 주세요.':samsung?'아래 메뉴(≡) → "현재 페이지 추가" → "홈 화면"을 눌러 주세요. (바로가기로 추가돼요)':'브라우저 메뉴(⋮) → "홈 화면에 추가"를 눌러 주세요.';
+ $('a2hsMsg').textContent=ios?'공유 버튼(안 보이면 ⋯ → 공유) → "홈 화면에 추가"를 눌러 주세요.':samsung?'아래 메뉴(≡) → "현재 페이지 추가" → "홈 화면"을 눌러 주세요. (바로가기로 추가돼요)':'브라우저 메뉴(⋮) → "홈 화면에 추가"를 눌러 주세요.';
  $('a2hs').hidden=false;
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();A2HS_EVT=e;$('a2hsMsg').textContent='앱처럼 한 번에 열 수 있어요.';$('a2hsGo').hidden=false});
  $('a2hsGo').addEventListener('click',async()=>{if(!A2HS_EVT)return;A2HS_EVT.prompt();const r=await A2HS_EVT.userChoice;A2HS_EVT=null;if(r.outcome==='accepted')a2hsClose()});
