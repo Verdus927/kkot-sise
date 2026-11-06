@@ -543,7 +543,8 @@ const mainKey=name=>MAIN_ALIAS[name]||(name+SEP+'*');
 const favKey=k=>k.includes(SEP)?k:mainKey(k);
 const favIndexKeys=()=>[...new Set([...FAV].map(favKey))];
 // 졸업식·행사 준비 사이트 주소. 배포하면 아래 따옴표 안에 주소를 넣으세요. 비어 있으면 '준비 중'으로 보입니다.
-const SEASON_SITE_URL='https://m.site.naver.com/2k8pl'; // 졸업식 꽃 판매 플래너 (꽃시세 전용 단축 링크)
+const SHOW_PARTNER_LINKS=false; // 졸업식 사이트·부자재몰 연결 (false면 숨김)
+const SEASON_SITE_URL=SHOW_PARTNER_LINKS?'https://m.site.naver.com/2k8pl':''; // 졸업식 꽃 판매 플래너 (꽃시세 전용 단축 링크)
 const GRAD_PROMO_URL='https://m.site.naver.com/2k8oh'; // 부자재몰 졸업식 특별전 (꽃시세 전용 단축 링크)
 const GRAD_PROMO_UNTIL='2027-02-28';
 // 등락: 화살표 + 색 + 숫자 (색만으로 뜻을 전하지 않음)
@@ -1197,7 +1198,7 @@ function drawGradPromo(){
  const box=$('gradPromo');if(!box)return;
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date());
  let closed=false;try{closed=localStorage.getItem('kkot-promo-grad')===GRAD_PROMO_UNTIL}catch(e){}
- if(closed||today>GRAD_PROMO_UNTIL){box.hidden=true;return}
+ if(!SHOW_PARTNER_LINKS||closed||today>GRAD_PROMO_UNTIL){box.hidden=true;return}
  box.hidden=false;
  box.innerHTML=`<img class="promo-ic" src="img/deco/memo-clip.webp?v=1" alt="" aria-hidden="true"><div class="promo-tx"><b>졸업 시즌 준비</b>우리 동네 졸업식 날짜와 졸업 꽃다발 부자재를 한 번에</div>
  <div class="promo-btns"><a class="p1" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener"><svg class="pi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>근처 졸업식 찾기</a><a class="p2" href="${esc(GRAD_PROMO_URL)}" target="_blank" rel="noopener"><svg class="pi" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3.5-5-4-5.5-2S9.5 9 12 9zm0 0c1.5-3.5 5-4 5.5-2S14.5 9 12 9z"/></svg>졸업 부자재 보기</a></div>
