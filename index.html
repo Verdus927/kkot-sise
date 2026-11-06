@@ -570,7 +570,7 @@ function toggleFav(name){const adding=!FAV.has(name);adding?FAV.add(name):FAV.de
  // 새로 추가한 관심 꽃의 시세가 아직 없으면 그 꽃만 받아와 합칩니다.
  if(adding&&IDX){const fk=favKey(name);if(!(IDX.rows[fk]&&IDX.grades?.[fk]))loadIndexKeys([fk])}
 }
-function tab(t){document.body.dataset.tab=t;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('sel',x.dataset.tab===t));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+t));if(t==='catalog')initAuctionSearch();if(t==='insight')drawEvents();window.scrollTo({top:0,behavior:'smooth'})}
+function tab(t){if(document.body.dataset.tab!==t&&typeof resetDragStickers==='function')resetDragStickers();document.body.dataset.tab=t;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('sel',x.dataset.tab===t));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('on',x.id==='p-'+t));if(t==='catalog')initAuctionSearch();if(t==='insight')drawEvents();window.scrollTo({top:0,behavior:'smooth'})}
 function rate(r){return (DATA?.todayAvailable||!!LATEST_MAIN_DATE)&&r.todayPrice!=null&&r.price>0?r.todayPrice/r.price-1:null}
 function dataRows(){return DATA?.rows?.slice(1)||[]}
 function hasToday(r){return (DATA.todayAvailable||!!LATEST_MAIN_DATE)&&r.todayPrice!=null&&r.todayVolume>0}
@@ -1119,20 +1119,22 @@ function a2hsClose(){$('a2hs').hidden=true;try{localStorage.setItem('kkotA2hsClo
  window.addEventListener('appinstalled',a2hsClose);
 })();
 
-// 꾸미기 스티커는 끌어서 옮길 수 있어요. 옮긴 자리는 이 브라우저에 기억하고, 두 번 누르면 제자리로.
+// 꾸미기 스티커는 끌어서 옮길 수 있어요. 새로고침하거나 탭을 바꿨다 오면 제자리로, 두 번 눌러도 제자리로.
+function resetDragStickers(){document.querySelectorAll('[data-drag]').forEach(el=>{el.style.translate=''})}
 function initDragStickers(){
- const mode=()=>innerWidth>760?'d':'m',K=el=>'kkot-stk-'+el.dataset.drag+'-'+mode();
- const load=el=>{let v=null;try{v=JSON.parse(localStorage.getItem(K(el))||'null')}catch(e){}el.style.translate=v?`${v[0]}px ${v[1]}px`:''};
+ try{Object.keys(localStorage).filter(k=>k.startsWith('kkot-stk-')).forEach(k=>localStorage.removeItem(k))}catch(e){}
  document.querySelectorAll('[data-drag]').forEach(el=>{
-  el.title='끌어서 옮길 수 있어요 · 두 번 누르면 제자리';el.draggable=false;load(el);
+  el.title='끌어서 옮길 수 있어요 · 두 번 누르면 제자리';el.draggable=false;
   let sx=0,sy=0,bx=0,by=0,on=false;
   el.addEventListener('pointerdown',e=>{if(e.button)return;on=true;el.setPointerCapture(e.pointerId);const t=(el.style.translate||'0px 0px').split(' ');bx=parseFloat(t[0])||0;by=parseFloat(t[1])||0;sx=e.clientX;sy=e.clientY;el.classList.add('dragging');e.preventDefault()});
   el.addEventListener('pointermove',e=>{if(!on)return;el.style.translate=`${Math.round(bx+e.clientX-sx)}px ${Math.round(by+e.clientY-sy)}px`});
-  const end=()=>{if(!on)return;on=false;el.classList.remove('dragging');const t=(el.style.translate||'0px 0px').split(' ');try{localStorage.setItem(K(el),JSON.stringify([parseFloat(t[0])||0,parseFloat(t[1])||0]))}catch(e){}};
+  const end=()=>{if(!on)return;on=false;el.classList.remove('dragging')};
   el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
-  el.addEventListener('dblclick',()=>{el.style.translate='';try{localStorage.removeItem(K(el))}catch(e){}});
+  el.addEventListener('dblclick',()=>{el.style.translate=''});
  });
- let w=mode();addEventListener('resize',()=>{if(mode()!==w){w=mode();document.querySelectorAll('[data-drag]').forEach(load)}});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)resetDragStickers()});
+ addEventListener('pageshow',e=>{if(e.persisted)resetDragStickers()});
+ let w=innerWidth>760;addEventListener('resize',()=>{const n=innerWidth>760;if(n!==w){w=n;resetDragStickers()}});
 }
 initDragStickers();
 
