@@ -1,0 +1,12 @@
+name: apitest
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          U='https://script.google.com/macros/s/AKfycby-1gJpGq0LCEElClwnqWNcODmryI2nTRHpvwplnkIj6iP-iT5G3n4sC2Yhs5OaBKyZ/exec'
+          for q in 'api=getDashboardData' 'api=getPriceIndex&args=%5B%5B%22%EC%9E%A5%EB%AF%B8%E2%90%9F*%22%5D%2C%5B%5D%5D' 'api=getCatalogDay&args=%5B%22%22%5D' 'api=getFlowerNews'; do
+            echo "== $q"; curl -sL -m 120 "$U?$q" | head -c 900; echo
+          done
+          curl -sL -m 120 "$U?api=getPriceIndex&args=%5B%5B%5D%2C%5B%5D%5D" | python3 -c "import json,sys;d=json.load(sys.stdin);print(d['ok'],len(d['data']['rows']),d['data']['meta']['latestDate'],d['data']['meta']['builtAt'])"
