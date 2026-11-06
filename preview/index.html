@@ -431,14 +431,16 @@ html{overflow-x:clip}
  .sort{margin-left:0}
 }
 
-/* 꽃잎 로딩 바: 받는 동안 말린 꽃잎이 다라라락 쌓여요 */
-.petal-load{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border-radius:999px;background:rgba(252,248,240,.96);border:1px solid #E6DCCB;box-shadow:0 10px 24px rgba(80,50,20,.16);transform:translate(-50%,24px);opacity:0;pointer-events:none;transition:opacity .25s ease,transform .3s cubic-bezier(.2,1.4,.4,1)}
-.petal-load.show{opacity:1;transform:translate(-50%,0)}
-.petal-load .pl-track{position:relative;width:min(196px,48vw);height:20px;display:flex;align-items:flex-end;border-bottom:1.5px dashed #D9CBB4}
-.petal-load .pl-tx{font-family:var(--font-deco);font-size:13px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+/* 꽃잎 로딩: 첫 화면 시세를 받는 동안 가운데에 띄워요 */
+.petal-load{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(243,235,221,.55);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,visibility 0s .3s}
+.petal-load.show{opacity:1;visibility:visible;transition:opacity .25s ease}
+.petal-load .pl-card{width:min(300px,100%);text-align:center;padding:26px 22px 22px;border-radius:22px;background:var(--paper);border:1px solid #E6DCCB;box-shadow:0 18px 40px rgba(80,50,20,.18);transform:translateY(10px) scale(.96);transition:transform .35s cubic-bezier(.2,1.4,.4,1)}
+.petal-load.show .pl-card{transform:none}
+.petal-load .pl-track{width:204px;max-width:100%;height:22px;margin:0 auto 16px;display:flex;align-items:flex-end;border-bottom:1.5px dashed #D9CBB4}
+.petal-load .pl-tx{margin:0;font-family:var(--font-deco);font-size:19px;font-weight:700;color:var(--forest)}
+.petal-load .pl-sub{margin:6px 0 0;font-size:12.5px;color:var(--ink-2);line-height:1.6}
 .petal-load .pt{flex:none;width:13px;height:17px;margin-right:-2px;border-radius:0 85% 0 85%;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 .6px rgba(90,60,30,.18),0 1px 1.5px rgba(80,50,20,.18);transform:translateY(var(--y,0)) rotate(var(--r));animation:petalIn .42s cubic-bezier(.25,1.6,.45,1) both;position:relative;opacity:.93}
 .petal-load .pt:after{content:"";position:absolute;left:50%;top:18%;width:1px;height:64%;background:rgba(90,60,30,.22);transform:rotate(-38deg)}
-@media (max-width:760px){.petal-load{bottom:calc(96px + var(--lift,0px) + env(safe-area-inset-bottom))}}
 @keyframes petalIn{0%{opacity:0;transform:translateY(-26px) rotate(calc(var(--r) - 120deg)) scale(.7)}70%{opacity:1}100%{opacity:.93;transform:translateY(var(--y,0)) rotate(var(--r)) scale(1)}}
 </style><script>if(/SamsungBrowser/i.test(navigator.userAgent))document.documentElement.classList.add('sbrowser')</script></head>
 <body>
@@ -447,7 +449,7 @@ html{overflow-x:clip}
  <filter id="crayon" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 2.05" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="t"/><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="t" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
 </defs></svg>
 <div id="previewMark" class="previewsign" style="display:none">디자인 확인용 · 시연 데이터</div>
-<div id="petalLoad" class="petal-load" role="status" aria-live="polite"><div class="pl-track" aria-hidden="true"></div><span class="pl-tx">꽃잎 모으는 중…</span></div>
+<div id="petalLoad" class="petal-load" role="status" aria-live="polite"><div class="pl-card"><div class="pl-track" aria-hidden="true"></div><p class="pl-tx">오늘 시세를 불러오고 있어요!</p><p class="pl-sub">꽃잎이 다 모이면 바로 보여드릴게요</p></div></div>
 <header class="top"><div class="wrap">
  <div class="bar"><span class="brand"><span class="brand-mark">✿</span><span class="brand-ko">꽃시세</span><span class="brand-en">Bloom Market</span></span><span id="status" class="status">불러오는 중</span><button class="icon-btn" onclick="loadLive()" aria-label="새로고침" title="새로고침">↻</button></div>
  <div class="board">
@@ -719,7 +721,7 @@ function drawTodayLoading(){
  $('todayItems').innerHTML=Array.from({length:6},()=>'<div class="row"><div class="row-in"><span class="star"></span><div class="row-main"><span class="sk" style="width:40%"></span><span class="sk" style="width:70px"></span><span class="sk" style="width:55%;margin-top:6px"></span><span></span></div></div></div>').join('');
  drawFavorites();drawWeekly();
 }
-function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 평균 경매가 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.replace('T',' ').slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;{const mv=moverRows(),mu=mv.filter(r=>r.rate>0).sort((a,b)=>b.rate-a.rate),md=mv.filter(r=>r.rate<0).sort((a,b)=>a.rate-b.rate);$('rises').innerHTML=good&&mu.length?mu.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 오른 품목이 없어요.</div>';$('falls').innerHTML=good&&md.length?md.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 내린 품목이 없어요.</div>'}drawItems();drawFavorites();drawWeekly()}
+function drawToday(){if(!DATA)return;if(!IDX&&!IDX_ERROR){drawTodayLoading();return}if(typeof PETAL!=='undefined')PETAL.done();const good=DATA.todayAvailable||!!LATEST_MAIN_DATE;const all=dataRows().filter(hasToday),evaluated=all.filter(r=>r.price>0);const ups=evaluated.filter(r=>rate(r)>0).sort((a,b)=>rate(b)-rate(a)),downs=evaluated.filter(r=>rate(r)<0).sort((a,b)=>rate(a)-rate(b));$('dayTitle').textContent=LATEST_MAIN_DATE?`${kDate(LATEST_MAIN_DATE)} · 양재 현장 경매 기준`:`${DATA.todayDate||'오늘'} · ${DATA.auctionDay?'양재 현장 경매 기준':'현장 경매 없는 날'}`;$('daySub').textContent=good?'1속(단) 평균 경매가 · 지난주와 비교':DATA.auctionDay?'오늘 경매 자료가 아직 확인되지 않았습니다.':'절화 현장 경매가 없는 날입니다.';{const pn=$('progressNote'),ip=IDX?.meta?.inProgressDate;if(ip){pn.hidden=false;pn.textContent=`${kDate(ip)} 경매는 아직 집계 중이에요. 지금은 ${LATEST_MAIN_DATE?kDate(LATEST_MAIN_DATE):'직전 경매'} 가격이에요.`}else pn.hidden=true};$('checkStamp').textContent='시세 갱신 '+(IDX?.meta?.builtAt?IDX.meta.builtAt.replace('T',' ').slice(5,16).replace('-','/'):(DATA.lastTodayCheck||'확인 중'));$('summary').innerHTML=`<span class="hs">주요 품목 <b>${good?all.length:0}</b></span><span class="hs">▲ 오름 <b>${ups.length}</b></span><span class="hs">▼ 내림 <b>${downs.length}</b></span>`;{const mv=moverRows(),mu=mv.filter(r=>r.rate>0).sort((a,b)=>b.rate-a.rate),md=mv.filter(r=>r.rate<0).sort((a,b)=>a.rate-b.rate);$('rises').innerHTML=good&&mu.length?mu.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 오른 품목이 없어요.</div>';$('falls').innerHTML=good&&md.length?md.slice(0,5).map(moverRow).join(''):'<div class="empty">지난주보다 내린 품목이 없어요.</div>'}drawItems();drawFavorites();drawWeekly()}
 function drawWeekly(){if(!DATA||!$('weekPeriod'))return; // 주간 흐름 탭을 없애서 지금은 쓰지 않음
 const total=DATA.rows[0];$('weekPeriod').textContent=DATA.period||'';$('weeklyStats').innerHTML=`<div class="mini"><div class="muted">지난주 전체 평균 경매가</div><strong>${fmt(total.price)}원</strong><div class="${sg(total.change)}">전주 대비 ${pct(total.change)}</div></div><div class="mini"><div class="muted">지난주 총 거래량</div><strong>${fmt(total.volume)}</strong><div class="muted">전주 ${fmt(total.prevVolume)}</div></div>`;$('weeklyItems').innerHTML=dataRows().map(r=>rowMarkup(r,'week','weekly')).join(''); drawFavoriteWeekList()}
 function drawFavoriteWeekList(){
@@ -845,8 +847,8 @@ function applyIndex(){
  LATEST_MAIN_DATE=IDX.meta?.latestDate||null;
  for(const r of DATA.rows){const x=IDX.rows[mainKey(r.name)];r.todayPrice=x?.la??null;r.todayVolume=x?.lq||0}
 }
-function fail(m){DATA=null;$('status').textContent='● 연결 실패';$('alert').classList.add('show');$('alert').textContent='시세 데이터를 불러오지 못했습니다. '+String(m||'');$('todayItems').innerHTML='<div class="empty">이전 시세를 대신 표시하지 않습니다.</div>'}
-function loadLive(){const g=typeof google!=='undefined'&&google.script&&google.script.run;if(!g){if(PREVIEW_DATA){DATA=PREVIEW_DATA;$('previewMark').style.display='block';render()}else fail('웹 앱에서 다시 열어주세요.');return}$('status').textContent='불러오는 중';loadIndex();google.script.run.withSuccessHandler(r=>{if(!r?.rows?.length){fail('빈 데이터');return}DATA=r;LATEST_MAIN_DATE=null;applyIndex();render();if(IDX_ERROR)loadLatestMain()}).withFailureHandler(e=>fail(e.message||e)).getDashboardData()}
+function fail(m){if(typeof PETAL!=='undefined')PETAL.stop();DATA=null;$('status').textContent='● 연결 실패';$('alert').classList.add('show');$('alert').textContent='시세 데이터를 불러오지 못했습니다. '+String(m||'');$('todayItems').innerHTML='<div class="empty">이전 시세를 대신 표시하지 않습니다.</div>'}
+function loadLive(){const g=typeof google!=='undefined'&&google.script&&google.script.run;if(!g){if(PREVIEW_DATA){DATA=PREVIEW_DATA;$('previewMark').style.display='block';render()}else fail('웹 앱에서 다시 열어주세요.');return}$('status').textContent='불러오는 중';if(typeof PETAL!=='undefined')PETAL.start();loadIndex();google.script.run.withSuccessHandler(r=>{if(!r?.rows?.length){fail('빈 데이터');return}DATA=r;LATEST_MAIN_DATE=null;applyIndex();render();if(IDX_ERROR)loadLatestMain()}).withFailureHandler(e=>fail(e.message||e)).getDashboardData()}
 
 // ---------- 전체 품목 조회 ----------
 // 하루치(약 1,000~1,500줄)를 한 번 받아 두고, 검색은 화면 안에서 바로 거릅니다.
@@ -1163,18 +1165,21 @@ function drawGradPromo(){
 function closeGradPromo(){try{localStorage.setItem('kkot-promo-grad',GRAD_PROMO_UNTIL)}catch(e){}$('gradPromo').hidden=true}
 drawGradPromo();
 
-// 꽃잎 로딩 바: 시세 서버에서 받는 동안 꽃잎이 하나씩 쌓이고, 다 받으면 남은 꽃잎을 다라라락 채운 뒤 사라져요.
-(function(){
- const box=$('petalLoad');if(!box)return;const track=box.querySelector('.pl-track'),tx=box.querySelector('.pl-tx');
+// 꽃잎 로딩: 첫 화면 시세(오늘 시세 + 미리 계산한 시세)를 받는 동안만 가운데에 띄워요.
+// 뉴스·전체 품목처럼 뒤에서 받는 자료는 기다리지 않아요.
+var PETAL=(function(){
+ const box=$('petalLoad'),track=box.querySelector('.pl-track'),tx=box.querySelector('.pl-tx'),sub=box.querySelector('.pl-sub');
  const COLORS=[['#E7B7AE','#C98B86'],['#EBCB8F','#C99A55'],['#C9B8DA','#9D88B8'],['#B9C9AE','#8FA88C'],['#F1E3CC','#D8C2A0'],['#E4A6A0','#B77570']];
- const N=()=>Math.max(10,Math.floor(track.clientWidth/11));
- let on=false,t0=0,raf=0,hideT=0,count=0,i=0;
+ const N=17;let on=false,t0=0,raf=0,hideT=0,slowT=0,count=0,i=0;
  const add=()=>{const [a,b]=COLORS[(i*5+Math.floor(Math.random()*3))%COLORS.length];i++;const p=document.createElement('span');p.className='pt';p.style.cssText=`--c1:${a};--c2:${b};--r:${Math.round(Math.random()*70-35+(i%2?20:-20))}deg;--y:${Math.round(Math.random()*-4)}px`;track.appendChild(p);count++};
- const tick=()=>{if(!on)return;const want=Math.floor(N()*Math.min(.9,1-Math.exp(-(performance.now()-t0)/2200)));while(count<want)add();raf=requestAnimationFrame(tick)};
- const start=()=>{clearTimeout(hideT);if(on)return;on=true;track.innerHTML='';count=0;i=0;tx.textContent='꽃잎 모으는 중…';box.classList.add('show');t0=performance.now();add();raf=requestAnimationFrame(tick)};
- const done=()=>{if(!on)return;on=false;cancelAnimationFrame(raf);const n=N(),fill=()=>{if(count<n){add();hideT=setTimeout(fill,28)}else{tx.textContent='다 모았어요!';hideT=setTimeout(()=>box.classList.remove('show'),650)}};fill()};
- const upd=n=>{if(n>0)start();else hideT=setTimeout(()=>{if(!(window.KKOT_PENDING>0))done()},120)};
- addEventListener('kkot-pending',e=>upd(e.detail));if(window.KKOT_PENDING>0)start();
+ const tick=()=>{if(!on)return;const want=Math.floor(N*Math.min(.9,1-Math.exp(-(performance.now()-t0)/2500)));while(count<want)add();raf=requestAnimationFrame(tick)};
+ return{
+  start(){clearTimeout(hideT);clearTimeout(slowT);if(on)return;on=true;track.innerHTML='';count=0;i=0;tx.textContent='오늘 시세를 불러오고 있어요!';sub.textContent='꽃잎이 다 모이면 바로 보여드릴게요';box.classList.add('show');t0=performance.now();add();raf=requestAnimationFrame(tick);
+   slowT=setTimeout(()=>{if(on)sub.textContent='조금 오래 걸리고 있어요. 잠시만 기다려 주세요'},8000)},
+  done(){if(!on)return;on=false;cancelAnimationFrame(raf);clearTimeout(slowT);const fill=()=>{if(count<N){add();hideT=setTimeout(fill,22)}else{tx.textContent='다 모았어요!';sub.textContent='';hideT=setTimeout(()=>box.classList.remove('show'),450)}};fill()},
+  stop(){on=false;cancelAnimationFrame(raf);clearTimeout(slowT);clearTimeout(hideT);box.classList.remove('show')}
+ };
 })();
+if(!DATA||(!IDX&&!IDX_ERROR))PETAL.start();
 </script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6a6b8ca44a1148c1a4698906b0b86c88"}'></script><!-- End Cloudflare Web Analytics -->
 </body></html>
