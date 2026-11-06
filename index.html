@@ -430,16 +430,6 @@ html{overflow-x:clip}
  .auction-table td.empty-cell{display:block;grid-column:1/-1}
  .sort{margin-left:0}
 }
-
-/* 꽃잎 로딩 바: 받는 동안 말린 꽃잎이 다라라락 쌓여요 */
-.petal-load{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:10px;padding:9px 16px 9px 12px;border-radius:999px;background:rgba(252,248,240,.96);border:1px solid #E6DCCB;box-shadow:0 10px 24px rgba(80,50,20,.16);transform:translate(-50%,24px);opacity:0;pointer-events:none;transition:opacity .25s ease,transform .3s cubic-bezier(.2,1.4,.4,1)}
-.petal-load.show{opacity:1;transform:translate(-50%,0)}
-.petal-load .pl-track{position:relative;width:min(196px,48vw);height:20px;display:flex;align-items:flex-end;border-bottom:1.5px dashed #D9CBB4}
-.petal-load .pl-tx{font-family:var(--font-deco);font-size:13px;font-weight:700;color:var(--ink-2);white-space:nowrap}
-.petal-load .pt{flex:none;width:13px;height:17px;margin-right:-2px;border-radius:0 85% 0 85%;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 .6px rgba(90,60,30,.18),0 1px 1.5px rgba(80,50,20,.18);transform:translateY(var(--y,0)) rotate(var(--r));animation:petalIn .42s cubic-bezier(.25,1.6,.45,1) both;position:relative;opacity:.93}
-.petal-load .pt:after{content:"";position:absolute;left:50%;top:18%;width:1px;height:64%;background:rgba(90,60,30,.22);transform:rotate(-38deg)}
-@media (max-width:760px){.petal-load{bottom:calc(96px + var(--lift,0px) + env(safe-area-inset-bottom))}}
-@keyframes petalIn{0%{opacity:0;transform:translateY(-26px) rotate(calc(var(--r) - 120deg)) scale(.7)}70%{opacity:1}100%{opacity:.93;transform:translateY(var(--y,0)) rotate(var(--r)) scale(1)}}
 </style><script>if(/SamsungBrowser/i.test(navigator.userAgent))document.documentElement.classList.add('sbrowser')</script></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -447,7 +437,6 @@ html{overflow-x:clip}
  <filter id="crayon" x="-5%" y="-20%" width="110%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 2.05" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="t"/><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="t" in2="n" scale="2.2" xChannelSelector="R" yChannelSelector="G"/></filter>
 </defs></svg>
 <div id="previewMark" class="previewsign" style="display:none">디자인 확인용 · 시연 데이터</div>
-<div id="petalLoad" class="petal-load" role="status" aria-live="polite"><div class="pl-track" aria-hidden="true"></div><span class="pl-tx">꽃잎 모으는 중…</span></div>
 <header class="top"><div class="wrap">
  <div class="bar"><span class="brand"><span class="brand-mark">✿</span><span class="brand-ko">꽃시세</span><span class="brand-en">Bloom Market</span></span><span id="status" class="status">불러오는 중</span><button class="icon-btn" onclick="loadLive()" aria-label="새로고침" title="새로고침">↻</button></div>
  <div class="board">
@@ -534,7 +523,7 @@ html{overflow-x:clip}
 <div class="end-deco" aria-hidden="true"><img data-drag="end" src="img/bouquet.webp" alt="" width="492" height="620" loading="lazy" decoding="async"></div>
 <div class="garland-wrap" aria-hidden="true"><img data-drag="garland" src="img/deco/garland.webp?v=1" alt="" width="800" height="135" loading="lazy" decoding="async"></div>
 <footer class="foot"><div class="wrap"><img class="foot-stamp" data-drag="stamp" src="img/deco/stamp.webp?v=1" alt="" aria-hidden="true" width="300" height="254" loading="lazy" decoding="async"><p id="footerTimes">갱신 정보 확인 중</p><p class="src">자료: 한국농수산식품유통공사 화훼유통정보시스템(flower.at.or.kr), 양재 aT 화훼공판장 절화 경매 결과. 부산·김해·광주 등 다른 공판장 시세는 포함하지 않습니다.</p><p>가격은 경매 낙찰가의 거래량 가중평균이며, 소매가·매입 확정가·실시간 호가가 아닙니다.</p><p class="contact">제휴 · 광고 문의 <a href="mailto:contact@bestflower.co.kr">contact@bestflower.co.kr</a></p></div></footer>
-<script src="js/config.js?v=20261027"></script><script src="js/api.js?v=20261106"></script><script>
+<script src="js/config.js?v=20261027"></script><script src="js/api.js?v=20261027"></script><script>
 const PREVIEW_DATA=null;
 let LATEST_MAIN_DATE=null, MAIN_LOADING=false, DATA=null,NEWS=[],CATALOG=[],CATALOG_READY=false,CATFILTER='all',ACTIVE=null,FAV=new Set(),FAV_OPEN=null;
 // 미리 계산한 시세 (PriceIndex.gs). IDX.rows['장미␟*'] 처럼 '품목␟품종' 으로 찾습니다.
@@ -1162,19 +1151,5 @@ function drawGradPromo(){
 }
 function closeGradPromo(){try{localStorage.setItem('kkot-promo-grad',GRAD_PROMO_UNTIL)}catch(e){}$('gradPromo').hidden=true}
 drawGradPromo();
-
-// 꽃잎 로딩 바: 시세 서버에서 받는 동안 꽃잎이 하나씩 쌓이고, 다 받으면 남은 꽃잎을 다라라락 채운 뒤 사라져요.
-(function(){
- const box=$('petalLoad');if(!box)return;const track=box.querySelector('.pl-track'),tx=box.querySelector('.pl-tx');
- const COLORS=[['#E7B7AE','#C98B86'],['#EBCB8F','#C99A55'],['#C9B8DA','#9D88B8'],['#B9C9AE','#8FA88C'],['#F1E3CC','#D8C2A0'],['#E4A6A0','#B77570']];
- const N=()=>Math.max(10,Math.floor(track.clientWidth/11));
- let on=false,t0=0,raf=0,hideT=0,count=0,i=0;
- const add=()=>{const [a,b]=COLORS[(i*5+Math.floor(Math.random()*3))%COLORS.length];i++;const p=document.createElement('span');p.className='pt';p.style.cssText=`--c1:${a};--c2:${b};--r:${Math.round(Math.random()*70-35+(i%2?20:-20))}deg;--y:${Math.round(Math.random()*-4)}px`;track.appendChild(p);count++};
- const tick=()=>{if(!on)return;const want=Math.floor(N()*Math.min(.9,1-Math.exp(-(performance.now()-t0)/2200)));while(count<want)add();raf=requestAnimationFrame(tick)};
- const start=()=>{clearTimeout(hideT);if(on)return;on=true;track.innerHTML='';count=0;i=0;tx.textContent='꽃잎 모으는 중…';box.classList.add('show');t0=performance.now();add();raf=requestAnimationFrame(tick)};
- const done=()=>{if(!on)return;on=false;cancelAnimationFrame(raf);const n=N(),fill=()=>{if(count<n){add();hideT=setTimeout(fill,28)}else{tx.textContent='다 모았어요!';hideT=setTimeout(()=>box.classList.remove('show'),650)}};fill()};
- const upd=n=>{if(n>0)start();else hideT=setTimeout(()=>{if(!(window.KKOT_PENDING>0))done()},120)};
- addEventListener('kkot-pending',e=>upd(e.detail));if(window.KKOT_PENDING>0)start();
-})();
 </script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6a6b8ca44a1148c1a4698906b0b86c88"}'></script><!-- End Cloudflare Web Analytics -->
 </body></html>
