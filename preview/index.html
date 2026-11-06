@@ -543,7 +543,8 @@ const mainKey=name=>MAIN_ALIAS[name]||(name+SEP+'*');
 const favKey=k=>k.includes(SEP)?k:mainKey(k);
 const favIndexKeys=()=>[...new Set([...FAV].map(favKey))];
 // 졸업식·행사 준비 사이트 주소. 배포하면 아래 따옴표 안에 주소를 넣으세요. 비어 있으면 '준비 중'으로 보입니다.
-const SHOW_PARTNER_LINKS=false; // 졸업식 사이트·부자재몰 연결 (false면 숨김)
+const SHOW_PARTNER_LINKS=false; // 졸업식 사이트·부자재몰 연결 (false면 숨김, 그 자리에 광고 문의 카드)
+const AD_FORM_URL=''; // 광고 문의 구글 폼 주소 (비어 있으면 '문의 곧 열려요')
 const SEASON_SITE_URL=SHOW_PARTNER_LINKS?'https://m.site.naver.com/2k8pl':''; // 졸업식 꽃 판매 플래너 (꽃시세 전용 단축 링크)
 const GRAD_PROMO_URL='https://m.site.naver.com/2k8oh'; // 부자재몰 졸업식 특별전 (꽃시세 전용 단축 링크)
 const GRAD_PROMO_UNTIL='2027-02-28';
@@ -750,7 +751,7 @@ function loadNews(){if(NEWS_SNAP){NEWS=NEWS_SNAP.items||[];drawNews();return}con
 const EVENTS=[{m:2,d:14,n:'밸런타인데이',items:'장미',note:'선물용 꽃 수요를 살펴볼 시기'},{m:3,d:1,n:'졸업·입학 시즌',len:21,items:'장미 · 거베라 · 안개꽃',note:'학교별 행사 일정은 다를 수 있어요'},{m:3,d:14,n:'화이트데이',items:'장미 · 안개꽃',note:'선물 수요 참고'},{m:5,d:1,n:'봄 웨딩 시즌',len:61,items:'장미 · 수국 · 리시안셔스',note:'예식 수요 참고'},{m:5,d:8,n:'어버이날',items:'카네이션',note:'카네이션 수요가 집중되는 시기'},{m:5,d:15,n:'스승의 날',items:'카네이션',note:'선물 관련 규정도 확인 필요'},{m:9,d:1,n:'가을 웨딩 시즌',len:61,items:'장미 · 수국',note:'예식 수요 참고'},{m:9,d:1,n:'가을 국화 시즌',len:75,items:'국화',note:'가을 행사·추모 수요 참고'},{m:11,d:11,n:'빼빼로데이',items:'장미',note:'선물 수요 참고'},{m:12,d:1,n:'연말 행사 시즌',len:30,items:'장미 · 백합',note:'연말 행사 수요 참고'}];
 function drawSeasonSite(){
  const box=$('seasonSite');if(!box)return;
- box.innerHTML=`<div class="site-card cornered"><img class="corner tl" src="../img/deco/corner-tl.webp?v=1" alt="" aria-hidden="true"><img class="corner br" src="../img/deco/corner-br.webp?v=1" alt="" aria-hidden="true"><div><b>졸업·입학 시즌 꽃 준비</b><p>우리 동네 학교 졸업식 날짜를 지도와 목록으로 찾아보고, 판매 일정을 메모해 두는 사이트예요.</p></div>${SEASON_SITE_URL?`<a class="go" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">근처 졸업식 찾기 ↗</a>`:'<span class="soon">준비 중</span>'}</div>`;
+ box.innerHTML=`<div class="site-card cornered"><img class="corner tl" src="../img/deco/corner-tl.webp?v=1" alt="" aria-hidden="true"><img class="corner br" src="../img/deco/corner-br.webp?v=1" alt="" aria-hidden="true">${SHOW_PARTNER_LINKS?`<div><b>졸업·입학 시즌 꽃 준비</b><p>우리 동네 학교 졸업식 날짜를 지도와 목록으로 찾아보고, 판매 일정을 메모해 두는 사이트예요.</p></div><a class="go" href="${esc(SEASON_SITE_URL)}" target="_blank" rel="noopener">근처 졸업식 찾기 ↗</a>`:`<div><b>이 자리에 광고를 실어 보세요</b><p>꽃집 사장님들이 매일 시세를 확인하는 페이지예요. 한 달 3만원.</p></div>${AD_FORM_URL?`<a class="go" href="${esc(AD_FORM_URL)}" target="_blank" rel="noopener">광고 문의 ↗</a>`:'<span class="soon">문의 곧 열려요</span>'}`}</div>`;
 }
 function drawEvents(){drawSeasonSite();let endDate=DATA?.periodEnd;const ref=endDate&&/^\d{4}-\d{2}-\d{2}$/.test(endDate)?new Date(endDate+'T12:00:00'):new Date(),end=new Date(ref);end.setDate(end.getDate()+45);const items=[];for(let y=ref.getFullYear()-1;y<=ref.getFullYear()+1;y++)for(const e of EVENTS){let start=new Date(y,e.m-1,e.d,12),last=new Date(start);last.setDate(last.getDate()+(e.len||1)-1);if(last>=ref&&start<=end)items.push({...e,start,last})}items.sort((a,b)=>a.start-b.start);$('events').innerHTML=items.slice(0,6).map(e=>`<div class="event"><span>${e.start.getMonth()+1}/${e.start.getDate()}</span><b>${esc(e.n)}</b><p>${esc(e.note)}</p></div>`).join('')||'<div class="empty">해당 기간에 등록된 행사 없음</div>'}
 function drawFooter(){if(!DATA)return;$('footerTimes').textContent=`시세 갱신 ${String(IDX?.meta?.builtAt||DATA.lastTodayCheck||'확인 중').replace('T',' ').slice(0,16)} · 화면 조회 ${String(DATA.fetchedAt||'').replace('T',' ').slice(0,16)}`}
