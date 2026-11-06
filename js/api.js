@@ -5,12 +5,20 @@
 (function () {
   var TIMEOUT_MS = 30000;
 
+  // 받는 중인 요청 수를 화면(꽃잎 로딩 바)에 알려 줍니다.
+  window.KKOT_PENDING = 0;
+  function pending(d) {
+    window.KKOT_PENDING = Math.max(0, window.KKOT_PENDING + d);
+    try { window.dispatchEvent(new CustomEvent('kkot-pending', { detail: window.KKOT_PENDING })); } catch (e) {}
+  }
+
   function call(name, args) {
     var base = (window.KKOT_CONFIG && window.KKOT_CONFIG.API_URL) || '';
     if (!base) return Promise.reject(new Error('시세 서버 주소가 설정되지 않았습니다 (js/config.js).'));
     var url = new URL(base);
     url.searchParams.set('api', name);
     if (args.length) url.searchParams.set('args', JSON.stringify(args));
+    pending(1);
     var ctrl = new AbortController();
     var timer = setTimeout(function () { ctrl.abort(); }, TIMEOUT_MS);
     return fetch(url.toString(), { redirect: 'follow', signal: ctrl.signal })
@@ -26,7 +34,7 @@
         if (e && e.name === 'AbortError') throw new Error('시세 서버가 응답하지 않습니다. 잠시 후 새로고침해 주세요.');
         throw e;
       })
-      .finally(function () { clearTimeout(timer); });
+      .finally(function () { clearTimeout(timer); pending(-1); });
   }
 
   function runner(ok, fail) {
