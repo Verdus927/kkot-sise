@@ -1,0 +1,16 @@
+name: api-test
+on: workflow_dispatch
+jobs:
+  t:
+    runs-on: ubuntu-latest
+    steps:
+      - name: time
+        run: |
+          U='https://script.google.com/macros/s/AKfycbxg-kUWJ1lR6-qhZmQNAWKG6R6IAQT9aa1kZb6xl_ci2p53lEu85f9eoPL6wKz3yei3/exec'
+          K=$(python3 -c "import urllib.parse,json;print(urllib.parse.quote(json.dumps([['장미␟*','국화␟*','거베라␟*'],[]],ensure_ascii=False)))")
+          for i in 1 2 3; do
+            for a in "api=getDashboardData" "api=getPriceIndex&args=$K" "api=getFlowerNews"; do
+              curl -sL -o /tmp/o -w "$i ${a:0:22} total=%{time_total}s size=%{size_download}\n" "$U?$a"
+            done
+          done
+          curl -sL -o /dev/null -w "pages total=%{time_total}s\n" https://verdus927.github.io/kkot-sise/
