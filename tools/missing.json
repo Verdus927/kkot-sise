@@ -1,21 +1,5 @@
 [
  {
-  "name": "미니볼",
-  "days": 5,
-  "qty": 431,
-  "varieties": [
-   "미니볼"
-  ]
- },
- {
-  "name": "두메",
-  "days": 5,
-  "qty": 150,
-  "varieties": [
-   "두메"
-  ]
- },
- {
   "name": "골드킹",
   "days": 3,
   "qty": 600,
@@ -24,11 +8,35 @@
   ]
  },
  {
-  "name": "레인보우",
+  "name": "두메",
+  "days": 2,
+  "qty": 60,
+  "varieties": [
+   "두메"
+  ]
+ },
+ {
+  "name": "미니볼",
+  "days": 2,
+  "qty": 50,
+  "varieties": [
+   "미니볼"
+  ]
+ },
+ {
+  "name": "버버스콤",
+  "days": 1,
+  "qty": 22,
+  "varieties": [
+   "버버스콤"
+  ]
+ },
+ {
+  "name": "비단향",
   "days": 1,
   "qty": 20,
   "varieties": [
-   "트리칼라"
+   "비단향"
   ]
  }
 ]
