@@ -830,5 +830,15 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "승인"
+ },
+ "버버스콤": {
+  "date": "2026-11-11",
+  "model": "ChatGPT(수동)",
+  "status": "승인"
+ },
+ "비단향": {
+  "date": "2026-11-11",
+  "model": "ChatGPT(수동)",
+  "status": "승인"
  }
 }
