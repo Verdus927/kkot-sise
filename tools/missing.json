@@ -1,26 +1,34 @@
 [
  {
-  "name": "골드킹",
+  "name": "금잔화",
   "days": 3,
-  "qty": 600,
+  "qty": 90,
+  "varieties": [
+   "오렌지"
+  ]
+ },
+ {
+  "name": "골드킹",
+  "days": 2,
+  "qty": 400,
   "varieties": [
    "골드킹"
   ]
  },
  {
-  "name": "두메",
-  "days": 2,
-  "qty": 60,
+  "name": "헬레보루스",
+  "days": 1,
+  "qty": 8,
   "varieties": [
-   "두메"
+   "화이트"
   ]
  },
  {
-  "name": "미니볼",
-  "days": 2,
-  "qty": 50,
+  "name": "목화",
+  "days": 1,
+  "qty": 6,
   "varieties": [
-   "미니볼"
+   "목화"
   ]
  }
 ]
