@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>꽃 이름 맞추기</title>
+<link rel="icon" href="../img/favicon-32.png" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:only light;
+ --ivory:#F3EBDD;--paper:#FCF8F0;--paper-2:#F6EFE2;--line:#E2D5BF;--line-2:#ECE3D3;
+ --ink:#2F2B26;--ink-2:#6B6257;--ink-3:#9A8F81;
+ --rose:#B8697A;--rose-2:#E9C3C8;--rose-bg:#F6E4E3;--sage:#8FA88C;--sage-bg:#E3EBDD;--forest:#2F3F34;--plum:#7E4058;--gold:#C29A45;--kraft:#B98549;
+ --shadow:0 1px 0 rgba(90,60,30,.05),0 12px 26px -18px rgba(80,50,20,.45);
+ --font:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+ --font-deco:'Gowun Batang',serif;--font-hand:'Nanum Pen Script',cursive;--font-script:'Pinyon Script',cursive}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;word-break:keep-all;background-color:var(--ivory);
+ background-image:radial-gradient(rgba(120,90,50,.07) 1px,transparent 1.4px),radial-gradient(rgba(255,255,255,.5) 1px,transparent 1.4px);
+ background-size:6px 6px,9px 9px;background-position:0 0,3px 4px;color:var(--ink);font:15px/1.55 var(--font);-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 30px}
+.hide{display:none!important}
+
+/* 맨 위 줄 */
+.bar{display:flex;align-items:baseline;gap:8px;padding:16px 4px 12px}
+.brand-mark{color:var(--rose);font-size:22px;line-height:1}
+.brand-ko{font-family:var(--font-deco);font-weight:700;font-size:20px;letter-spacing:-.4px}
+.brand-en{font-family:var(--font-script);font-size:22px;color:var(--rose);line-height:1}
+
+/* 크라프트지 보드 */
+.board{position:relative;border-radius:26px;padding:22px 18px 30px;overflow:hidden;
+ background-color:var(--kraft);
+ background-image:radial-gradient(ellipse at 50% 20%,#C99459 0%,rgba(185,133,73,0) 60%),radial-gradient(rgba(90,50,15,.16) 1px,transparent 1.5px),radial-gradient(rgba(255,235,200,.18) 1px,transparent 1.5px);
+ background-size:auto,7px 7px,11px 11px;background-position:0 0,0 0,4px 5px;
+ box-shadow:inset 0 0 60px rgba(80,45,10,.28),0 22px 40px -30px rgba(65,40,17,.6)}
+.collage{display:block;width:78%;max-width:360px;margin:-8px auto -70px;position:relative;z-index:0;aspect-ratio:760/950;object-fit:cover;
+ -webkit-mask-image:radial-gradient(ellipse 62% 60% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 60% at 50% 50%,#000 62%,transparent 100%)}
+.note-wrap{position:relative;z-index:2;filter:drop-shadow(0 16px 18px rgba(55,30,5,.32));transform:rotate(-1.2deg)}
+.note-wrap.flat{transform:rotate(.6deg)}
+.note{position:relative;padding:40px 34px 32px;clip-path:polygon(0.0% 0.52%,2.9% 0.24%,5.9% 1.04%,8.8% 0.12%,11.8% 0.86%,14.7% 0.59%,17.6% 0.09%,20.6% 0.81%,23.5% 0.06%,26.5% 0.69%,29.4% 0.11%,32.4% 0.15%,35.3% 0.68%,38.2% 1.32%,41.2% 0.20%,44.1% 0.36%,47.1% 1.00%,50.0% 1.52%,52.9% 0.92%,55.9% 0.63%,58.8% 1.56%,61.8% 0.07%,64.7% 1.37%,67.6% 0.46%,70.6% 0.23%,73.5% 0.19%,76.5% 0.49%,79.4% 1.31%,82.4% 0.29%,85.3% 0.93%,88.2% 1.02%,91.2% 0.60%,94.1% 0.88%,97.1% 0.10%,100.0% 0.10%,99.88% 8.3%,99.59% 16.7%,99.74% 25.0%,99.81% 33.3%,99.65% 41.7%,99.73% 50.0%,99.82% 58.3%,99.52% 66.7%,99.58% 75.0%,99.85% 83.3%,99.66% 91.7%,100.0% 98.82%,97.1% 98.04%,94.1% 98.37%,91.2% 99.36%,88.2% 97.80%,85.3% 99.74%,82.4% 99.06%,79.4% 98.30%,76.5% 99.66%,73.5% 98.90%,70.6% 99.91%,67.6% 98.50%,64.7% 98.29%,61.8% 98.72%,58.8% 98.04%,55.9% 99.30%,52.9% 98.44%,50.0% 98.67%,47.1% 98.70%,44.1% 98.98%,41.2% 98.12%,38.2% 97.88%,35.3% 98.94%,32.4% 98.51%,29.4% 99.86%,26.5% 98.43%,23.5% 98.55%,20.6% 97.78%,17.6% 98.16%,14.7% 99.36%,11.8% 99.14%,8.8% 98.50%,5.9% 99.95%,2.9% 98.97%,0.0% 99.62%,0.07% 91.7%,0.04% 83.3%,0.46% 75.0%,0.08% 66.7%,0.15% 58.3%,0.23% 50.0%,0.52% 41.7%,0.05% 33.3%,0.27% 25.0%,0.33% 16.7%,0.53% 8.3%);
+ background-color:#F8F1E2;
+ background-image:linear-gradient(rgba(150,120,80,.07) 1px,transparent 1px),radial-gradient(ellipse at 20% 0%,rgba(255,255,255,.7),transparent 60%);
+ background-size:100% 28px,auto}
+.note{background-color:#F8F1E2;background-image:linear-gradient(rgba(150,120,80,.07) 1px,transparent 1px),radial-gradient(ellipse at 20% 0%,rgba(255,255,255,.7),transparent 60%);background-size:100% 28px,auto;padding:36px 24px 28px}
+.tape{position:absolute;z-index:3;height:28px;opacity:.92;
+ clip-path:polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 12%,100% 25%,96% 38%,100% 50%,96% 62%,100% 75%,96% 88%,100% 100%,0 100%,4% 88%,0 75%,4% 62%,0 50%,4% 38%,0 25%,4% 12%);box-shadow:0 2px 5px rgba(60,35,10,.15)}
+.tape.rose{background:linear-gradient(180deg,rgba(226,170,175,.95),rgba(205,145,152,.9))}
+.tape.kraft{background:linear-gradient(180deg,rgba(214,186,140,.95),rgba(196,165,118,.9))}
+.tape.sage{background:repeating-linear-gradient(45deg,rgba(170,192,165,.95) 0 6px,rgba(150,176,146,.95) 6px 12px)}
+.t1{top:-10px;left:22px;width:104px;transform:rotate(-7deg)}
+.t2{bottom:-8px;right:26px;width:86px;transform:rotate(5deg)}
+
+.hand{font-family:var(--font-script);font-size:25px;color:var(--rose);line-height:1;margin:0 0 6px}
+h1{margin:0;font-family:var(--font-deco);font-size:clamp(32px,9vw,44px);line-height:1.18;letter-spacing:-1.4px;font-weight:700;color:var(--forest)}
+h1{isolation:isolate}
+h1 em{font-style:normal;color:var(--rose);position:relative;white-space:nowrap}
+h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:.32em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 14 C40 4, 90 18, 130 9 S185 6, 198 11' fill='none' stroke='%23C29A45' stroke-width='4' stroke-linecap='round' opacity='.75'/%3E%3C/svg%3E") no-repeat center/100% 100%;z-index:-1}
+.sub{margin:10px 0 0;font-size:14px;color:var(--ink-2)}
+
+.step{display:flex;align-items:center;gap:8px;margin:22px 0 10px;font-family:var(--font-deco);font-weight:700;font-size:16px;color:var(--forest)}
+.step i{font-style:normal;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--sage-bg);color:#4d6a4a;font-size:13px;font-family:var(--font)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.chips.three{grid-template-columns:repeat(3,1fr)}
+.chip{border:1px dashed #C9B596;background:rgba(255,255,255,.6);border-radius:8px;padding:10px 6px;font-size:15px;font-weight:700;text-align:center;transition:background .15s,transform .15s}
+.chip small{display:block;font-size:12px;font-weight:400;color:var(--ink-3);margin-top:1px}
+.chip.on{background:var(--rose-bg);border:1px solid var(--rose);color:var(--plum);transform:rotate(-1deg)}
+.chip.on small{color:var(--rose)}
+.btn{display:block;width:100%;border:0;border-radius:999px;background:var(--forest);color:var(--paper);font-size:17px;font-weight:800;padding:15px;margin-top:24px;box-shadow:0 8px 16px -10px rgba(30,40,30,.7)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line);font-weight:700;box-shadow:none;margin-top:10px}
+.scribble{margin:16px 0 0;font-family:var(--font-hand);font-size:21px;line-height:1.2;color:var(--rose);transform:rotate(-1.2deg);transform-origin:left}
+
+.board.start{padding:62px 16px 26px}
+.hero-f{position:absolute;z-index:4;right:-4px;top:-46px;width:44%;max-width:190px;height:auto;transform:rotate(6deg);filter:drop-shadow(0 12px 12px rgba(55,30,5,.35));pointer-events:none}
+.board.start .hand,.board.start h1,.board.start .sub{max-width:60%}
+.board.start .sub{max-width:58%}
+.board.start h1{font-size:clamp(28px,8.4vw,40px)}
+@media (max-width:380px){
+ .board.start .hand{font-size:22px}
+ .board.start h1{font-size:28px;letter-spacing:-1px}
+ .board.start h1,.board.start .hand{max-width:66%}
+ .hero-f{width:40%;top:-40px}
+ .wrap{padding:0 12px 24px}
+ .board.start{padding:56px 12px 22px}
+ .note{padding:32px 18px 24px}
+ .opt{font-size:16px;min-height:52px}
+}
+/* 문제 화면 */
+.top{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 14px}
+.lbl{position:relative;display:flex;align-items:center;min-width:176px;height:62px;margin:-6px 0 -6px -12px;padding:0 34px 0 52px;isolation:isolate;font-family:var(--font-deco);font-size:18px;font-weight:800;color:#22301f;text-shadow:0 0 6px rgba(255,248,232,.9)}
+.lbl:before{content:"";position:absolute;inset:0;z-index:-1;background:url(../img/deco/label.webp) left center/100% 100% no-repeat;filter:brightness(1.16) saturate(.75) contrast(.92)}
+.lbl img{position:absolute;width:30px;right:-4px;top:2px;transform:rotate(12deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25))}
+.pts{font-family:var(--font-hand);font-size:23px;color:var(--rose)}
+.prog{display:flex;gap:4px;margin:0 2px 14px}
+.prog span{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.prog span.ok{background:var(--sage)}.prog span.no{background:var(--rose-2)}.prog span.now{background:var(--gold)}
+.board.q{padding:18px 18px 16px}
+.pic{position:relative;width:min(76%,300px);margin:0 auto;transform:rotate(-2deg);filter:drop-shadow(0 12px 14px rgba(55,30,5,.35))}
+.pic img.f{display:block;width:100%;height:min(32vh,300px);object-fit:contain}
+.pic .tp{position:absolute;width:88px;top:6px;left:50%;margin-left:-44px;transform:rotate(-5deg);z-index:2}
+.deco-a{position:absolute;width:46px;left:14px;bottom:18px;transform:rotate(-14deg);opacity:.95}
+.deco-b{position:absolute;width:30px;right:18px;top:20px;transform:rotate(18deg)}
+.qcard{margin-top:-6px}
+.qcard .note{padding:30px 18px 22px}
+.qtx{margin:0 0 14px;text-align:center;font-family:var(--font-deco);font-size:19px;font-weight:700;color:var(--forest)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{position:relative;min-height:58px;border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:12px 8px;font-size:17px;font-weight:700;box-shadow:var(--shadow);transition:transform .15s}
+.opt:nth-child(1){transform:rotate(-.8deg)}.opt:nth-child(2){transform:rotate(.7deg)}.opt:nth-child(3){transform:rotate(.5deg)}.opt:nth-child(4){transform:rotate(-.6deg)}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--sage-bg);border-color:var(--sage);color:#2f4a2b}
+.opt.no{background:var(--rose-bg);border-color:var(--rose-2);color:var(--plum);text-decoration:line-through;text-decoration-color:var(--rose)}
+.opt .seal{position:absolute;width:34px;right:-10px;top:-12px;transform:rotate(-10deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25));animation:stick .35s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes stick{from{opacity:0;transform:rotate(-30deg) scale(.5)}to{opacity:1;transform:rotate(-10deg) scale(1)}}
+.fb{min-height:54px;text-align:center;margin-top:14px}
+.fb b{font-family:var(--font-hand);font-size:26px;font-weight:400}
+.fb .ok{color:#5E7A5B}.fb .no{color:var(--rose)}
+.fb span{font-size:15px}
+.fb small{display:block;color:var(--ink-3);font-size:13px;margin-top:2px}
+
+/* 결과 */
+.memo{position:relative;width:310px;max-width:100%;aspect-ratio:520/493;margin:0 auto -10px;background:url(../img/deco/memo-lavender.webp) center/100% 100% no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 84px 20px 34px;filter:drop-shadow(0 8px 10px rgba(80,50,20,.18));text-align:center}
+.memo .hand{margin:0}
+.score{font-family:var(--font-deco);font-size:48px;font-weight:700;color:var(--forest);line-height:1.1;letter-spacing:-1px}
+.score small{font-size:24px;color:var(--ink-3)}
+.msg{margin:6px 0 0;font-family:var(--font-hand);font-size:21px;line-height:1.2;color:var(--rose)}
+.memo .seal{position:absolute;width:52px;right:30px;top:26px;transform:rotate(12deg)}
+.wrong{margin-top:34px}
+.wrong-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.wrong-h .cnt{font-size:13px;color:var(--ink-2)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 10px}
+.wc{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 6px 6px;text-align:center;box-shadow:var(--shadow)}
+.wc:nth-child(3n+1){transform:rotate(-1.5deg)}.wc:nth-child(3n+2){transform:rotate(1deg)}.wc:nth-child(3n){transform:rotate(-.5deg)}
+.wc:before{content:"";position:absolute;top:-7px;left:50%;width:44px;height:14px;margin-left:-22px;opacity:.9;background:linear-gradient(180deg,rgba(214,186,140,.95),rgba(196,165,118,.9));clip-path:polygon(0 10%,4% 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
+.wc:nth-child(2n):before{background:linear-gradient(180deg,rgba(226,170,175,.95),rgba(205,145,152,.9))}
+.wc img{display:block;width:100%;height:120px;object-fit:contain}
+.wc b{display:block;font-family:var(--font-deco);font-size:14px;color:var(--forest);margin-top:4px}
+.allok{text-align:center;color:var(--ink-2);font-size:14px}
+.allok img{display:block;width:120px;margin:0 auto 6px;transform:rotate(-5deg)}
+
+.garland{display:block;width:min(320px,80vw);margin:26px auto -12px}
+.foot{position:relative;border-top:1px solid var(--line);margin-top:0;padding:18px 4px 8px;font-size:12px;color:var(--ink-3);line-height:1.6}
+.foot img{float:right;width:78px;margin:-4px 0 6px 12px;transform:rotate(6deg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="bar"><span class="brand-mark">✽</span><span class="brand-ko">꽃 이름 퀴즈</span><span class="brand-en">Flower Quiz</span></div>
+
+ <!-- 시작 -->
+ <section id="start">
+  <div class="board start">
+   <div class="note-wrap">
+    <span class="tape rose t1"></span>
+    <img class="hero-f" id="heroF" alt="">
+    <div class="note">
+     <p class="hand">guess the flower</p>
+     <h1>이 꽃, 이름이<br><em>뭐였더라?</em></h1>
+     <p class="sub">그림을 보고 보기 4개 중에서 이름을 골라요</p>
+
+     <div class="step"><i>1</i>어떤 꽃으로 낼까요?</div>
+     <div class="chips" id="pool">
+      <button class="chip on" data-v="p">자주 보는 꽃<small id="cP"></small></button>
+      <button class="chip" data-v="f">꽃 전체<small id="cF"></small></button>
+      <button class="chip" data-v="s">소재·잎·열매<small id="cS"></small></button>
+      <button class="chip" data-v="a">전부 섞어서<small id="cA"></small></button>
+     </div>
+
+     <div class="step"><i>2</i>몇 문제 풀까요?</div>
+     <div class="chips three" id="cnt">
+      <button class="chip on" data-v="10">10문제</button>
+      <button class="chip" data-v="20">20문제</button>
+      <button class="chip" data-v="30">30문제</button>
+     </div>
+
+     <button class="btn" id="goBtn">시작하기</button>
+     <p class="scribble">* 양재 공판장 시세표 품목 <span id="cTot"></span>종 그림으로 나와요!</p>
+    </div>
+    <span class="tape sage t2"></span>
+   </div>
+  </div>
+ </section>
+
+ <!-- 문제 -->
+ <section id="play" class="hide">
+  <div class="top"><div class="lbl"><span id="num"></span><img src="../img/deco/seal-star.webp" alt=""></div><span class="pts" id="pts"></span></div>
+  <div class="prog" id="prog"></div>
+  <div class="board q">
+   <img class="deco-a" src="../img/stickers/deco-fern.webp" alt="">
+   <img class="deco-b" src="../img/stickers/deco-petal.webp" alt="">
+   <div class="pic"><img class="f" id="img" alt="꽃 그림"></div>
+  </div>
+  <div class="note-wrap flat qcard">
+   <span class="tape rose t1"></span>
+   <div class="note">
+    <p class="qtx">이름이 무엇일까요?</p>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb"></div>
+    <button class="btn hide" id="nextBtn" style="margin-top:8px">다음 문제</button>
+   </div>
+  </div>
+ </section>
+
+ <!-- 결과 -->
+ <section id="end" class="hide">
+  <div class="board" style="padding:30px 14px 34px">
+   <div class="memo">
+    <p class="hand">my score</p>
+    <div class="score" id="final"></div>
+    <p class="msg" id="msg"></p>
+   </div>
+  </div>
+  <button class="btn" id="againBtn">같은 조건으로 다시</button>
+  <button class="btn ghost" id="homeBtn">처음으로</button>
+  <div class="wrong" id="wrongBox"></div>
+ </section>
+
+ <img class="garland" src="../img/deco/garland.webp" alt="">
+ <footer class="foot"><img src="../img/deco/stamp.webp" alt="">꽃 그림은 양재 화훼공판장 시세표 품목 이름 기준이에요. 시세표 표기와 흔히 부르는 이름이 다른 꽃은 정답 아래에 같이 적어 두었어요.</footer>
+</div>
+
+<script>
+const EXCLUDE = new Set(["소재", "절지", "절화", "열매", "허브", "야생화", "그라스", "양란", "국화_대국"]);
+const META = {"각구도라":{"g":"s"},"거베라":{"p":1},"고사리":{"g":"s"},"광나무(여정목)":{"g":"s"},"국화":{"p":1},"극락조화":{"p":1},"글라디올러스":{"p":1},"금사철":{"g":"s"},"금어초":{"p":1},"까치밥":{"g":"s"},"꽃고추":{"g":"s"},"꽃양배추":{"g":"s"},"꽈리":{"g":"s"},"남천":{"g":"s"},"노무라":{"g":"s"},"다알리아":{"p":1,"n":"달리아"},"다정금":{"g":"s"},"데이지":{"p":1},"델피니움":{"p":1},"돈나무":{"g":"s"},"라넌큘러스":{"p":1},"루스커스":{"g":"s"},"리시안사스":{"p":1,"n":"리시안셔스"},"마가렛":{"p":1},"맥문동":{"g":"s"},"맨드라미":{"p":1},"메리골드":{"p":1},"멜라루카":{"g":"s"},"몬스테라":{"g":"s"},"백일홍":{"p":1},"백합":{"p":1},"버들나무":{"g":"s"},"보리사초":{"g":"s"},"부들":{"g":"s"},"부프리움":{"g":"s"},"비부리움":{"g":"s"},"사철나무":{"g":"s"},"설유화":{"g":"s"},"소철":{"g":"s"},"속새":{"g":"s"},"수국":{"p":1},"수선":{"p":1},"수수":{"g":"s"},"스모그트리":{"g":"s"},"스위트피":{"p":1},"스타티스":{"p":1},"스톡크":{"p":1,"n":"스톡"},"신지매":{"g":"s"},"심비디움":{"p":1},"심포리카르포스":{"g":"s"},"아네모네":{"p":1},"아스그레피아스":{"n":"아스클레피아스"},"아스파라거스":{"g":"s"},"아이리스":{"p":1},"아카시아":{"g":"s"},"안개":{"p":1,"n":"안개꽃"},"안시리움":{"p":1},"알스트메리아":{"p":1,"n":"알스트로메리아"},"억새풀":{"g":"s"},"연꽃":{"p":1},"연밥":{"g":"s"},"엽란":{"g":"s"},"영춘화":{"g":"s"},"왁스플라워":{"p":1},"용담":{"p":1},"유칼립투스":{"g":"s","p":1},"이끼시아":{"g":"s"},"잎안개":{"g":"s"},"작살나무":{"g":"s"},"작약":{"p":1},"장미":{"p":1},"조":{"g":"s"},"조팝":{"g":"s"},"종려":{"g":"s"},"쥐똥나무":{"g":"s"},"천일홍":{"p":1},"카네이션":{"p":1},"칼라":{"p":1},"캐모마일":{"p":1},"코스모스":{"p":1},"쿠루쿠마":{"n":"쿠르쿠마"},"탑사철":{"g":"s"},"토마토":{"g":"s"},"튜립":{"p":1,"n":"튤립"},"파니쿰":{"g":"s"},"팜파스":{"g":"s","p":1},"편백":{"g":"s"},"풍선초":{"g":"s"},"프리지아":{"p":1},"피토스포륨":{"g":"s"},"핑크뮬리":{"g":"s","p":1},"하이페리콤":{"g":"s"},"해바라기":{"p":1},"호엽란":{"g":"s"},"호접란":{"p":1},"홍가시":{"g":"s"},"히야신스":{"p":1}};
+const FALLBACK = ["각구도라","개미취","거베라","고사리","공작초","과꽃","광나무(여정목)","국화","극락조화","글라디올러스","글로리오사","금꿩의다리","금사철","금어초","기린초","까치밥","꽃고추","꽃양배추","꽈리","남천","냉이초","노무라","니겔라","다알리아","다정금","데이지","덴파레","델피니움","도라지꽃","돈나무","등골나무","디디스커스","라넌큘러스","라이스플라워","루드베키아","루스커스","리시안사스","리아트리스","마가렛","마타리","맥문동","맨드라미","메리골드","멜라루카","명자란","몬스테라","백야","백일홍","백합","버들나무","버버스콤","베로니카","보리사초","부들","부들레야","부추꽃","부프리움","불노초","브바르디아","비단향","비부리움","사루비아","사철나무","산더소니아","상사화","석죽","설유화","셀륨","소철","속새","솔리다고","솔리다스터","수국","수선","수수","스모그트리","스위트피","스카비오사","스타티스","스톡크","시레네","신지매","심비디움","심포리카르포스","싸리","아가판서스","아게라덤","아그로템마","아네모네","아미초","아스그레피아스","아스틸베","아스파라거스","아이리스","아카시아","안개","안시리움","알스트메리아","알피니아","억새풀","에렌지움","에키네시아","에키놉스","여우얼굴","연꽃","연밥","엽란","영춘화","오니소갈룸","옥시페탈륨","왁스플라워","용담","유도화","유칼립투스","유포로비아","이끼시아","잎안개","작살나무","작약","장미","조","조팝","종려","쥐똥나무","천일홍","천조초","층꽃","치자","카네이션","칼라","캄파눌라","캐모마일","케로네","코스모스","쿠루쿠마","클레마티스","탑사철","토마토","튜립","트리플륨","파니쿰","팜파스","편백","폴리안테스","풍선초","프리지아","피토스포륨","핑크뮬리","하이페리콤","해바라기","헬레늄","헬리옵시스","호엽란","호접란","홍가시","후록스","히야신스"];
+function build(names){
+  return names.filter(n=>!EXCLUDE.has(n)).map(n=>{
+    const m=META[n]||{};
+    const o={n:m.n||n, f:n, g:m.g||'f'};
+    if(m.n && m.n!==n) o.a=n;
+    if(m.p) o.p=1;
+    return o;
+  });
+}
+let ITEMS = build(FALLBACK);
+const IMG = f => '../img/flowers/'+encodeURIComponent(f)+'.webp';
+const $ = id => document.getElementById(id);
+let pool='p', count=10, qs=[], idx=0, score=0, wrong=[], res=[];
+
+const filt = v => ITEMS.filter(x => v==='a' || (v==='p' ? x.p : x.g===v));
+function counts(){
+  $('cP').textContent = filt('p').length+'종';
+  $('cF').textContent = filt('f').length+'종';
+  $('cS').textContent = filt('s').length+'종';
+  $('cA').textContent = ITEMS.length+'종';
+  $('cTot').textContent = ITEMS.length;
+}
+counts();
+// 꽃시세 페이지의 그림 목록(FLOWER_IMG)을 읽어 와서 새로 만든 그림도 문제에 넣습니다
+fetch('../index.html',{cache:'no-cache'}).then(r=>r.text()).then(h=>{
+  const m=h.match(/FLOWER_IMG\s*=\s*new Set\((\[[^\]]*\])\)/);
+  if(!m) return;
+  const names=JSON.parse(m[1]);
+  if(names.length){ ITEMS=build(names); counts(); }
+}).catch(()=>{});
+
+function seg(id, set){
+  $(id).addEventListener('click', e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    [...$(id).children].forEach(c=>c.classList.toggle('on', c===b));
+    set(b.dataset.v);
+  });
+}
+seg('pool', v=>pool=v);
+seg('cnt', v=>count=+v);
+
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+function heroPick(){ const fl=ITEMS.filter(x=>x.g==='f'); $('heroF').src=IMG(fl[Math.floor(Math.random()*fl.length)].f); }
+heroPick();
+const show = id => { if(id==='start') heroPick(); ['start','play','end'].forEach(s=>$(s).classList.toggle('hide', s!==id)); window.scrollTo(0,0); };
+
+function start(){
+  const list = shuffle(filt(pool));
+  qs = list.slice(0, Math.min(count, list.length));
+  idx=0; score=0; wrong=[]; res=[];
+  show('play'); ask();
+}
+
+function drawProg(){
+  $('prog').innerHTML = qs.map((_,i)=>'<span class="'+(res[i]||(i===idx?'now':''))+'"></span>').join('');
+}
+
+function ask(){
+  const it = qs[idx];
+  let same = ITEMS.filter(x => x!==it && x.g===it.g);
+  if(pool==='p'){ const pp = same.filter(x=>x.p); if(pp.length>=3) same = pp; }
+  const opts = shuffle([it, ...shuffle(same).slice(0,3)]);
+  $('img').src = IMG(it.f);
+  $('num').textContent = (idx+1)+'번째 꽃';
+  $('pts').textContent = '맞힌 꽃 '+score+'개';
+  drawProg();
+  $('fb').innerHTML=''; $('nextBtn').classList.add('hide');
+  const box=$('opts'); box.innerHTML='';
+  opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=o.n;
+    b.onclick=()=>pick(b,o,it);
+    box.appendChild(b);
+  });
+  if(qs[idx+1]) new Image().src=IMG(qs[idx+1].f);
+}
+
+function pick(btn,o,it){
+  [...$('opts').children].forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===it.n){ b.classList.add('ok'); const s=document.createElement('img'); s.className='seal'; s.src='../img/deco/seal-leaf.webp'; s.alt=''; b.appendChild(s); }
+  });
+  const alias = it.a ? '<small>시세표에서는 \''+it.a+'\'(으)로 나와요</small>' : '';
+  if(o===it){ score++; res[idx]='ok'; $('fb').innerHTML='<b class="ok">정답이에요!</b>'+alias; }
+  else { btn.classList.add('no'); res[idx]='no'; wrong.push(it); $('fb').innerHTML='<b class="no">아쉬워요,</b> <span>정답은 <b style="font-family:var(--font-deco);font-size:17px;color:var(--forest)">'+it.n+'</b></span>'+alias; }
+  $('pts').textContent='맞힌 꽃 '+score+'개';
+  drawProg();
+  const nb=$('nextBtn'); nb.textContent = idx+1<qs.length ? '다음 문제' : '결과 보기'; nb.classList.remove('hide');
+  const r=nb.getBoundingClientRect(); if(r.bottom>window.innerHeight) window.scrollBy({top:r.bottom-window.innerHeight+16,behavior:'smooth'});
+}
+
+$('nextBtn').onclick=()=>{ idx++; idx<qs.length ? ask() : finish(); };
+
+function finish(){
+  show('end');
+  $('final').innerHTML = score+'<small> / '+qs.length+'</small>';
+  const r = score/qs.length;
+  $('msg').textContent = r===1 ? '전부 맞혔어요! 꽃 박사님이네요' : r>=.8 ? '거의 다 맞혔어요, 훌륭해요' : r>=.5 ? '절반 넘게 맞혔어요!' : '처음엔 다들 헷갈려요';
+  $('wrongBox').innerHTML = wrong.length
+   ? '<div class="wrong-h"><div class="lbl">틀린 꽃 다시 보기<img src="../img/deco/seal-star.webp" alt=""></div><span class="cnt">'+wrong.length+'개</span></div><div class="cards">'+wrong.map(w=>'<div class="wc"><img src="'+IMG(w.f)+'" alt=""><b>'+w.n+'</b></div>').join('')+'</div>'
+   : '<div class="allok"><img src="../img/deco/envelope.webp" alt="">틀린 꽃이 하나도 없어요</div>';
+}
+
+$('goBtn').onclick=start;
+$('againBtn').onclick=start;
+$('homeBtn').onclick=()=>show('start');
+</script>
+</body>
+</html>
