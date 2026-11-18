@@ -879,5 +879,11 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "검수 대기"
+ },
+ "장미_차밍레이스(sp)": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
