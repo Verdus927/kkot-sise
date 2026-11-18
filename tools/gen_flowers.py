@@ -8,6 +8,20 @@ import base64, datetime, json, os, re, subprocess, sys, time, urllib.parse, urll
 import builtins
 _LOG=[]
 _p=builtins.print
+# 장미처럼 꽃잎 가장자리가 매끈해야 하는 꽃: 압화(눌러 말린 꽃) 표현을 빼서 꽃잎 끝이 우글우글해지지 않게 함
+SMOOTH_RULE = ("\n- 꽃잎 가장자리는 매끈하게 이어지는 부드러운 곡선이다. 우글우글한 물결, 잘게 갈라진 톱니, 카네이션 같은 프릴, 찢어진 듯한 끝, 구겨진 주름을 넣지 않는다. "
+               "꽃잎 표면에는 종이 질감, 구김, 얼룩을 넣지 않고 매끈하고 깨끗하게 그린다 (종이 질감은 뒤의 종이와 소품에만). "
+               "Petal edges: smooth clean continuous curves, no ruffled, serrated, crinkled, torn or fringed edges.")
+def smooth_prompt(p):
+    for a, b in [('사실적인 압화 질감, ', '사실적이고 매끈한 꽃 묘사, '),
+                 ('빈티지 압화 콜라주 이미지', '빈티지 보태니컬 콜라주 이미지'),
+                 ('사실적인 꽃과 압화의 질감이 느껴지는 ', '사실적이고 매끈한 꽃이 돋보이는 '),
+                 ('빈티지 압화 다꾸처럼', '빈티지 다꾸처럼'),
+                 ('종이에 고정된 압화 다꾸 느낌', '종이에 고정된 다꾸 느낌'),
+                 ('압화처럼 약간 바랜 색감', '살짝 차분한 색감')]:
+        p = p.replace(a, b)
+    return p.replace('배경은 완전히 투명하게 한다.', SMOOTH_RULE.strip() + '\n배경은 완전히 투명하게 한다.', 1)
+
 def print(*a,**k):
     _LOG.append(' '.join(str(x) for x in a)); _p(*a,**k)
 
@@ -228,6 +242,8 @@ def main():
             os.makedirs(os.path.join(T, 'photos'), exist_ok=True); open(os.path.join(T, 'photos', name + '.jpg'), 'wb').write(photos[0])
         note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})이 꽃집에 유통되는 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따르되, 사진의 구도·각도·배치를 그대로 베끼지 말고 식물의 형태 특징만 참고해 새로 그린다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
         prompt = PROMPT.format(extra=('\n- ' + q['extra']) if q.get('extra') else '', recipe=deco_recipe(name), photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
+        if q.get('smooth'):
+            prompt = smooth_prompt(prompt)
         img, used, transparent = None, None, True
         for m in ([model_ok] if model_ok else MODELS):
             for tr in (True, False):
