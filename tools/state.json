@@ -987,5 +987,17 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "검수 대기"
+ },
+ "글라디올러스": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "안개": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
