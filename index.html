@@ -559,6 +559,8 @@ const DAEGUK=/백선|백중|마코토|마카토|대국/;
 function stickerOf(name){
  const tok=String(name||'').split(/[\s·(]/)[0];if(!tok)return '';
  if(tok==='국화'&&DAEGUK.test(String(name)))return FLOWER_IMG.has('국화_대국')?'국화_대국':'';
+ // 장미는 품종 그림(장미_<원자료 품종명>.webp)이 있으면 그 그림, 없으면 장미 그림
+ if(tok==='장미'){const v=String(name).trim().slice(2).replace(/^[\s·␟]+/,'').trim();if(v&&FLOWER_IMG.has('장미_'+v))return '장미_'+v}
  if(FLOWER_IMG.has(tok))return tok;
  const viaAlias=Object.keys(typeof ALIAS==='object'?ALIAS:{}).find(raw=>FLOWER_IMG.has(raw)&&ALIAS[raw].includes(tok));if(viaAlias)return viaAlias;
  return [...FLOWER_IMG].find(raw=>tok.startsWith(raw))||'';
