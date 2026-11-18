@@ -810,5 +810,20 @@
 "sci": "장미 자나(sp) 품종, 꽃집 유통 사진",
 "extra": "이 그림은 장미 한 품종(위 품종)을 보여 주는 그림이다. 사진 속 이 품종만의 꽃 색, 꽃잎 테두리 색, 가운데 색, 꽃 모양을 가장 중요하게 따른다. 스프레이 장미라서 한 줄기에서 작은 꽃 여러 송이와 봉오리가 갈라져 달린 모양이 분명히 보이게, 줄기 3~4대를 묶은 작은 다발로 표현한다. 전체는 빈티지 톤으로 하되, 다른 장미 품종과 구별되도록 이 품종의 색 차이(테두리 색, 가운데 색 등)는 분명하게 남긴다.",
 "smooth": true
+},
+{
+"name": "장미",
+"smooth": true,
+"hint": "Rosa hybrid cut roses, a mixed bouquet that shows the range of popular rose varieties: 2 classic deep red high-centred roses as the accent, soft apricot-peach roses, cream-white roses with a magenta-pink petal edge, pure ivory-white roses, plus 1-2 stems of small peach spray roses with several little blooms and buds per stem; smooth rounded rose petals, dark green serrated rose leaves, roses only",
+"sci": "장미 품종 섞은 다발 (참고 그림: 푸에고, 하젤, 쥬밀리아, 마루시아, 차밍레이스)",
+"extra": "이 그림은 '장미' 품목 전체를 대표하는 그림이다. 첨부한 앞쪽 그림 2장은 실제 품종을 그린 우리 그림이다: 1장은 빨강(푸에고), 살구(하젤), 흰 바탕에 핑크 테두리(쥬밀리아), 흰색(마루시아) 장미, 2장은 피치색 스프레이 장미(차밍레이스). 이 다섯 가지를 한 다발에 조화롭게 섞는다. 빨간 장미는 2송이 정도로 포인트만 주고, 살구, 핑크 테두리, 흰색이 부드럽게 이어지는 따뜻한 색 흐름으로 배치한다. 스프레이 장미는 1~2줄기만 넣어 한 줄기에 작은 꽃이 여러 송이 달린 모습이 보이게 한다. 장미 말고 다른 꽃이나 안개꽃, 유칼립투스 같은 소재는 넣지 않는다. 줄기 7~9대를 묶은 다발로 표현한다."
+},
+{
+"name": "리시안사스",
+"smooth": true,
+"smooth_rule": "이 꽃의 꽃잎은 원래 크고 부드럽게 물결친다. 큰 물결은 살리되, 꽃잎 끝을 잘게 갈라진 톱니, 오돌토돌한 테두리, 구겨진 종이 같은 주름으로 그리지 않는다. 꽃잎 표면은 비단처럼 매끈하고 깨끗하게, 윤곽선은 깔끔하게 그린다 (종이 질감은 뒤의 종이와 소품에만). 그림체 견본은 종이, 소품, 색감, 배치 분위기만 참고하고 꽃잎 질감은 따라 하지 않는다. 견본 속 장미는 그리지 않는다. Petals: large soft silky waves are fine, but edges must be clean and smooth, no serrated, jagged, crinkled or fringed edges, no pressed-flower texture on petals.",
+"hint": "Eustoma grandiflorum (lisianthus, 리시안셔스) cut flowers: double-flowered cup-shaped blooms with silky petals in loose soft waves, mixed soft colors (white-cream, blush pink, pale lavender), slender pointed spiral-twisted buds, long slim stems branching near the top, grey-green oval-lanceolate leaves in pairs along the stem",
+"sci": "Eustoma grandiflorum",
+"extra": "리시안셔스 줄기 5~7대를 묶은 다발로 표현한다. 끝이 뾰족하게 꼬인 봉오리와 위쪽에서 갈라지는 가는 줄기가 보이게 한다."
 }
 ]

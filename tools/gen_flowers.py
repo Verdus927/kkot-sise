@@ -15,7 +15,7 @@ SMOOTH_RULE = ("\n- 꽃잎 가장자리는 매끈하게 이어지는 부드러�
                "Petal edges: smooth clean continuous curves like a fine botanical illustration, no ruffled, serrated, crinkled, jagged, torn or fringed edges, no pressed-flower texture on petals.")
 # smooth 품목의 그림체 견본: 압화 질감이 강한 기본 견본 대신 꽃잎이 가장 매끈하게 나온 장미 그림 1장만
 SMOOTH_REFS = ['장미_헤라']
-def smooth_prompt(p):
+def smooth_prompt(p, rule=None):
     for a, b in [('사실적인 압화 질감, ', '사실적이고 매끈한 꽃 묘사, '),
                  ('빈티지 압화 콜라주 이미지', '빈티지 보태니컬 콜라주 이미지'),
                  ('사실적인 꽃과 압화의 질감이 느껴지는 ', '사실적이고 매끈한 꽃이 돋보이는 '),
@@ -23,7 +23,7 @@ def smooth_prompt(p):
                  ('종이에 고정된 압화 다꾸 느낌', '종이에 고정된 다꾸 느낌'),
                  ('압화처럼 약간 바랜 색감', '살짝 차분한 색감')]:
         p = p.replace(a, b)
-    return p.replace('배경은 완전히 투명하게 한다.', SMOOTH_RULE.strip() + '\n배경은 완전히 투명하게 한다.', 1)
+    return p.replace('배경은 완전히 투명하게 한다.', '- ' + (rule or SMOOTH_RULE.strip().lstrip('- ')) + '\n배경은 완전히 투명하게 한다.', 1)
 
 def print(*a,**k):
     _LOG.append(' '.join(str(x) for x in a)); _p(*a,**k)
@@ -246,13 +246,13 @@ def main():
         note = (f'첨부 이미지 중 처음 {len(photos)}장은 이 식물({sq})이 꽃집에 유통되는 실제 사진이다. 꽃·잎·줄기 모양과 색은 이 사진을 기준으로 정확하게 따르되, 사진의 구도·각도·배치를 그대로 베끼지 말고 식물의 형태 특징만 참고해 새로 그린다. 나머지 이미지는 그림체 견본이다.\n') if photos else ''
         prompt = PROMPT.format(extra=('\n- ' + q['extra']) if q.get('extra') else '', recipe=deco_recipe(name), photo_note=note, name=name, hint=q['hint'], bg_extra=BUNDLE_EXTRA if q['hint'].startswith('BUNDLE') else '')
         if q.get('smooth'):
-            prompt = smooth_prompt(prompt)
+            prompt = smooth_prompt(prompt, q.get('smooth_rule'))
         img, used, transparent = None, None, True
         for m in ([model_ok] if model_ok else MODELS):
             for tr in (True, False):
                 try:
                     p = prompt if tr else prompt.replace('배경은 완전히 투명하게 한다.', '배경은 아무것도 없는 단색 흰색으로만 채운다.')
-                    img, usage = call(m, p, tr, photos, SMOOTH_REFS if q.get('smooth') else None)
+                    img, usage = call(m, p, tr, photos, q.get('refs') or (SMOOTH_REFS if q.get('smooth') else None))
                     used, transparent = m, tr
                     break
                 except urllib.error.HTTPError as e:
