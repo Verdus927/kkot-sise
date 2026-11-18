@@ -855,5 +855,29 @@
   "date": "2026-11-18",
   "model": "ChatGPT(수동)",
   "status": "승인"
+ },
+ "장미_하젤": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "장미_푸에고": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "장미_쥬밀리아": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "장미_빅토리아": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
