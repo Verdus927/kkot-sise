@@ -975,5 +975,17 @@
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
   "status": "검수 대기"
+ },
+ "장미": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
+ },
+ "리시안사스": {
+  "date": "2026-11-18",
+  "model": "gpt-image-2.5-sunburst",
+  "transparent": true,
+  "status": "검수 대기"
  }
 }
