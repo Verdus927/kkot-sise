@@ -13,6 +13,7 @@
 
 - 파일: `img/flowers/<aT 원자료 품목명>.webp`, 원본 PNG는 `originals/`
 - 사이트 그림 목록 `FLOWER_IMG` (index.html)도 같이 갱신합니다. 팀 쪽은 파일 이름으로 목록을 다시 만듭니다.
+- 꽃 퀴즈(`quiz/index.html`)는 `FLOWER_IMG` 를 읽어 새 그림을 자동으로 문제에 넣습니다. 다만 보기 이름과 분류는 `META` 에 직접 넣습니다: 원자료 이름과 다르게 보일 이름은 `"n"`, 소재·열매·절지는 `"g":"s"`, 자주 보는 꽃은 `"p":1`.
 - 방법 1, 자동 제작 (여러 장): `tools/queue.json` 에 넣고 `tools/run-now.txt` 로 flowers.yml 실행. OpenAI 키는 GitHub secret `OPENAI_API_KEY` 에만 있음. **사용자가 '진행'이라고 했을 때만** 실행.
   - 고품질 1024x1536, 장당 약 $0.07 (약 100원, 2026-11-09 기준). 크레딧이 거의 바닥이면 먼저 알림.
 - 방법 2, ChatGPT 직접 제작 (한두 장): 프롬프트를 드리고, 사용자가 ChatGPT에서 그린 PNG를 받으면 배경 정리, 크기 맞추기, webp 변환 후 올림.
