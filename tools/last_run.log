@@ -1,13 +1,27 @@
-2026-11-18T04:46:27.569590
+2026-11-18T05:33:35.326119
 장미_차밍레이스(sp): 실제 사진 3장 (장미 차밍레이스(sp) 품종, 꽃집 유통 사진)
 장미_차밍레이스(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
 장미_헤라: 실제 사진 3장 (장미 헤라 품종, 꽃집 유통 사진)
-  장미_헤라 / gpt-image-2.5-sunburst / 투명=True: 429 {
-  "error": {
-    "message": "You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.",
-    "type": "insufficient_quota",
-    "param": null,
-    "code": "credit_balance_exhausted"
-  }
-}
-키 오류 또는 잔액 부족: 여기서 멈춤
+장미_헤라: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_마루시아: 실제 사진 3장 (장미 마루시아 품종, 꽃집 유통 사진)
+장미_마루시아: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_클라린스: 실제 사진 3장 (장미 클라린스 품종, 꽃집 유통 사진)
+장미_클라린스: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_캐롤라인: 실제 사진 3장 (장미 캐롤라인 품종, 꽃집 유통 사진)
+장미_캐롤라인: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_웨딩인바이트(sp): 실제 사진 3장 (장미 웨딩인바이트(sp) 품종, 꽃집 유통 사진)
+장미_웨딩인바이트(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_디온(sp): 실제 사진 3장 (장미 디온(sp) 품종, 꽃집 유통 사진)
+장미_디온(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_만다라: 실제 사진 3장 (장미 만다라 품종, 꽃집 유통 사진)
+장미_만다라: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_굿무드(sp): 실제 사진 3장 (장미 굿무드(sp) 품종, 꽃집 유통 사진)
+장미_굿무드(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_스노우블라썸(sp): 실제 사진 3장 (장미 스노우블라썸(sp) 품종, 꽃집 유통 사진)
+장미_스노우블라썸(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_실바써니(sp): 실제 사진 3장 (장미 실바써니(sp) 품종, 꽃집 유통 사진)
+장미_실바써니(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_일레오스: 실제 사진 3장 (장미 일레오스 품종, 꽃집 유통 사진)
+장미_일레오스: 완료 (gpt-image-2.5-sunburst, 투명=True)
+장미_실바핑크(sp): 실제 사진 3장 (장미 실바핑크(sp) 품종, 꽃집 유통 사진)
+장미_실바핑크(sp): 완료 (gpt-image-2.5-sunburst, 투명=True)
