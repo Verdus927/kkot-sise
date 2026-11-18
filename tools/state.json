@@ -840,5 +840,20 @@
   "date": "2026-11-11",
   "model": "ChatGPT(수동)",
   "status": "승인"
+ },
+ "금잔화": {
+  "date": "2026-11-18",
+  "model": "ChatGPT(수동)",
+  "status": "승인"
+ },
+ "헬레보루스": {
+  "date": "2026-11-18",
+  "model": "ChatGPT(수동)",
+  "status": "승인"
+ },
+ "목화": {
+  "date": "2026-11-18",
+  "model": "ChatGPT(수동)",
+  "status": "승인"
  }
 }
