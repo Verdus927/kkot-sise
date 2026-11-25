@@ -153,6 +153,42 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
 .allok{text-align:center;color:var(--ink-2);font-size:14px}
 .allok img{display:block;width:120px;margin:0 auto 6px;transform:rotate(-5deg)}
 
+/* 오늘의 퀴즈 */
+.today{position:relative;display:block;width:100%;margin:18px 0 4px;border:1px solid var(--rose);border-radius:14px;background:var(--rose-bg);padding:14px 16px 13px 62px;text-align:left;box-shadow:0 8px 16px -12px rgba(120,50,70,.6);transform:rotate(-.6deg)}
+.today img{position:absolute;left:10px;top:50%;width:42px;margin-top:-21px;transform:rotate(-10deg)}
+.today b{display:block;font-family:var(--font-deco);font-size:18px;color:var(--plum)}
+.today small{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
+.or{display:flex;align-items:center;gap:10px;margin:18px 0 0;font-size:13px;color:var(--ink-3)}
+.or:before,.or:after{content:"";flex:1;border-top:1px dashed #C9B596}
+.dq-pic{position:relative;width:min(62%,240px);margin:0 auto;transform:rotate(-2deg);filter:drop-shadow(0 12px 14px rgba(55,30,5,.35))}
+.dq-pic img{display:block;width:100%;height:min(28vh,250px);object-fit:contain}
+.slot{position:relative;width:min(78%,260px);min-height:56px;margin:6px auto 0;display:grid;place-items:center;border:2px dashed rgba(255,244,225,.85);border-radius:10px;background:rgba(255,248,235,.22);color:#FFF6E6;font-size:14px;text-align:center;transition:background .15s,transform .15s}
+.slot.over,.circle.over{background:rgba(255,248,235,.5);transform:scale(1.04)}
+.slot.fill{border:1px solid var(--line);border-style:solid;background:var(--paper);color:var(--ink);font-family:var(--font-deco);font-size:19px;font-weight:700;box-shadow:var(--shadow)}
+.slot.ok,.circle.ok{border-color:var(--sage);background:var(--sage-bg);color:#2f4a2b}
+.slot.no,.circle.no{border-color:var(--rose);background:var(--rose-bg);color:var(--plum)}
+.slot .seal,.circle .seal{position:absolute;width:38px;right:-12px;top:-14px;transform:rotate(-10deg);filter:drop-shadow(0 3px 3px rgba(80,50,20,.25));animation:stick .35s cubic-bezier(.2,1.5,.4,1) both}
+.circle{position:relative;width:min(58vw,220px);aspect-ratio:1;margin:0 auto;border-radius:50%;border:2px dashed rgba(255,244,225,.9);background:rgba(255,248,235,.22);display:grid;place-items:center;color:#FFF6E6;font-size:14px;text-align:center;transition:background .15s,transform .15s}
+.circle img.f{width:78%;height:88%;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(55,30,5,.3))}
+.circle.fill{border-style:solid;border-color:var(--line);background:rgba(252,248,240,.85)}
+.ntag{position:relative;display:table;margin:-14px auto 0;z-index:2;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:7px 22px 7px 28px;font-family:var(--font-deco);font-size:21px;font-weight:700;color:var(--forest);box-shadow:var(--shadow);transform:rotate(-2deg)}
+.ntag:before{content:"";position:absolute;left:10px;top:50%;width:9px;height:9px;margin-top:-5px;border-radius:50%;background:var(--ivory);box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
+.toks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tok{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-height:56px;border:1px solid var(--line);background:var(--paper);border-radius:8px 18px 18px 8px;padding:12px 8px 12px 22px;font-size:17px;font-weight:700;box-shadow:var(--shadow);cursor:grab;text-align:center}
+.tok:before{content:"";position:absolute;left:8px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--ivory);box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
+.tok.pic{border-radius:10px;padding:6px;min-height:0}
+.tok.pic:before{display:none}
+.tok.pic img{display:block;width:100%;height:110px;object-fit:contain;pointer-events:none}
+.tok:nth-child(1){transform:rotate(-.8deg)}.tok:nth-child(2){transform:rotate(.7deg)}.tok:nth-child(3){transform:rotate(.5deg)}.tok:nth-child(4){transform:rotate(-.6deg)}
+.tok.used{opacity:.3}
+.tok.ok{opacity:1;background:var(--sage-bg);border-color:var(--sage)}
+.tok.lock{cursor:default}
+.ghost{position:fixed;z-index:50;pointer-events:none;opacity:.92;transform:rotate(-4deg) scale(1.05);box-shadow:0 14px 24px -10px rgba(60,35,10,.5)}
+.dhint{text-align:center;font-size:12px;color:var(--ink-3);margin:-6px 0 12px}
+.rimg{display:block;width:100%;border-radius:14px;box-shadow:0 18px 30px -20px rgba(65,40,17,.7)}
+.rnote{text-align:center;font-size:13px;color:var(--ink-2);margin:10px 0 0}
+.rwait{padding:60px 0;text-align:center;color:var(--ink-2)}
+
 .garland{display:block;width:min(320px,80vw);margin:26px auto -12px}
 .foot{position:relative;border-top:1px solid var(--line);margin-top:0;padding:18px 4px 8px;font-size:12px;color:var(--ink-3);line-height:1.6}
 .foot img{float:right;width:78px;margin:-4px 0 6px 12px;transform:rotate(6deg)}
@@ -172,6 +208,9 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
      <p class="hand">guess the flower</p>
      <h1>이 꽃, 이름이<br><em>뭐였더라?</em></h1>
      <p class="sub">그림을 보고 보기 4개 중에서 이름을 골라요</p>
+
+     <button class="today" id="todayBtn"><img src="../img/deco/seal-rose.webp" alt=""><b id="todayT">오늘의 퀴즈 풀기</b><small id="todayS">매일 바뀌는 10문제 · 꽃 보고 이름 5개, 이름 보고 꽃 5개</small></button>
+     <div class="or">직접 골라서 풀기</div>
 
      <div class="step"><i>1</i>어떤 꽃으로 낼까요?</div>
      <div class="chips" id="pool">
@@ -215,6 +254,35 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
     <button class="btn hide" id="nextBtn" style="margin-top:8px">다음 문제</button>
    </div>
   </div>
+ </section>
+
+ <!-- 오늘의 퀴즈 문제 -->
+ <section id="dplay" class="hide">
+  <div class="top"><div class="lbl"><span id="dnum"></span><img src="../img/deco/seal-star.webp" alt=""></div><span class="pts" id="dpts"></span></div>
+  <div class="prog" id="dprog"></div>
+  <div class="board q" id="dboard">
+   <img class="deco-a" src="../img/stickers/deco-fern.webp" alt="">
+   <img class="deco-b" src="../img/stickers/deco-petal.webp" alt="">
+   <div id="dstage"></div>
+  </div>
+  <div class="note-wrap flat qcard">
+   <span class="tape rose t1"></span>
+   <div class="note">
+    <p class="qtx" id="dqtx"></p>
+    <p class="dhint">끌어다 놓거나 톡 눌러도 돼요</p>
+    <div class="toks" id="dtoks"></div>
+    <div class="fb" id="dfb"></div>
+    <button class="btn hide" id="dnext" style="margin-top:8px">다음 문제</button>
+   </div>
+  </div>
+ </section>
+
+ <!-- 오늘의 퀴즈 결과 -->
+ <section id="dend" class="hide">
+  <div id="rbox"><p class="rwait">결과지를 만드는 중이에요...</p></div>
+  <p class="rnote" id="rnote">이미지를 길게 누르면 저장할 수 있어요</p>
+  <button class="btn" id="rsave">결과지 저장하기</button>
+  <button class="btn ghost" id="rhome">처음으로</button>
  </section>
 
  <!-- 결과 -->
@@ -268,7 +336,7 @@ function counts(){
 }
 counts();
 // 꽃시세 페이지의 그림 목록(FLOWER_IMG)을 읽어 와서 새로 만든 그림도 문제에 넣습니다
-fetch('../index.html',{cache:'no-cache'}).then(r=>r.text()).then(h=>{
+const READY = fetch('../index.html',{cache:'no-cache'}).then(r=>r.text()).then(h=>{
   const m=h.match(/FLOWER_IMG\s*=\s*new Set\((\[[^\]]*\])\)/);
   if(!m) return;
   const names=JSON.parse(m[1]);
@@ -288,7 +356,7 @@ seg('cnt', v=>count=+v);
 const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 function heroPick(){ const fl=ITEMS.filter(x=>x.g==='f'); $('heroF').src=IMG(fl[Math.floor(Math.random()*fl.length)].f); }
 heroPick();
-const show = id => { if(id==='start') heroPick(); ['start','play','end'].forEach(s=>$(s).classList.toggle('hide', s!==id)); window.scrollTo(0,0); };
+const show = id => { if(id==='start') heroPick(); ['start','play','end','dplay','dend'].forEach(s=>$(s).classList.toggle('hide', s!==id)); window.scrollTo(0,0); };
 
 function start(){
   const list = shuffle(filt(pool));
@@ -346,6 +414,224 @@ function finish(){
    ? '<div class="wrong-h"><div class="lbl">틀린 꽃 다시 보기<img src="../img/deco/seal-star.webp" alt=""></div><span class="cnt">'+wrong.length+'개</span></div><div class="cards">'+wrong.map(w=>'<div class="wc"><img src="'+IMG(w.f)+'" alt=""><b>'+w.n+'</b></div>').join('')+'</div>'
    : '<div class="allok"><img src="../img/deco/envelope.webp" alt="">틀린 꽃이 하나도 없어요</div>';
 }
+
+/* ===== 오늘의 퀴즈: 날짜로 문제를 뽑아서 그날은 누구나 같은 10문제 ===== */
+const DN = 10, DHALF = 5, DKEY = 'kkotQuizDaily';
+const kstDay = () => new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
+function rng(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
+  return ()=>{ h=Math.imul(h^h>>>16,2246822507); h=Math.imul(h^h>>>13,3266489909); h^=h>>>16; return (h>>>0)/4294967296; }; }
+const sshuf = (a,r) => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const store = { get(){ try{ const v=JSON.parse(localStorage.getItem(DKEY)); return v&&v.d===kstDay()?v:null; }catch(e){ return null; } },
+  set(v){ try{ localStorage.setItem(DKEY, JSON.stringify(v)); }catch(e){} } };
+
+let dq=[], di=0, dres=[], dlock=false, dday='';
+function todayLabel(){
+  const v=store.get();
+  if(v){ $('todayT').textContent='오늘의 퀴즈 결과 보기'; $('todayS').textContent='오늘은 '+v.r.filter(x=>x.ok).length+' / '+v.r.length+' 맞혔어요 · 내일 새 문제가 나와요'; }
+  else { $('todayT').textContent='오늘의 퀴즈 풀기'; $('todayS').textContent='매일 바뀌는 10문제 · 꽃 보고 이름 5개, 이름 보고 꽃 5개'; }
+}
+todayLabel();
+
+function dailyStart(){
+  const v=store.get();
+  if(v){ dday=v.d; dres=v.r; show('dend'); drawResult(); return; }
+  READY.finally(()=>{
+    dday=kstDay();
+    const r=rng('kkot-'+dday);
+    const base=filt('p').slice().sort((a,b)=>a.f<b.f?-1:1);
+    const picks=sshuf(base,r).slice(0,DN);
+    dq=picks.map((it,i)=>{
+      const same=base.filter(x=>x!==it && x.g===it.g);
+      const others=(same.length>=3?same:base.filter(x=>x!==it));
+      return {it, t:i<DHALF?'A':'B', opts:sshuf([it,...sshuf(others,r).slice(0,3)],r)};
+    });
+    di=0; dres=[];
+    show('dplay'); dAsk();
+  });
+}
+
+function dProg(){ $('dprog').innerHTML=dq.map((_,i)=>'<span class="'+(dres[i]?(dres[i].ok?'ok':'no'):(i===di?'now':''))+'"></span>').join(''); }
+
+function dAsk(){
+  const q=dq[di], it=q.it; dlock=false;
+  $('dnum').textContent=(di+1)+'번째 꽃';
+  $('dpts').textContent='맞힌 꽃 '+dres.filter(x=>x.ok).length+'개';
+  dProg();
+  $('dfb').innerHTML=''; $('dnext').classList.add('hide');
+  const st=$('dstage'), box=$('dtoks'); box.innerHTML='';
+  if(q.t==='A'){
+    $('dqtx').textContent='이 꽃에 이름표를 붙여 주세요';
+    st.innerHTML='<div class="dq-pic"><img src="'+IMG(it.f)+'" alt="꽃 그림"></div><div class="slot" id="dtgt">이름표를 여기에 붙여 주세요</div>';
+  } else {
+    $('dqtx').textContent='이 이름의 꽃을 동그라미 안으로 가져오세요';
+    st.innerHTML='<div class="circle" id="dtgt">꽃을<br>여기로</div><div class="ntag">'+it.n+'</div>';
+  }
+  q.opts.forEach(o=>{
+    const b=document.createElement('div');
+    b.className='tok'+(q.t==='B'?' pic':'');
+    if(q.t==='A') b.textContent=o.n; else b.innerHTML='<img src="'+IMG(o.f)+'" alt="'+o.n+'">';
+    b._o=o; drag(b, ()=>dAnswer(b));
+    box.appendChild(b);
+  });
+  const nx=dq[di+1]; if(nx) (nx.t==='A'?[nx.it]:nx.opts).forEach(o=>{ new Image().src=IMG(o.f); });
+}
+
+// 끌어다 놓기 (손가락·마우스 공통). 움직이지 않고 톡 누르면 바로 놓은 것으로 칩니다
+function drag(el, done){
+  el.addEventListener('pointerdown', e=>{
+    if(dlock || e.button>0) return;
+    e.preventDefault();
+    const tgt=$('dtgt'), r=el.getBoundingClientRect(), ox=e.clientX-r.left, oy=e.clientY-r.top, sx=e.clientX, sy=e.clientY;
+    let g=null;
+    try{ el.setPointerCapture(e.pointerId); }catch(_){}
+    const hit=ev=>{ const t=tgt.getBoundingClientRect(), m=24; return ev.clientX>t.left-m && ev.clientX<t.right+m && ev.clientY>t.top-m && ev.clientY<t.bottom+m; };
+    const move=ev=>{
+      if(!g && Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){
+        g=el.cloneNode(true); g.classList.add('ghost'); g.style.width=r.width+'px'; g.style.margin='0';
+        document.body.appendChild(g); el.classList.add('used');
+      }
+      if(g){ g.style.left=(ev.clientX-ox)+'px'; g.style.top=(ev.clientY-oy)+'px'; tgt.classList.toggle('over', hit(ev)); }
+    };
+    const end=ev=>{
+      el.removeEventListener('pointermove',move); el.removeEventListener('pointerup',end); el.removeEventListener('pointercancel',end);
+      tgt.classList.remove('over');
+      const dragged=!!g; if(g) g.remove();
+      if(ev.type==='pointerup' && (!dragged || hit(ev))) done(); else el.classList.remove('used');
+    };
+    el.addEventListener('pointermove',move); el.addEventListener('pointerup',end); el.addEventListener('pointercancel',end);
+  });
+}
+
+function dAnswer(tok){
+  if(dlock) return; dlock=true;
+  const q=dq[di], it=q.it, o=tok._o, ok=o===it, tgt=$('dtgt');
+  const toks=[...$('dtoks').children];
+  toks.forEach(t=>t.classList.add('lock'));
+  tok.classList.add('used');
+  const seal=src=>{ const s=document.createElement('img'); s.className='seal'; s.src=src; s.alt=''; return s; };
+  if(q.t==='A') tgt.textContent=o.n; else tgt.innerHTML='<img class="f" src="'+IMG(o.f)+'" alt="">';
+  tgt.classList.add('fill', ok?'ok':'no');
+  if(ok) tgt.appendChild(seal('../img/deco/seal-leaf.webp'));
+  else { const c=toks.find(t=>t._o===it); c.classList.add('ok'); c.appendChild(seal('../img/deco/seal-leaf.webp')); c.querySelector('.seal').style.cssText='position:absolute;width:34px;right:-10px;top:-12px'; }
+  dres[di]={t:q.t, f:it.f, n:it.n, pf:o.f, pn:o.n, ok};
+  const alias=it.a?'<small>시세표에서는 \''+it.a+'\'(으)로 나와요</small>':'';
+  $('dfb').innerHTML = ok ? '<b class="ok">정답이에요!</b>'+alias
+    : '<b class="no">아쉬워요,</b> <span>정답은 <b style="font-family:var(--font-deco);font-size:17px;color:var(--forest)">'+it.n+'</b>'+(q.t==='B'?' (초록 표시)':'')+'</span>'+alias;
+  $('dpts').textContent='맞힌 꽃 '+dres.filter(x=>x.ok).length+'개';
+  dProg();
+  const nb=$('dnext'); nb.textContent=di+1<dq.length?'다음 문제':'결과지 보기'; nb.classList.remove('hide');
+  const br=nb.getBoundingClientRect(); if(br.bottom>window.innerHeight) window.scrollBy({top:br.bottom-window.innerHeight+16,behavior:'smooth'});
+}
+$('dnext').onclick=()=>{ di++; if(di<dq.length) dAsk(); else { store.set({d:dday, r:dres}); todayLabel(); show('dend'); drawResult(); } };
+
+/* ----- 결과지 그림 (canvas) ----- */
+const loadImg = src => new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; });
+let rBlob=null;
+async function drawResult(){
+  rBlob=null;
+  $('rbox').innerHTML='<p class="rwait">결과지를 만드는 중이에요...</p>';
+  const R=dres, sc=R.filter(x=>x.ok).length;
+  const [y,m,d]=dday.split('-').map(Number);
+  const dateTx=y+'년 '+m+'월 '+d+'일';
+  const msg = sc===R.length ? '전부 맞혔어요! 꽃 박사님' : sc>=8 ? '거의 다 맞혔어요, 훌륭해요' : sc>=5 ? '절반 넘게 맞혔어요!' : '내일 또 도전해요';
+  const allTx='오늘의 꽃 퀴즈꽃 보고 이름 맞히기이름 보고 꽃 맞히기내 답고른 꽃점정답꽃 이름 퀴즈양재 화훼공판장 시세표 품목 그림'+dateTx+msg+R.map(x=>x.n+x.pn).join('')+'0123456789/:·.,!';
+  try{ await Promise.race([Promise.all([
+    document.fonts.load('700 40px "Gowun Batang"', allTx), document.fonts.load('400 40px "Gowun Batang"', allTx),
+    document.fonts.load('40px "Nanum Pen Script"', allTx), document.fonts.load('40px "Pinyon Script"', 'Flower Quiz today')
+  ]), new Promise(r=>setTimeout(r,3500))]); }catch(e){}
+  const imgs=await Promise.all(R.map(x=>loadImg(IMG(x.f))));
+  const [sealR, sealL]=await Promise.all(['seal-rose','seal-leaf'].map(n=>loadImg('../img/deco/'+n+'.webp')));
+
+  const W=1080, H=1440, c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d');
+  const DECO='"Gowun Batang",serif', HAND='"Nanum Pen Script",cursive', SCR='"Pinyon Script",cursive', SANS='-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif';
+  const rr=(X,Y,w,h,r)=>{ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r); x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); };
+  const fit=(tx,max,size,font)=>{ let s=size; do{ x.font=font.replace('S',s); s-=1; } while(x.measureText(tx).width>max && s>12); };
+
+  // 크라프트지 바탕
+  x.fillStyle='#B98549'; x.fillRect(0,0,W,H);
+  let g=x.createRadialGradient(W/2,260,40,W/2,260,900); g.addColorStop(0,'rgba(212,160,98,.9)'); g.addColorStop(1,'rgba(185,133,73,0)');
+  x.fillStyle=g; x.fillRect(0,0,W,H);
+  const rnd=rng('dots'); x.fillStyle='rgba(90,50,15,.14)';
+  for(let i=0;i<5000;i++){ x.beginPath(); x.arc(rnd()*W,rnd()*H,1.1,0,7); x.fill(); }
+  // 종이
+  x.save(); x.shadowColor='rgba(55,30,5,.35)'; x.shadowBlur=30; x.shadowOffsetY=14;
+  x.fillStyle='#F8F1E2'; rr(54,54,W-108,H-108,10); x.fill(); x.restore();
+  x.save(); rr(54,54,W-108,H-108,10); x.clip();
+  x.strokeStyle='rgba(150,120,80,.09)'; x.lineWidth=2; for(let yy=90;yy<H-54;yy+=34){ x.beginPath(); x.moveTo(54,yy); x.lineTo(W-54,yy); x.stroke(); }
+  x.restore();
+  // 테이프
+  const tape=(X,Y,w,rot,col)=>{ x.save(); x.translate(X,Y); x.rotate(rot); x.fillStyle=col; x.globalAlpha=.9; x.fillRect(-w/2,-17,w,34); x.restore(); };
+  tape(220,58,190,-.12,'#DBA7AE'); tape(W-200,H-60,170,.08,'#A9C0A4');
+
+  // 머리말
+  x.textBaseline='alphabetic'; x.textAlign='left';
+  x.fillStyle='#B8697A'; x.font='52px '+SCR; x.fillText('Flower Quiz',110,175);
+  x.fillStyle='#2F3F34'; x.font='700 76px '+DECO; x.fillText('오늘의 꽃 퀴즈',104,262);
+  x.fillStyle='#6B6257'; x.font='400 32px '+DECO; x.fillText(dateTx,110,316);
+  x.fillStyle='#B8697A'; x.font='46px '+HAND; x.save(); x.translate(110,378); x.rotate(-.02); x.fillText(msg,0,0); x.restore();
+
+  // 점수 도장
+  const cx=850, cy=250;
+  x.save(); x.translate(cx,cy); x.rotate(-.12);
+  x.strokeStyle='#C2454F'; x.lineWidth=7; x.beginPath(); x.arc(0,0,118,0,7); x.stroke();
+  x.lineWidth=3; x.beginPath(); x.arc(0,0,102,0,7); x.stroke();
+  x.fillStyle='#C2454F'; x.textAlign='center';
+  x.font='700 92px '+DECO; const sw=x.measureText(String(sc)).width;
+  x.font='700 40px '+DECO; const tw=x.measureText(' / '+R.length).width;
+  x.font='700 92px '+DECO; x.textAlign='left'; x.fillText(String(sc),-(sw+tw)/2,24);
+  x.font='700 40px '+DECO; x.fillText(' / '+R.length,-(sw+tw)/2+sw,24);
+  x.textAlign='center'; x.font='400 26px '+DECO; x.fillText('점',0,70);
+  x.restore();
+  if(sc===R.length && sealR) x.drawImage(sealR,cx+60,cy-150,90,90*sealR.height/sealR.width);
+
+  // 칸 그리기
+  const L=100, CW=(W-2*L-4*14)/5, CH=330, IH=210;
+  const row=(title,list,top,ims)=>{
+    x.textAlign='left'; x.fillStyle='#2F3F34'; x.font='700 36px '+DECO; x.fillText(title,L+8,top);
+    x.fillStyle='#8FA88C'; x.fillRect(L+8,top+12,x.measureText(title).width,4);
+    list.forEach((it,i)=>{
+      const X=L+i*(CW+14), Y=top+44, rot=[-.025,.018,-.012,.022,-.018][i];
+      x.save(); x.translate(X+CW/2,Y+CH/2); x.rotate(rot); x.translate(-CW/2,-CH/2);
+      x.save(); x.shadowColor='rgba(80,50,20,.25)'; x.shadowBlur=14; x.shadowOffsetY=6; x.fillStyle='#FCF8F0'; rr(0,0,CW,CH,8); x.fill(); x.restore();
+      x.strokeStyle='#E2D5BF'; x.lineWidth=2; rr(0,0,CW,CH,8); x.stroke();
+      const im=ims[i];
+      if(im){ const s=Math.min((CW-16)/im.width,(IH-10)/im.height), w=im.width*s, h=im.height*s; x.drawImage(im,(CW-w)/2,12+(IH-h)/2,w,h); }
+      x.textAlign='center'; x.fillStyle='#2F3F34'; fit(it.n,CW-14,28,'700 Spx '+DECO); x.fillText(it.n,CW/2,IH+52);
+      if(!it.ok){ x.fillStyle='#B8697A'; const t=(it.t==='A'?'내 답: ':'고른 꽃: ')+it.pn; fit(t,CW-12,21,'400 Spx '+DECO); x.fillText(t,CW/2,IH+90);
+        const tw2=x.measureText(t).width; x.strokeStyle='rgba(184,105,122,.8)'; x.lineWidth=2; x.beginPath(); x.moveTo(CW/2-tw2/2,IH+83); x.lineTo(CW/2+tw2/2,IH+83); x.stroke(); }
+      // 채점 표시
+      x.strokeStyle='rgba(200,55,65,.85)'; x.lineCap='round';
+      if(it.ok){ x.lineWidth=8; x.beginPath(); x.ellipse(CW/2,IH/2+18,CW/2-6,IH/2+2,-.15,.3,2*Math.PI+.15); x.stroke(); }
+      else { x.lineWidth=9; x.beginPath(); x.moveTo(CW*.2,IH*.55); x.lineTo(CW*.42,IH*.85); x.lineTo(CW*.9,IH*.12); x.stroke(); }
+      x.restore();
+    });
+  };
+  row('꽃 보고 이름 맞히기', R.slice(0,DHALF), 476, imgs.slice(0,DHALF));
+  row('이름 보고 꽃 맞히기', R.slice(DHALF), 892, imgs.slice(DHALF));
+
+  // 꼬리말
+  if(sealL) x.drawImage(sealL,W/2-24,H-170,48,48*sealL.height/sealL.width);
+  x.textAlign='center'; x.fillStyle='#9A8F81'; x.font='400 24px '+DECO;
+  x.fillText('꽃 이름 퀴즈 · 양재 화훼공판장 시세표 품목 그림',W/2,H-86);
+
+  c.toBlob(b=>{
+    rBlob=b;
+    const u=URL.createObjectURL(b);
+    $('rbox').innerHTML='<img class="rimg" alt="오늘의 꽃 퀴즈 결과지" src="'+u+'">';
+  },'image/png');
+}
+
+$('rsave').onclick=async()=>{
+  if(!rBlob) return;
+  const name='꽃퀴즈_'+dday+'.png', file=new File([rBlob],name,{type:'image/png'});
+  try{
+    if(matchMedia('(pointer:coarse)').matches && navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file]}); return; }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(rBlob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+};
+$('rhome').onclick=()=>show('start');
+$('todayBtn').onclick=dailyStart;
 
 $('goBtn').onclick=start;
 $('againBtn').onclick=start;
