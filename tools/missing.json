@@ -6,54 +6,5 @@
   "varieties": [
    "골드킹"
   ]
- },
- {
-  "name": "이베리스",
-  "days": 3,
-  "qty": 53,
-  "varieties": [
-   "화이트",
-   "이베리스"
-  ]
- },
- {
-  "name": "홍죽",
-  "days": 1,
-  "qty": 48,
-  "varieties": [
-   "홍죽"
-  ]
- },
- {
-  "name": "화살나무",
-  "days": 1,
-  "qty": 35,
-  "varieties": [
-   "화살나무"
-  ]
- },
- {
-  "name": "반다",
-  "days": 1,
-  "qty": 26,
-  "varieties": [
-   "반다"
-  ]
- },
- {
-  "name": "동백",
-  "days": 1,
-  "qty": 21,
-  "varieties": [
-   "애기동백"
-  ]
- },
- {
-  "name": "루피너스",
-  "days": 1,
-  "qty": 1,
-  "varieties": [
-   "루피너스"
-  ]
  }
 ]
