@@ -661,15 +661,18 @@
 },
 {
 "name": "홍죽",
-"hint": ""
+"hint": "Cordyline fruticosa (ti plant, 홍죽) cut foliage: long lance-shaped glossy leaves 30~50cm, vivid magenta-pink to deep burgundy-purple with darker green-bronze leaves mixed in, leaves arranged spirally on a slim woody stem, pointed tips, faint parallel veins, no flowers, 4~5 stems arranged like a loose fan",
+"sci": "Cordyline fruticosa"
 },
 {
 "name": "반다",
-"hint": ""
+"hint": "Vanda orchid (반다) cut flower stems: 5~8 large flat round flowers per stem, five rounded overlapping sepals and petals with distinctive tessellated checkered net-vein pattern, color violet-blue to purple, small darker lip, flowers arranged along a sturdy upright stem, no leaves on cut stems, 2~3 stems",
+"sci": "Vanda coerulea"
 },
 {
 "name": "이베리스",
-"hint": ""
+"hint": "Iberis (candytuft, 이베리스) cut flowers, variety white: flat-topped dense clusters of small pure white four-petaled flowers (two petals larger than the other two), clusters slightly domed, narrow dark green linear leaves along slender upright stems, 5~6 stems",
+"sci": "Iberis sempervirens"
 },
 {
 "name": "장미_하젤",
@@ -840,14 +843,16 @@
 },
 {
 "name": "화살나무",
-"hint": ""
+"hint": "Euonymus alatus (burning bush, 화살나무) cut branches in late autumn: slender grey-brown branches with distinctive flat corky wings running along the stems, small elliptic finely toothed leaves turning vivid scarlet-red and crimson, a few small orange-red seeds in split purple-red capsules, 3~4 branches",
+"sci": "Euonymus alatus"
 },
 {
 "name": "동백",
-"hint": ""
+"hint": "Camellia sasanqua (애기동백, sasanqua camellia) cut branches: open single to semi-double flowers 5~7cm with soft pink or deep pink petals and a bright cluster of yellow stamens in the center, a few round buds, small glossy dark green elliptic leaves with finely toothed edges along woody brown branches, 3 branches",
+"sci": "Camellia sasanqua"
 },
 {
 "name": "루피너스",
-"hint": ""
+"hint": "Lupinus (lupine, 루피너스) cut flowers: tall dense conical spikes of pea-like flowers, colors soft purple-blue, pink and cream-white on separate stems, unopened buds tapering at the tip, palmate leaves with 9~12 narrow leaflets radiating like a fan, sturdy upright green stems, 3~4 stems",
+"sci": "Lupinus polyphyllus"
 }
-]
