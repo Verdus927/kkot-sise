@@ -416,7 +416,7 @@ function finish(){
 }
 
 /* ===== 오늘의 퀴즈: 날짜로 문제를 뽑아서 그날은 누구나 같은 10문제 ===== */
-const DN = 10, DHALF = 5, DKEY = 'kkotQuizDaily';
+const DN = 10, DHALF = 5, DRARE = 3, DKEY = 'kkotQuizDaily';
 const kstDay = () => new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
 function rng(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
   return ()=>{ h=Math.imul(h^h>>>16,2246822507); h=Math.imul(h^h>>>13,3266489909); h^=h>>>16; return (h>>>0)/4294967296; }; }
@@ -438,11 +438,17 @@ function dailyStart(){
   READY.finally(()=>{
     dday=kstDay();
     const r=rng('kkot-'+dday);
-    const base=filt('p').slice().sort((a,b)=>a.f<b.f?-1:1);
-    const picks=sshuf(base,r).slice(0,DN);
+    const byF=(a,b)=>a.f<b.f?-1:1;
+    const base=filt('p').slice().sort(byF);
+    const allF=filt('f').slice().sort(byF);
+    const rare=allF.filter(x=>!x.p);
+    // 자주 보는 꽃 7문제 + 나머지 꽃 3문제 (5, 9, 10번이 나머지 꽃)
+    const easy=sshuf(base,r).slice(0,DN-DRARE), hard=sshuf(rare,r).slice(0,DRARE);
+    const picks=[...easy.slice(0,4), hard[0], ...easy.slice(4), hard[1], hard[2]].filter(Boolean);
     dq=picks.map((it,i)=>{
-      const same=base.filter(x=>x!==it && x.g===it.g);
-      const others=(same.length>=3?same:base.filter(x=>x!==it));
+      const from=it.p?base:allF;
+      const same=from.filter(x=>x!==it && x.g===it.g);
+      const others=(same.length>=3?same:from.filter(x=>x!==it));
       return {it, t:i<DHALF?'A':'B', opts:sshuf([it,...sshuf(others,r).slice(0,3)],r)};
     });
     di=0; dres=[];
