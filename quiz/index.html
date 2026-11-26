@@ -195,6 +195,12 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
 .tok.lock{cursor:default}
 .dghost{position:fixed;z-index:50;pointer-events:none;opacity:.92;transform:rotate(-4deg) scale(1.05);box-shadow:0 14px 24px -10px rgba(60,35,10,.5)}
 .dhint{text-align:center;font-size:12px;color:var(--ink-3);margin:-6px 0 12px}
+.toks .tok.dim{filter:grayscale(1)!important;opacity:.32!important}
+.dbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(248,241,226,.97);border-top:1px solid var(--line);box-shadow:0 -12px 24px -14px rgba(60,35,10,.45);padding:8px 16px calc(12px + env(safe-area-inset-bottom))}
+.dbar-in{max-width:528px;margin:0 auto}
+.dbar .fb{min-height:0;margin:0 0 8px}
+.dbar .btn{margin-top:0;padding:13px}
+body.barpad{padding-bottom:150px}
 .rimg{display:block;width:100%;border-radius:14px;box-shadow:0 18px 30px -20px rgba(65,40,17,.7)}
 .rnote{text-align:center;font-size:13px;color:var(--ink-2);margin:10px 0 0}
 .rwait{padding:60px 0;text-align:center;color:var(--ink-2)}
@@ -280,10 +286,12 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
    <span class="tape rose t1"></span>
    <div class="note">
     <div class="toks" id="dtoks"></div>
-    <div class="fb" id="dfb"></div>
-    <button class="btn hide" id="dnext" style="margin-top:8px">다음 문제</button>
    </div>
   </div>
+  <div class="dbar hide" id="dbar"><div class="dbar-in">
+   <div class="fb" id="dfb"></div>
+   <button class="btn" id="dnext">다음 문제</button>
+  </div></div>
  </section>
 
  <!-- 오늘의 퀴즈 결과 -->
@@ -471,7 +479,7 @@ function dAsk(){
   $('dnum').textContent=(di+1)+'번째 꽃';
   $('dpts').textContent='맞힌 꽃 '+dres.filter(x=>x.ok).length+'개';
   dProg();
-  $('dfb').innerHTML=''; $('dnext').classList.add('hide');
+  $('dfb').innerHTML=''; $('dbar').classList.add('hide'); document.body.classList.remove('barpad');
   const st=$('dstage'), box=$('dtoks'); box.innerHTML='';
   if(q.t==='A'){
     st.innerHTML='<div class="dq-pic"><img src="'+IMG(it.f)+'" alt="꽃 그림"></div><div class="slot" id="dtgt">이름표를 여기에 붙여 주세요</div>';
@@ -584,17 +592,17 @@ function dAnswer(tok){
   tgt.classList.add('fill', ok?'ok':'no');
   if(ok) tgt.appendChild(seal('../img/deco/seal-leaf.webp'));
   else { const c=toks.find(t=>t._o===it); c.classList.add('ok'); if(c.classList.contains('pic')) c.style.zIndex=++zTop; c.appendChild(seal('../img/deco/seal-leaf.webp')); if(!c.classList.contains('pic')) c.querySelector('.seal').style.cssText='position:absolute;width:34px;right:-10px;top:-12px'; }
-  toks.forEach(t=>t.classList.remove('up'));
+  toks.forEach(t=>{ t.classList.remove('up'); if(t._o!==it) t.classList.add('dim'); });
   dres[di]={t:q.t, f:it.f, n:it.n, pf:o.f, pn:o.n, ok};
   const alias=it.a?'<small>시세표에서는 \''+it.a+'\'(으)로 나와요</small>':'';
   $('dfb').innerHTML = ok ? '<b class="ok">정답이에요!</b>'+alias
     : '<b class="no">아쉬워요,</b> <span>정답은 <b style="font-family:var(--font-deco);font-size:17px;color:var(--forest)">'+it.n+'</b>'+(q.t==='B'?' (초록 표시)':'')+'</span>'+alias;
   $('dpts').textContent='맞힌 꽃 '+dres.filter(x=>x.ok).length+'개';
   dProg();
-  const nb=$('dnext'); nb.textContent=di+1<dq.length?'다음 문제':'결과지 보기'; nb.classList.remove('hide');
-  const br=nb.getBoundingClientRect(); if(br.bottom>window.innerHeight) window.scrollBy({top:br.bottom-window.innerHeight+16,behavior:'smooth'});
+  $('dnext').textContent=di+1<dq.length?'다음 문제':'결과지 보기';
+  $('dbar').classList.remove('hide'); document.body.classList.add('barpad');
 }
-$('dnext').onclick=()=>{ di++; if(di<dq.length) dAsk(); else { store.set({d:dday, r:dres}); todayLabel(); show('dend'); drawResult(); } };
+$('dnext').onclick=()=>{ di++; document.body.classList.remove('barpad'); $('dbar').classList.add('hide'); if(di<dq.length){ dAsk(); window.scrollTo(0,0); } else { store.set({d:dday, r:dres}); todayLabel(); show('dend'); drawResult(); } };
 
 /* ----- 결과지 그림 (canvas) ----- */
 const loadImg = src => new Promise(res=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=()=>res(null); im.src=src; });
