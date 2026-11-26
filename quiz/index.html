@@ -435,8 +435,8 @@ const store = { get(){ try{ const v=JSON.parse(localStorage.getItem(DKEY)); retu
 let dq=[], di=0, dres=[], dlock=false, dday='';
 function todayLabel(){
   const v=store.get();
-  if(v){ $('todayT').textContent='오늘의 퀴즈 결과 보기'; $('todayS').textContent='오늘은 '+v.r.filter(x=>x.ok).length+' / '+v.r.length+' 맞혔어요 · 내일 새 문제가 나와요'; }
-  else { $('todayT').textContent='오늘의 퀴즈 풀기'; $('todayS').textContent='매일 바뀌는 10문제'; }
+  if(v){ $('todayT').textContent='오늘의 퀴즈 결과 보기'; $('todayS').innerHTML='오늘은 '+v.r.filter(x=>x.ok).length+' / '+v.r.length+' 맞혔어요<br>내일 새 문제가 나와요'; }
+  else { $('todayT').textContent='오늘의 퀴즈 풀기'; $('todayS').innerHTML='매일 바뀌는 10문제'; }
 }
 todayLabel();
 
