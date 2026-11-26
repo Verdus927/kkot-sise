@@ -179,20 +179,20 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
 .toks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tok{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-height:56px;border:1px solid var(--line);background:var(--paper);border-radius:8px 18px 18px 8px;padding:12px 8px 12px 22px;font-size:17px;font-weight:700;box-shadow:var(--shadow);cursor:grab;text-align:center}
 .tok:before{content:"";position:absolute;left:8px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--ivory);box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
-.toks.pile{display:block;position:relative;height:270px;margin:0 -8px}
-.tok.pic{position:absolute;width:40%;height:92%;padding:0;min-height:0;border:0;background:none;box-shadow:none;border-radius:0;
+.toks.pile{display:block;position:relative;height:350px;margin:0 -8px}
+.tok.pic{position:absolute;width:40%;height:250px;padding:0;min-height:0;border:0;background:none;box-shadow:none;border-radius:0;
  transform:rotate(var(--r,0deg));transition:transform .18s cubic-bezier(.2,1.3,.4,1),filter .18s;filter:drop-shadow(0 6px 6px rgba(60,35,10,.28))}
 .tok.pic:before{display:none}
 .tok.pic img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .tok.pic.up{transform:rotate(0deg) scale(1.14);filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
 .tok.pic.ok{background:none;border:0;opacity:1;filter:drop-shadow(0 0 0 #8FA88C) drop-shadow(0 0 6px rgba(120,160,110,.95))}
 .tok.pic .seal{position:absolute;width:38px;right:14%;top:4%}
-.tok.pic.ghost{transform:rotate(-3deg);box-shadow:none;filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
+.tok.pic.dghost{box-shadow:none;filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
 .tok:nth-child(1){transform:rotate(-.8deg)}.tok:nth-child(2){transform:rotate(.7deg)}.tok:nth-child(3){transform:rotate(.5deg)}.tok:nth-child(4){transform:rotate(-.6deg)}
 .tok.used{opacity:.3}
 .tok.ok{opacity:1;background:var(--sage-bg);border-color:var(--sage)}
 .tok.lock{cursor:default}
-.ghost{position:fixed;z-index:50;pointer-events:none;opacity:.92;transform:rotate(-4deg) scale(1.05);box-shadow:0 14px 24px -10px rgba(60,35,10,.5)}
+.dghost{position:fixed;z-index:50;pointer-events:none;opacity:.92;transform:rotate(-4deg) scale(1.05);box-shadow:0 14px 24px -10px rgba(60,35,10,.5)}
 .dhint{text-align:center;font-size:12px;color:var(--ink-3);margin:-6px 0 12px}
 .rimg{display:block;width:100%;border-radius:14px;box-shadow:0 18px 30px -20px rgba(65,40,17,.7)}
 .rnote{text-align:center;font-size:13px;color:var(--ink-2);margin:10px 0 0}
@@ -483,39 +483,84 @@ function dAsk(){
     b.className='tok'+(q.t==='B'?' pic':'');
     if(q.t==='B'){ const k=box.children.length, P=[[-2,6,-7],[19.5,0,5],[41,7,-4],[62,1,6]][k]; b.style.left=P[0]+'%'; b.style.top=P[1]+'%'; b.style.setProperty('--r',P[2]+'deg'); b.style.zIndex=k+1; }
     if(q.t==='A') b.textContent=o.n; else b.innerHTML='<img src="'+IMG(o.f)+'" alt="'+o.n+'">';
-    b._o=o; drag(b, ()=>dAnswer(b));
+    b._o=o; b._done=()=>dAnswer(b); drag(b);
     box.appendChild(b);
   });
   const nx=dq[di+1]; if(nx) (nx.t==='A'?[nx.it]:nx.opts).forEach(o=>{ new Image().src=IMG(o.f); });
 }
 
 // 끌어다 놓기 (손가락·마우스 공통). 움직이지 않고 톡 누르면 바로 놓은 것으로 칩니다
-function drag(el, done){
-  el.addEventListener('pointerdown', e=>{
+// 꽃 스티커: 눌린 점(회전·확대 빼고)이 그림의 어느 자리인지, 그 자리가 투명한지
+const AL={};
+function alphaOf(img){
+  const k=img.src; if(AL[k]!==undefined) return AL[k];
+  try{ const c=document.createElement('canvas'); c.width=img.naturalWidth; c.height=img.naturalHeight; const x=c.getContext('2d'); x.drawImage(img,0,0); AL[k]=x.getImageData(0,0,c.width,c.height).data; }catch(e){ AL[k]=null; }
+  return AL[k];
+}
+const angOf = el => el.classList.contains('up') ? 0 : (parseFloat(el.style.getPropertyValue('--r'))||0);
+function localPt(el,x,y){
+  const R=el.getBoundingClientRect(), cx=R.left+R.width/2, cy=R.top+R.height/2, a=angOf(el)*Math.PI/180, sc=el.classList.contains('up')?1.14:1;
+  const dx=x-cx, dy=y-cy;
+  return { bx:( dx*Math.cos(a)+dy*Math.sin(a))/sc + el.offsetWidth/2, by:(-dx*Math.sin(a)+dy*Math.cos(a))/sc + el.offsetHeight/2 };
+}
+function opaqueAt(el,x,y){
+  const img=el.querySelector('img'); if(!img||!img.naturalWidth) return true;
+  const d=alphaOf(img); if(!d) return true;
+  const {bx,by}=localPt(el,x,y), w=el.offsetWidth, h=el.offsetHeight, nw=img.naturalWidth, nh=img.naturalHeight, s=Math.min(w/nw,h/nh);
+  const ix=Math.round((bx-(w-nw*s)/2)/s), iy=Math.round((by-(h-nh*s)/2)/s);
+  for(let oy=-4;oy<=4;oy+=4) for(let ox=-4;ox<=4;ox+=4){ const X=ix+ox, Y=iy+oy; if(X>=0&&Y>=0&&X<nw&&Y<nh && d[(Y*nw+X)*4+3]>40) return true; }
+  return false;
+}
+
+// 끌어다 놓기 (손가락·마우스 공통). 눌러만 서는 답이 되지 않고, 꽃은 더미 안 아무 데나 옮겨 둘 수 있습니다
+function drag(el0, done0){
+  el0.addEventListener('pointerdown', e=>{
     if(dlock || e.button>0) return;
     e.preventDefault();
-    const tgt=$('dtgt'), r=el.getBoundingClientRect(), isPic=el.classList.contains('pic'), gw=el.offsetWidth, gh=el.offsetHeight, ox=isPic?gw/2:Math.min(e.clientX-r.left,gw), oy=isPic?gh/2:Math.min(e.clientY-r.top,gh), sx=e.clientX, sy=e.clientY;
+    let el=el0;
+    if(el.classList.contains('pic')){
+      const under=document.elementsFromPoint(e.clientX,e.clientY).filter(n=>n.classList&&n.classList.contains('pic')&&n.parentNode===el0.parentNode);
+      el=under.find(n=>opaqueAt(n,e.clientX,e.clientY))||el0;
+    }
+    const done=el._done, isPic=el.classList.contains('pic'), tgt=$('dtgt'), pile=el.parentNode;
+    const gw=el.offsetWidth, gh=el.offsetHeight, sx=e.clientX, sy=e.clientY;
+    const r=el.getBoundingClientRect();
+    let vx, vy, ang=0;   // 손가락에서 스티커 가운데까지
+    if(isPic){ const p=localPt(el,sx,sy), a=(ang=angOf(el))*Math.PI/180, lx=p.bx-gw/2, ly=p.by-gh/2;
+      vx=-(lx*Math.cos(a)-ly*Math.sin(a)); vy=-(lx*Math.sin(a)+ly*Math.cos(a)); }
+    else { vx=r.left+r.width/2-sx; vy=r.top+r.height/2-sy; }
     let g=null;
-    try{ el.setPointerCapture(e.pointerId); }catch(_){}
-    const hit=ev=>{ const t=tgt.getBoundingClientRect(), m=24; return ev.clientX>t.left-m && ev.clientX<t.right+m && ev.clientY>t.top-m && ev.clientY<t.bottom+m; };
+    try{ el0.setPointerCapture(e.pointerId); }catch(_){}
+    const inT=(x,y,m)=>{ const t=tgt.getBoundingClientRect(); return x>t.left-m && x<t.right+m && y>t.top-m && y<t.bottom+m; };
+    const hit=ev=> inT(ev.clientX,ev.clientY,20) || (isPic && inT(ev.clientX+vx,ev.clientY+vy,0));
     lift(el, true);
     const move=ev=>{
       if(g){ if(ev.clientY<70) window.scrollBy(0,-14); else if(ev.clientY>window.innerHeight-70) window.scrollBy(0,14); }
       if(!g && Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){
-        g=el.cloneNode(true); g.classList.add('ghost'); g.style.width=gw+'px'; g.style.height=gh+'px'; g.style.margin='0'; g.style.zIndex='60'; g.classList.remove('up');
+        g=el.cloneNode(true); g.classList.add('dghost'); g.classList.remove('up');
+        g.style.width=gw+'px'; g.style.height=gh+'px'; g.style.margin='0'; g.style.zIndex='60';
+        if(isPic) g.style.transform='rotate('+ang+'deg)';
         document.body.appendChild(g); el.classList.add('used');
       }
-      if(g){ g.style.left=(ev.clientX-ox)+'px'; g.style.top=(ev.clientY-oy)+'px'; tgt.classList.toggle('over', hit(ev)); }
+      if(g){ g.style.left=(ev.clientX+vx-gw/2)+'px'; g.style.top=(ev.clientY+vy-gh/2)+'px'; tgt.classList.toggle('over', hit(ev)); }
     };
     const end=ev=>{
-      el.removeEventListener('pointermove',move); el.removeEventListener('pointerup',end); el.removeEventListener('pointercancel',end);
+      el0.removeEventListener('pointermove',move); el0.removeEventListener('pointerup',end); el0.removeEventListener('pointercancel',end);
       tgt.classList.remove('over');
       const dragged=!!g; if(g) g.remove();
       el.classList.remove('used');
-      if(dragged && ev.type==='pointerup' && hit(ev)) done();
-      else if(!dragged && ev.type==='pointerup') lift(el);
+      if(ev.type!=='pointerup') return;
+      if(dragged && hit(ev)) { done(); return; }
+      if(!dragged){ lift(el); return; }
+      if(isPic){ // 더미 안에서 원하는 자리에 내려놓기
+        const P=pile.getBoundingClientRect();
+        let cx=ev.clientX+vx-P.left, cy=ev.clientY+vy-P.top;
+        cx=Math.max(gw*.3,Math.min(P.width-gw*.3,cx)); cy=Math.max(gh*.3,Math.min(P.height-gh*.3,cy));
+        el.style.left=((cx-gw/2)/P.width*100)+'%'; el.style.top=((cy-gh/2)/P.height*100)+'%';
+        el.classList.remove('up'); el.style.zIndex=++zTop;
+      }
     };
-    el.addEventListener('pointermove',move); el.addEventListener('pointerup',end); el.addEventListener('pointercancel',end);
+    el0.addEventListener('pointermove',move); el0.addEventListener('pointerup',end); el0.addEventListener('pointercancel',end);
   });
 }
 
