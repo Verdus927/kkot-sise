@@ -158,7 +158,7 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
 .today img{position:absolute;left:10px;top:50%;width:42px;margin-top:-21px;transform:rotate(-10deg)}
 .today b{display:block;font-family:var(--font-deco);font-size:18px;color:var(--plum)}
 .today small{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
-.or{display:flex;align-items:center;gap:10px;margin:18px 0 0;font-size:13px;color:var(--ink-3)}
+.or{width:100%;border:0;background:none;padding:6px 0;font-family:inherit;display:flex;align-items:center;gap:10px;margin:18px 0 0;font-size:14px;font-weight:700;color:var(--ink-2)}
 .or:before,.or:after{content:"";flex:1;border-top:1px dashed #C9B596}
 .dq-pic{position:relative;width:min(62%,240px);margin:0 auto;transform:rotate(-2deg);filter:drop-shadow(0 12px 14px rgba(55,30,5,.35))}
 .dq-pic img{display:block;width:100%;height:min(28vh,250px);object-fit:contain}
@@ -216,7 +216,8 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
      <p class="sub">그림을 보고 보기 4개 중에서 이름을 골라요</p>
 
      <button class="today" id="todayBtn"><img src="../img/deco/seal-rose.webp" alt=""><b id="todayT">오늘의 퀴즈 풀기</b><small id="todayS">매일 바뀌는 10문제 · 앞 5개는 자주 보는 꽃, 뒤 5개는 어려운 꽃</small></button>
-     <div class="or">직접 골라서 풀기</div>
+     <button class="or" id="orBtn" aria-expanded="false">직접 골라서 풀기 <span id="orArr">▾</span></button>
+     <div id="custom" class="hide">
 
      <div class="step"><i>1</i>어떤 꽃으로 낼까요?</div>
      <div class="chips" id="pool">
@@ -235,6 +236,7 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
      </div>
 
      <button class="btn" id="goBtn">시작하기</button>
+     </div>
      <p class="scribble">* 양재 공판장 시세표 품목 <span id="cTot"></span>종 그림으로 나와요!</p>
     </div>
     <span class="tape sage t2"></span>
@@ -659,6 +661,7 @@ $('rsave').onclick=async()=>{
 };
 $('rhome').onclick=()=>show('start');
 $('todayBtn').onclick=dailyStart;
+$('orBtn').onclick=()=>{ const open=$('custom').classList.toggle('hide')===false; $('orBtn').setAttribute('aria-expanded',open); $('orArr').textContent=open?'▴':'▾'; };
 
 $('goBtn').onclick=start;
 $('againBtn').onclick=start;
