@@ -176,15 +176,15 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
 .toks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tok{position:relative;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-height:56px;border:1px solid var(--line);background:var(--paper);border-radius:8px 18px 18px 8px;padding:12px 8px 12px 22px;font-size:17px;font-weight:700;box-shadow:var(--shadow);cursor:grab;text-align:center}
 .tok:before{content:"";position:absolute;left:8px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--ivory);box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
-.toks.pile{display:block;position:relative;height:400px;margin:4px -6px 0}
-.tok.pic{position:absolute;width:54%;height:58%;padding:0;min-height:0;border:0;background:none;box-shadow:none;border-radius:0;
+.toks.pile{display:block;position:relative;height:270px;margin:0 -8px}
+.tok.pic{position:absolute;width:40%;height:92%;padding:0;min-height:0;border:0;background:none;box-shadow:none;border-radius:0;
  transform:rotate(var(--r,0deg));transition:transform .18s cubic-bezier(.2,1.3,.4,1),filter .18s;filter:drop-shadow(0 6px 6px rgba(60,35,10,.28))}
 .tok.pic:before{display:none}
 .tok.pic img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .tok.pic.up{transform:rotate(0deg) scale(1.14);filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
 .tok.pic.ok{background:none;border:0;opacity:1;filter:drop-shadow(0 0 0 #8FA88C) drop-shadow(0 0 6px rgba(120,160,110,.95))}
 .tok.pic .seal{position:absolute;width:38px;right:14%;top:4%}
-.tok.pic.ghost{transform:rotate(-4deg) scale(.85);box-shadow:none;filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
+.tok.pic.ghost{transform:rotate(-3deg);box-shadow:none;filter:drop-shadow(0 16px 16px rgba(60,35,10,.4))}
 .tok:nth-child(1){transform:rotate(-.8deg)}.tok:nth-child(2){transform:rotate(.7deg)}.tok:nth-child(3){transform:rotate(.5deg)}.tok:nth-child(4){transform:rotate(-.6deg)}
 .tok.used{opacity:.3}
 .tok.ok{opacity:1;background:var(--sage-bg);border-color:var(--sage)}
@@ -276,8 +276,6 @@ h1 em:after{content:"";position:absolute;left:-2px;right:-6px;bottom:2px;height:
   <div class="note-wrap flat qcard">
    <span class="tape rose t1"></span>
    <div class="note">
-    <p class="qtx" id="dqtx"></p>
-    <p class="dhint" id="dhint"></p>
     <div class="toks" id="dtoks"></div>
     <div class="fb" id="dfb"></div>
     <button class="btn hide" id="dnext" style="margin-top:8px">다음 문제</button>
@@ -473,18 +471,15 @@ function dAsk(){
   $('dfb').innerHTML=''; $('dnext').classList.add('hide');
   const st=$('dstage'), box=$('dtoks'); box.innerHTML='';
   if(q.t==='A'){
-    $('dqtx').textContent='이 꽃에 이름표를 붙여 주세요';
     st.innerHTML='<div class="dq-pic"><img src="'+IMG(it.f)+'" alt="꽃 그림"></div><div class="slot" id="dtgt">이름표를 여기에 붙여 주세요</div>';
   } else {
-    $('dqtx').textContent='이 이름의 꽃을 동그라미 안으로 가져오세요';
     st.innerHTML='<div class="circle" id="dtgt">꽃을<br>여기로</div><div class="ntag">'+it.n+'</div>';
   }
   box.className='toks'+(q.t==='B'?' pile':'');
-  $('dhint').textContent = q.t==='A' ? '이름표를 끌어다 빈칸에 붙여 주세요' : '꽃을 누르면 크게 보여요. 끌어다 동그라미에 넣어 주세요';
   q.opts.forEach(o=>{
     const b=document.createElement('div');
     b.className='tok'+(q.t==='B'?' pic':'');
-    if(q.t==='B'){ const k=box.children.length, P=[[-1,0,-7],[45,3,6],[3,40,5],[44,43,-6]][k]; b.style.left=P[0]+'%'; b.style.top=P[1]+'%'; b.style.setProperty('--r',P[2]+'deg'); b.style.zIndex=k+1; }
+    if(q.t==='B'){ const k=box.children.length, P=[[-2,6,-7],[19.5,0,5],[41,7,-4],[62,1,6]][k]; b.style.left=P[0]+'%'; b.style.top=P[1]+'%'; b.style.setProperty('--r',P[2]+'deg'); b.style.zIndex=k+1; }
     if(q.t==='A') b.textContent=o.n; else b.innerHTML='<img src="'+IMG(o.f)+'" alt="'+o.n+'">';
     b._o=o; drag(b, ()=>dAnswer(b));
     box.appendChild(b);
@@ -497,7 +492,7 @@ function drag(el, done){
   el.addEventListener('pointerdown', e=>{
     if(dlock || e.button>0) return;
     e.preventDefault();
-    const tgt=$('dtgt'), r=el.getBoundingClientRect(), ox=e.clientX-r.left, oy=e.clientY-r.top, sx=e.clientX, sy=e.clientY;
+    const tgt=$('dtgt'), r=el.getBoundingClientRect(), isPic=el.classList.contains('pic'), gw=el.offsetWidth, gh=el.offsetHeight, ox=isPic?gw/2:Math.min(e.clientX-r.left,gw), oy=isPic?gh/2:Math.min(e.clientY-r.top,gh), sx=e.clientX, sy=e.clientY;
     let g=null;
     try{ el.setPointerCapture(e.pointerId); }catch(_){}
     const hit=ev=>{ const t=tgt.getBoundingClientRect(), m=24; return ev.clientX>t.left-m && ev.clientX<t.right+m && ev.clientY>t.top-m && ev.clientY<t.bottom+m; };
@@ -505,7 +500,7 @@ function drag(el, done){
     const move=ev=>{
       if(g){ if(ev.clientY<70) window.scrollBy(0,-14); else if(ev.clientY>window.innerHeight-70) window.scrollBy(0,14); }
       if(!g && Math.hypot(ev.clientX-sx,ev.clientY-sy)>6){
-        g=el.cloneNode(true); g.classList.add('ghost'); g.style.width=r.width+'px'; g.style.margin='0'; g.style.zIndex='60'; if(el.classList.contains('pic')) g.style.height=r.height+'px'; g.classList.remove('up');
+        g=el.cloneNode(true); g.classList.add('ghost'); g.style.width=gw+'px'; g.style.height=gh+'px'; g.style.margin='0'; g.style.zIndex='60'; g.classList.remove('up');
         document.body.appendChild(g); el.classList.add('used');
       }
       if(g){ g.style.left=(ev.clientX-ox)+'px'; g.style.top=(ev.clientY-oy)+'px'; tgt.classList.toggle('over', hit(ev)); }
