@@ -520,10 +520,10 @@
   "status": "승인"
  },
  "유포로비아": {
-  "date": "2026-10-29",
+  "date": "2026-11-27",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
-  "status": "승인"
+  "status": "검수 대기"
  },
  "데이지": {
   "date": "2026-10-29",
