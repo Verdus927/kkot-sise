@@ -637,7 +637,8 @@
   "date": "2026-10-29",
   "model": "gpt-image-2.5-sunburst",
   "transparent": true,
-  "status": "승인"
+  "status": "보류",
+  "note": "정체 불확실(서양등골나물 추정). 그림은 originals/보류 에 보관, 확인되면 다시 사용"
  },
  "싸리": {
   "date": "2026-10-29",
